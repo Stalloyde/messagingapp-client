@@ -1,5 +1,7 @@
+import Layout from './Layout';
+
 function TargetRequest() {
-  return <>TargetRequest</>;
+  return <Layout>TargetRequest</Layout>;
 }
 
 export default TargetRequest;

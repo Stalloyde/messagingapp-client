@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
 } from 'react-router-dom';
-import Home from './components/Home';
+import Layout from './components/Layout';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Requests from './components/Requests';
@@ -19,7 +19,7 @@ const App = () => {
     },
     {
       path: '/',
-      element: <Home />,
+      element: <Layout />,
     },
     {
       path: '/requests',

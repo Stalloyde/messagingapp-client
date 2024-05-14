@@ -1,5 +1,7 @@
+import Layout from './Layout';
+
 function Requests() {
-  return <>Requests</>;
+  return <Layout>Requests</Layout>;
 }
 
 export default Requests;
