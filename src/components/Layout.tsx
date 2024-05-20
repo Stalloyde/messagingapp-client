@@ -1,11 +1,19 @@
 import Messages from './Messages';
 
-function Layout({ children }: { children?: React.ReactNode }) {
+type LayoutProps = {
+  children?: React.ReactNode;
+  currentUserId: string;
+};
+
+function Layout({ children, currentUserId, token }: LayoutProps) {
   return (
     <>
-      <Messages />
-      {children && <main>{children}</main>}
-      {!children && <main>Hello to the Messaging App</main>}
+      <Messages currentUserId={currentUserId} token={token} />
+      {children ? (
+        <main>{children}</main>
+      ) : (
+        <main>Hello to the Messaging App</main>
+      )}
     </>
   );
 }

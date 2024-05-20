@@ -6,12 +6,17 @@ import {
 } from 'react-router-dom';
 import Layout from './components/Layout';
 import Login from './components/Login';
+import { useState } from 'react';
 import Signup from './components/Signup';
 import Requests from './components/Requests';
 import TargetRequest from './components/TargetRequest';
 import TargetMessages from './components/TargetMessages';
+import Cookies from 'js-cookie';
 
 const App = () => {
+  const jwtToken: string | undefined = Cookies.get('token');
+  const [token, setToken] = useState(jwtToken);
+
   const router = createBrowserRouter([
     {
       path: '*',
@@ -19,7 +24,7 @@ const App = () => {
     },
     {
       path: '/',
-      element: <Layout />,
+      element: <Layout token={token} />,
     },
     {
       path: '/requests',
@@ -35,7 +40,7 @@ const App = () => {
     },
     {
       path: '/login',
-      element: <Login />,
+      element: <Login setToken={setToken} />,
     },
     {
       path: '/signup',
