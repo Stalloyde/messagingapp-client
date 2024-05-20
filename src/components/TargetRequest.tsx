@@ -1,4 +1,4 @@
-import Layout from './Layout';
+import Layout from './Layout/Layout';
 
 function TargetRequest() {
   return <Layout>TargetRequest</Layout>;

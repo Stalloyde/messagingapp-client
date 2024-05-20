@@ -4,7 +4,8 @@ import {
   RouterProvider,
   Navigate,
 } from 'react-router-dom';
-import Layout from './components/Layout';
+import Layout from './components/Layout/Layout';
+import './App.css';
 import Login from './components/Login';
 import { useState } from 'react';
 import Signup from './components/Signup';

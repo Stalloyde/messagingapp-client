@@ -1,0 +1,12 @@
+.left {
+    background-color: rgb(0, 173, 181);
+    color: rgb(34, 40, 49);
+}
+
+.right {
+    background-color: rgb(34, 40, 49);
+    color: gainsboro;
+    padding: 1em;
+    border-left: 1px solid gainsboro;
+}
+

@@ -1,0 +1,26 @@
+.container > ul {
+    list-style: none;
+}
+
+
+.container > ul > li {
+    padding: 1em;
+}
+
+.container > ul > li {
+    display: grid;
+    grid-template-columns: 1fr 7fr;
+    align-items: center;
+}
+
+.container > ul > li:hover {
+    background-color: rgb(189, 249, 252);
+    cursor: pointer;
+}
+
+.previewMessage {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 500px;
+}
