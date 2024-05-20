@@ -11,6 +11,7 @@
     display: grid;
     grid-template-columns: 1fr 7fr;
     align-items: center;
+    border-bottom: 1px solid rgba(220, 220, 220, 0.541);
 }
 
 .container > ul > li:hover {
