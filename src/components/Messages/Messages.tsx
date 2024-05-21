@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Messages.module.css';
 
 function Messages({ token }) {
-  const [currentUser, setCurrentUser] = useState({});
   const [contacts, setContacts] = useState([]);
   const navigate = useNavigate();
 
@@ -21,7 +20,6 @@ function Messages({ token }) {
 
         const responseData = await response.json();
         if (responseData.error) navigate('/login');
-        setCurrentUser(responseData);
         setContacts(responseData.contacts);
       } catch (err) {
         console.log(err.message);
@@ -34,15 +32,17 @@ function Messages({ token }) {
     <div className={styles.container}>
       <ul>
         {contacts.map((contact, index) => (
-          <li key={index}>
-            <div>Pic here</div>
-            <div className={styles.previewMessageContainer}>
-              <strong>{contact.username}</strong>
-              <p className={styles.previewMessage}>
-                {contact.messages[0].content}
-              </p>
-            </div>
-          </li>
+          <Link key={index} to={`/messages/${contact._id}`}>
+            <li id={contact._id}>
+              <div>Pic here</div>
+              <div className={styles.previewMessageContainer}>
+                <strong>{contact.username}</strong>
+                <p className={styles.previewMessage}>
+                  {contact.messages[0].content}
+                </p>
+              </div>
+            </li>
+          </Link>
         ))}
       </ul>
     </div>
