@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './LeftHeader.module.css';
 import addUserIcon from '../../assets/icons8-add-user-24.png';
 
-function Header({ token }) {
+function LeftHeader({ token }) {
   const [currentUser, setCurrentUser] = useState({});
   const [requestsCount, setRequestCount] = useState();
   const navigate = useNavigate();
@@ -45,4 +45,4 @@ function Header({ token }) {
   );
 }
 
-export default Header;
+export default LeftHeader;
