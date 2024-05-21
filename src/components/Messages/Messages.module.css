@@ -1,20 +1,15 @@
-.container > ul {
-    list-style: none;
-}
-
-
-.container > ul > li {
+.container > ul > a > li {
     padding: 1em;
 }
 
-.container > ul > li {
+.container > ul > a > li {
     display: grid;
     grid-template-columns: 1fr 7fr;
     align-items: center;
     border-bottom: 1px solid rgba(220, 220, 220, 0.541);
 }
 
-.container > ul > li:hover {
+.container > ul > a > li:hover {
     background-color: rgb(189, 249, 252);
     cursor: pointer;
 }

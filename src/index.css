@@ -22,3 +22,12 @@ body {
 button:hover {
   cursor: pointer;
 }
+
+a:any-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+li {
+  list-style: none;
+}
