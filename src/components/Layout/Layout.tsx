@@ -19,11 +19,7 @@ function Layout({ children, token }: LayoutProps) {
 
       <div className={styles.right}>
         <main>
-          {children ? (
-            <div>{children}</div>
-          ) : (
-            <div>Hello to the Messaging App</div>
-          )}
+          {children ? <>{children}</> : <>Hello to the Messaging App</>}
         </main>
       </div>
     </>
