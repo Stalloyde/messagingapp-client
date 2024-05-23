@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import styles from './Login.module.css';
+import loginImage from '../assets/speech-bubble.jpg';
 
 function Login({ setToken }) {
   const [loginError, setLoginError] = useState([]);
@@ -33,8 +35,8 @@ function Login({ setToken }) {
       const responseData = await response.json();
 
       if (!responseData.user && !responseData.Bearer) {
-        console.log(responseData);
         setLoginError(responseData);
+        setPassword('');
       } else {
         setUsername('');
         setPassword('');
@@ -49,43 +51,50 @@ function Login({ setToken }) {
 
   return (
     <>
-      <h2>Log in to your account</h2>
-      <p>
-        Don&apos;t have an account? <Link to='/signup'>Sign Up</Link>
-      </p>
+      <div className={styles.formContainer}>
+        <img src={loginImage} alt='image' />
+        <div className={styles.formHeader}>
+          <h2>Log in to your account</h2>
+          <p>
+            Don&apos;t have an account? <Link to='/signup'>Sign Up</Link>
+          </p>
+        </div>
+        <form method='post' onSubmit={handleLogin} action='/'>
+          <div>
+            <label htmlFor='username'>Username: </label>
+            <input
+              type='text'
+              id='username'
+              name='username'
+              required
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
+              value={username}
+            />
+          </div>
 
-      <form method='post' onSubmit={handleLogin} action='/'>
-        {loginError && (
-          <>
-            {loginError.usernameError} {loginError.passwordError}
-          </>
-        )}
-        <label htmlFor='username'>Username</label>
-        <input
-          type='text'
-          id='username'
-          name='username'
-          required
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
-          value={username}
-        />
-
-        <label htmlFor='password'>Password</label>
-        <input
-          type='password'
-          id='password'
-          name='password'
-          required
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          value={password}
-        />
-
-        <button>Log In</button>
-      </form>
+          <div>
+            <label htmlFor='password'>Password: </label>
+            <input
+              type='password'
+              name='password'
+              id='password'
+              required
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              value={password}
+            />
+          </div>
+          <button>Log In</button>
+          {loginError && (
+            <div className={styles.errorMessage}>
+              {loginError.usernameError} {loginError.passwordError}
+            </div>
+          )}
+        </form>
+      </div>
     </>
   );
 }
