@@ -11,7 +11,7 @@ import { useState } from 'react';
 import Signup from './components/Signup';
 import Requests from './components/Requests';
 import TargetRequest from './components/TargetRequest';
-import TargetMessages from './components/TargetMessages';
+import TargetMessages from './components/TargetMessages/TargetMessages';
 import Cookies from 'js-cookie';
 
 const App = () => {

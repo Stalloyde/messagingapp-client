@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Layout from './Layout/Layout';
+import Layout from '../Layout/Layout';
 import styles from './TargetMessages.module.css';
-import sendIcon from '../assets/icons8-send-24.png';
-import addFileIcon from '../assets/icons8-add-50.png';
-import addEmoticonIcon from '../assets/icons8-happy-48.png';
+import sendIcon from '../../assets/icons8-send-24.png';
+import addFileIcon from '../../assets/icons8-add-50.png';
+import addEmoticonIcon from '../../assets/icons8-happy-48.png';
 
 function TargetMessages({ token }) {
   const [messages, setMessages] = useState();
