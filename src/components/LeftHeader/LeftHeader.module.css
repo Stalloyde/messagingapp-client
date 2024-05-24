@@ -12,7 +12,7 @@
   text-align: end;
 }
 
-.icon > img {
+.icon > a > img {
   height: 30px;
 }
 

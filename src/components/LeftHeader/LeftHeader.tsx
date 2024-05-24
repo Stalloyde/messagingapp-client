@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './LeftHeader.module.css';
 import addUserIcon from '../../assets/icons8-add-user-24.png';
 
@@ -39,7 +39,9 @@ function LeftHeader({ token }) {
 
       <div className={styles.icon}>
         {requestsCount > 0 && <p>{requestsCount}</p>}
-        <img src={addUserIcon} alt='add-user' />
+        <Link to='/requests'>
+          <img src={addUserIcon} alt='add-user' />
+        </Link>
       </div>
     </div>
   );
