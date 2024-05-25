@@ -29,7 +29,7 @@ const App = () => {
     },
     {
       path: '/requests',
-      element: <Requests />,
+      element: <Requests token={token} />,
     },
     {
       path: '/requests/:id',

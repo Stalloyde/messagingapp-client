@@ -9,4 +9,15 @@
     border-left: 1px solid rgba(220, 220, 220, 0.541);
 }
 
+.right > main {
+    height: 100%;
+}
+
+.welcome {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
 
