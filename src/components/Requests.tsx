@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from './Layout/Layout';
 import styles from './Requests.module.css';
+import SearchResultList from './SearchResultList';
 
 function Requests({ token }) {
   const [currentUser, setCurrentUser] = useState();
@@ -12,27 +13,6 @@ function Requests({ token }) {
 
   function preventSubmit(e) {
     if (e.key === 'Enter') e.preventDefault();
-  }
-
-  async function sendRequest(id) {
-    try {
-      const headers: HeadersType = {
-        'Content-Type': 'application/json',
-      };
-
-      if (token) headers.Authorization = token;
-
-      const response = await fetch(`http://localhost:3000/requests/${id}`, {
-        headers,
-        method: 'POST',
-        body: JSON.stringify({ username }),
-      });
-
-      if (response.statusText === 'Unauthorized') navigate('/login');
-      const responseData = await response.json();
-    } catch (err) {
-      console.log(err.message);
-    }
   }
 
   useEffect(() => {
@@ -105,35 +85,28 @@ function Requests({ token }) {
       {(searchResult.length === 0 && !username) ||
         (contactsRequests.length < 1 && !username && <>No requests found</>)}
 
-      {(searchResult.length === 0 && !username) ||
-        (contactsRequests.length > 1 && !username && (
-          //extract to separate component
-          <>
-            <div>{contactsRequests}</div>
-            <button>Accept</button>
-            <button>Decline</button>
-          </>
-        ))}
+      {
+        (searchResult.length === 0 && !username) ||
+          (contactsRequests.length > 0 && !username && (
+            <>
+              {contactsRequests.map((request, index) => (
+                <div key={index}>
+                  {request.username}
+                  <button>Accept</button>
+                  <button>Decline</button>
+                </div>
+              ))}
+            </>
+          ))
+        //extract to separate component
+      }
 
-      {searchResult.length > 0 && (
-        //extract to separate component along with sendRequest()
-        <ul>
-          {searchResult.map((result, index) => (
-            <li key={index} className={styles.searchResult}>
-              <div>{result.username}</div>
-              //change button rendering to 'already a contact' if already a
-              contact //change button rendering to 'null' if self{' '}
-              <button
-                id={result._id}
-                onClick={(e) => {
-                  sendRequest(e.target.id);
-                }}>
-                Request contact
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+      <SearchResultList
+        token={token}
+        username={username}
+        searchResult={searchResult}
+        currentUser={currentUser}
+      />
     </Layout>
   );
 }
