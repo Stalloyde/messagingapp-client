@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Layout from './Layout/Layout';
-import RequestsList from './RequestsList';
-import SearchResultList from './SearchResultList';
+import Layout from '../Layout/Layout';
+import RequestsList from './RequestsList/RequestsList';
+import SearchResultList from './SearchResultList/SearchResultList';
 
 function Requests({ token }) {
   const [currentUser, setCurrentUser] = useState();

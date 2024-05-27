@@ -1,5 +1,5 @@
-import acceptRequestIcon from '../assets/icons8-checked-user-24.png';
-import rejectRequestIcon from '../assets/icons8-unfriend-50.png';
+import acceptRequestIcon from '../../../assets/icons8-checked-user-24.png';
+import rejectRequestIcon from '../../../assets/icons8-unfriend-50.png';
 import styles from './RequestsList.module.css';
 
 function RequestsList({ contactsRequests }) {

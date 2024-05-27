@@ -1,6 +1,6 @@
 import styles from './SearchResultList.module.css';
-import deleteContactIcon from '../assets/icons8-delete-50.png';
-import addContactIcon from '../assets/icons8-add-contact-24.png';
+import deleteContactIcon from '../../../assets/icons8-delete-50.png';
+import addContactIcon from '../../../assets/icons8-add-contact-24.png';
 
 function SearchResultList({ token, username, searchResult, currentUser }) {
   async function deleteContact(id) {

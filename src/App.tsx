@@ -9,7 +9,7 @@ import './App.css';
 import Login from './components/Login/Login';
 import { useState } from 'react';
 import Signup from './components/Signup';
-import Requests from './components/Requests';
+import Requests from './components/Requests/Requests';
 import TargetRequest from './components/TargetRequest';
 import TargetMessages from './components/TargetMessages/TargetMessages';
 import Cookies from 'js-cookie';
