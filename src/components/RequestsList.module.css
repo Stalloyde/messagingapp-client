@@ -1,0 +1,24 @@
+.listContainer {
+  display: flex;
+  padding: 5px;
+  align-items: center;
+}
+
+.listContainer > div > button {
+  width: 50px;
+  padding: 0 5px;
+  border-radius: 10px;
+}
+
+
+.approve {
+  background-color: rgb(1, 177, 1);
+}
+
+.reject {
+  background-color: rgb(161, 2, 2);
+}
+
+.icon {
+  height: 25px;
+}

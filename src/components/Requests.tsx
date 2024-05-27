@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from './Layout/Layout';
-import styles from './Requests.module.css';
+import RequestsList from './RequestsList';
 import SearchResultList from './SearchResultList';
 
 function Requests({ token }) {
@@ -85,21 +85,10 @@ function Requests({ token }) {
       {(searchResult.length === 0 && !username) ||
         (contactsRequests.length < 1 && !username && <>No requests found</>)}
 
-      {
-        (searchResult.length === 0 && !username) ||
-          (contactsRequests.length > 0 && !username && (
-            <>
-              {contactsRequests.map((request, index) => (
-                <div key={index}>
-                  {request.username}
-                  <button>Accept</button>
-                  <button>Decline</button>
-                </div>
-              ))}
-            </>
-          ))
-        //extract to separate component
-      }
+      {(searchResult.length === 0 && !username) ||
+        (contactsRequests.length > 0 && !username && (
+          <RequestsList contactsRequests={contactsRequests} />
+        ))}
 
       <SearchResultList
         token={token}
