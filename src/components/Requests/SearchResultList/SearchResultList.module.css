@@ -20,6 +20,10 @@
   opacity: 0.3;
 }
 
+.searchResult > button:disabled:hover  {
+  cursor: auto;
+}
+
 .searchResult > button > div {
   display: flex;
   align-items: center;

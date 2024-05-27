@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './LeftHeader.module.css';
-import addUserIcon from '../../assets/icons8-add-user-24.png';
+import addUserIcon from '../../../assets/icons8-add-user-24.png';
 
 function LeftHeader({ token }) {
   const [currentUser, setCurrentUser] = useState({});

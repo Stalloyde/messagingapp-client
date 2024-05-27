@@ -26,3 +26,12 @@ a:any-link {
 li {
   list-style: none;
 }
+
+.rightHeader {
+  display: flex;
+  gap: 1em;
+  height: 65px;
+  align-items: center;
+  background-color: rgb(2, 95, 100);
+  padding: 1em;
+}

@@ -5,6 +5,7 @@ import styles from './TargetMessages.module.css';
 import sendIcon from '../../assets/icons8-send-24.png';
 import addFileIcon from '../../assets/icons8-add-50.png';
 import addEmoticonIcon from '../../assets/icons8-happy-48.png';
+import '../../index.css';
 
 function TargetMessages({ token }) {
   const [messages, setMessages] = useState();
@@ -43,7 +44,7 @@ function TargetMessages({ token }) {
 
   return (
     <Layout token={token}>
-      <div className={styles.rightHeader}>
+      <div className='rightHeader'>
         <div>{profilePic} pic here</div>
         <strong>{username}</strong>
       </div>

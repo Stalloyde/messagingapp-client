@@ -1,5 +1,5 @@
 import Messages from '../Messages/Messages';
-import LeftHeader from '../LeftHeader/LeftHeader';
+import LeftHeader from './LeftHeader/LeftHeader';
 import styles from './Layout.module.css';
 
 type LayoutProps = {
