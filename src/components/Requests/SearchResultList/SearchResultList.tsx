@@ -42,11 +42,12 @@ function SearchResultList({ token, username, searchResult, currentUser }) {
             <li key={index} className={styles.searchResult}>
               <div>{result.username}</div>
               {isCurrentContact && (
-                <img
-                  className={styles.icon}
-                  src={deleteContactIcon}
-                  id={result._id}
-                  onClick={(e) => deleteContact(e.target.id)}></img>
+                <button onClick={(e) => deleteContact(e.target.id)}>
+                  <img
+                    className={styles.icon}
+                    src={deleteContactIcon}
+                    id={result._id}></img>
+                </button>
               )}
               {!isCurrentContact && isRequestPending && (
                 <button disabled>
@@ -58,6 +59,7 @@ function SearchResultList({ token, username, searchResult, currentUser }) {
               )}
               {!isCurrentContact && !isRequestPending && (
                 <button>
+                  assets assets
                   <div>
                     <img
                       className={styles.icon}
