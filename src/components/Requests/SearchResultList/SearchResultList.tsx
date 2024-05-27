@@ -30,51 +30,54 @@ function SearchResultList({ token, username, searchResult, currentUser }) {
   }
 
   return (
-    searchResult.length > 0 && (
-      <ul>
-        {searchResult.map((result, index) => {
-          const isCurrentContact = result.contacts.includes(currentUser._id);
-          const isRequestPending = result.contactsRequests.includes(
-            currentUser._id,
-          );
+    <>
+      {searchResult.usernameError && username && <>Username not found</>}
 
-          return (
-            <li key={index} className={styles.searchResult}>
-              <div>{result.username}</div>
-              {isCurrentContact && (
-                <button onClick={(e) => deleteContact(e.target.id)}>
-                  <img
-                    className={styles.icon}
-                    src={deleteContactIcon}
-                    id={result._id}></img>
-                </button>
-              )}
-              {!isCurrentContact && isRequestPending && (
-                <button disabled>
-                  <div>
-                    <img className={styles.icon} src={addContactIcon}></img>
-                    Requested
-                  </div>
-                </button>
-              )}
-              {!isCurrentContact && !isRequestPending && (
-                <button>
-                  assets assets
-                  <div>
+      {searchResult.length > 0 && (
+        <ul>
+          {searchResult.map((result, index) => {
+            const isCurrentContact = result.contacts.includes(currentUser._id);
+            const isRequestPending = result.contactsRequests.includes(
+              currentUser._id,
+            );
+
+            return (
+              <li key={index} className={styles.searchResult}>
+                <div>{result.username}</div>
+                {isCurrentContact && (
+                  <button onClick={(e) => deleteContact(e.target.id)}>
                     <img
                       className={styles.icon}
-                      src={addContactIcon}
-                      id={result._id}
-                      onClick={(e) => sendRequest(e.target.id)}></img>
-                    Request
-                  </div>
-                </button>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    )
+                      src={deleteContactIcon}
+                      id={result._id}></img>
+                  </button>
+                )}
+                {!isCurrentContact && isRequestPending && (
+                  <button disabled>
+                    <div>
+                      <img className={styles.icon} src={addContactIcon}></img>
+                      Requested
+                    </div>
+                  </button>
+                )}
+                {!isCurrentContact && !isRequestPending && (
+                  <button>
+                    <div>
+                      <img
+                        className={styles.icon}
+                        src={addContactIcon}
+                        id={result._id}
+                        onClick={(e) => sendRequest(e.target.id)}></img>
+                      Request
+                    </div>
+                  </button>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </>
   );
 }
 

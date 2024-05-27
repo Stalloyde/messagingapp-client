@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Layout from '../Layout/Layout';
 import RequestsList from './RequestsList/RequestsList';
 import SearchResultList from './SearchResultList/SearchResultList';
+import styles from './Requests.module.css';
+import '../../index.css';
 
 function Requests({ token }) {
   const [currentUser, setCurrentUser] = useState();
@@ -67,35 +69,38 @@ function Requests({ token }) {
 
   return (
     <Layout token={token}>
-      <form action='post'>
-        <input
-          type='text'
-          placeholder='Search username'
-          value={username}
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
-          onKeyDown={(e) => {
-            preventSubmit(e);
-          }}
+      <div className='rightHeader'>
+        <strong>Contacts Page</strong>
+      </div>
+      <div className={styles.searchContainer}>
+        <form action='post'>
+          <input
+            type='text'
+            placeholder='Search username'
+            value={username}
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              preventSubmit(e);
+            }}
+          />
+        </form>
+      </div>
+      <div className={styles.resultsContainer}>
+        <RequestsList
+          contactsRequests={contactsRequests}
+          searchResult={searchResult}
+          username={username}
         />
-      </form>
-      {searchResult.usernameError && username && <>Username not found</>}
 
-      {(searchResult.length === 0 && !username) ||
-        (contactsRequests.length < 1 && !username && <>No requests found</>)}
-
-      {(searchResult.length === 0 && !username) ||
-        (contactsRequests.length > 0 && !username && (
-          <RequestsList contactsRequests={contactsRequests} />
-        ))}
-
-      <SearchResultList
-        token={token}
-        username={username}
-        searchResult={searchResult}
-        currentUser={currentUser}
-      />
+        <SearchResultList
+          token={token}
+          username={username}
+          searchResult={searchResult}
+          currentUser={currentUser}
+        />
+      </div>
     </Layout>
   );
 }

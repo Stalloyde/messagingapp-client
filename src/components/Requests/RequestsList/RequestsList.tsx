@@ -2,9 +2,12 @@ import acceptRequestIcon from '../../../assets/icons8-checked-user-24.png';
 import rejectRequestIcon from '../../../assets/icons8-unfriend-50.png';
 import styles from './RequestsList.module.css';
 
-function RequestsList({ contactsRequests }) {
+function RequestsList({ contactsRequests, searchResult, username }) {
   return (
     <>
+      {(searchResult.length === 0 && !username) ||
+        (contactsRequests.length < 1 && !username && <>No requests found</>)}
+
       {contactsRequests.map((request, index) => (
         <div key={index} className={styles.listContainer}>
           <div>{request.username}</div>
