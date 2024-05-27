@@ -40,7 +40,7 @@ function Login({ setToken }) {
       } else {
         setUsername('');
         setPassword('');
-        setLoginError('');
+        setLoginError([]);
         handleToken(responseData.Bearer);
         navigate('/');
       }
@@ -88,7 +88,7 @@ function Login({ setToken }) {
             />
           </div>
           <button>Log In</button>
-          {loginError && (
+          {loginError.length > 0 && (
             <div className={styles.errorMessage}>
               {loginError.usernameError} {loginError.passwordError}
             </div>

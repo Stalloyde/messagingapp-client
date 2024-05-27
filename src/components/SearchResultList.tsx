@@ -1,4 +1,6 @@
 import styles from './SearchResultList.module.css';
+import deleteContactIcon from '../assets/icons8-delete-50.png';
+import addContactIcon from '../assets/icons8-add-contact-24.png';
 
 function SearchResultList({ token, username, searchResult, currentUser }) {
   async function deleteContact(id) {
@@ -21,7 +23,6 @@ function SearchResultList({ token, username, searchResult, currentUser }) {
 
       if (response.statusText === 'Unauthorized') navigate('/login');
       const responseData = await response.json();
-
       console.log(responseData);
     } catch (err) {
       console.log(err.message);
@@ -40,23 +41,31 @@ function SearchResultList({ token, username, searchResult, currentUser }) {
           return (
             <li key={index} className={styles.searchResult}>
               <div>{result.username}</div>
-
               {isCurrentContact && (
-                <>
-                  <div>Already a contact</div>
-                  <button
-                    id={result._id}
-                    onClick={(e) => deleteContact(e.target.id)}>
-                    Delete contact
-                  </button>
-                </>
-              )}
-              {!isCurrentContact && isRequestPending && <>Request Pending</>}
-              {!isCurrentContact && !isRequestPending && (
-                <button
+                <img
+                  className={styles.icon}
+                  src={deleteContactIcon}
                   id={result._id}
-                  onClick={(e) => sendRequest(e.target.id)}>
-                  Request contact
+                  onClick={(e) => deleteContact(e.target.id)}></img>
+              )}
+              {!isCurrentContact && isRequestPending && (
+                <button disabled>
+                  <div>
+                    <img className={styles.icon} src={addContactIcon}></img>
+                    Requested
+                  </div>
+                </button>
+              )}
+              {!isCurrentContact && !isRequestPending && (
+                <button>
+                  <div>
+                    <img
+                      className={styles.icon}
+                      src={addContactIcon}
+                      id={result._id}
+                      onClick={(e) => sendRequest(e.target.id)}></img>
+                    Request
+                  </div>
                 </button>
               )}
             </li>

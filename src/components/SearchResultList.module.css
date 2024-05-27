@@ -1,3 +1,27 @@
 .searchResult {
   display: flex;
+  align-items: center;
+}
+
+.icon {
+  height: 25px;
+}
+
+.searchResult > button  {
+  gap: 5px;
+  padding: 0 5px;
+  border-radius: 10px;
+  height: min-content;
+}
+
+.searchResult > button:disabled  {
+  background-color: gainsboro;
+  color:black;
+  opacity: 0.3;
+}
+
+.searchResult > button > div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
