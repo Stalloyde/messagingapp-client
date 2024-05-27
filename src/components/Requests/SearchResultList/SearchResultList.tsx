@@ -1,12 +1,8 @@
 import styles from './SearchResultList.module.css';
-import deleteContactIcon from '../../../assets/icons8-delete-50.png';
 import addContactIcon from '../../../assets/icons8-add-contact-24.png';
+import deleteContactIcon from '../../../assets/icons8-delete-50.png';
 
 function SearchResultList({ token, username, searchResult, currentUser }) {
-  async function deleteContact(id) {
-    alert('deleting contact');
-  }
-
   async function sendRequest(id) {
     try {
       const headers: HeadersType = {
@@ -23,7 +19,6 @@ function SearchResultList({ token, username, searchResult, currentUser }) {
 
       if (response.statusText === 'Unauthorized') navigate('/login');
       const responseData = await response.json();
-      console.log(responseData);
     } catch (err) {
       console.log(err.message);
     }
@@ -31,51 +26,54 @@ function SearchResultList({ token, username, searchResult, currentUser }) {
 
   return (
     <>
-      {searchResult.usernameError && username && <>Username not found</>}
+      {searchResult.usernameError && username && (
+        <>
+          <div>
+            <h2>Search Results</h2>
+          </div>
+          Username not found
+        </>
+      )}
 
       {searchResult.length > 0 && (
-        <ul>
-          {searchResult.map((result, index) => {
-            const isCurrentContact = result.contacts.includes(currentUser._id);
-            const isRequestPending = result.contactsRequests.includes(
-              currentUser._id,
-            );
+        <>
+          <div>
+            <h2>Search Results</h2>
+          </div>
+          <ul>
+            {searchResult.map((result, index) => {
+              const isRequestPending = result.contactsRequests.includes(
+                currentUser._id,
+              );
 
-            return (
-              <li key={index} className={styles.searchResult}>
-                <div>{result.username}</div>
-                {isCurrentContact && (
-                  <button onClick={(e) => deleteContact(e.target.id)}>
-                    <img
-                      className={styles.icon}
-                      src={deleteContactIcon}
-                      id={result._id}></img>
-                  </button>
-                )}
-                {!isCurrentContact && isRequestPending && (
-                  <button disabled>
-                    <div>
-                      <img className={styles.icon} src={addContactIcon}></img>
-                      Requested
-                    </div>
-                  </button>
-                )}
-                {!isCurrentContact && !isRequestPending && (
-                  <button>
-                    <div>
-                      <img
-                        className={styles.icon}
-                        src={addContactIcon}
-                        id={result._id}
-                        onClick={(e) => sendRequest(e.target.id)}></img>
-                      Request
-                    </div>
-                  </button>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+              return (
+                <li key={index} className={styles.searchResult}>
+                  <div>{result.username}</div>
+                  {isRequestPending && (
+                    <button disabled>
+                      <div>
+                        <img className={styles.icon} src={addContactIcon}></img>
+                        Requested
+                      </div>
+                    </button>
+                  )}
+                  {!isRequestPending && (
+                    <button>
+                      <div>
+                        <img
+                          className={styles.icon}
+                          src={addContactIcon}
+                          id={result._id}
+                          onClick={(e) => sendRequest(e.target.id)}></img>
+                        Request
+                      </div>
+                    </button>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </>
       )}
     </>
   );

@@ -1,0 +1,15 @@
+.listContainer {
+    display: flex;
+    align-items: center;
+}
+
+.listContainer > button > img {
+    height: 25px;
+}
+
+.listContainer > button  {
+    gap: 5px;
+    padding: 0 5px;
+    border-radius: 10px;
+    height: min-content;
+  }

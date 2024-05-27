@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import deleteContactIcon from '../../assets/icons8-delete-50.png';
 import Layout from '../Layout/Layout';
 import RequestsList from './RequestsList/RequestsList';
 import SearchResultList from './SearchResultList/SearchResultList';
+import ContactList from './ContactsList/ContactsList';
 import styles from './Requests.module.css';
 import '../../index.css';
 
 function Requests({ token }) {
   const [currentUser, setCurrentUser] = useState();
+  const [contacts, setContacts] = useState([]);
   const [contactsRequests, setContactsRequests] = useState([]);
   const [username, setUsername] = useState('');
   const [searchResult, setSearchResult] = useState([]);
@@ -35,6 +38,7 @@ function Requests({ token }) {
         if (responseData.error) navigate('/login');
         setContactsRequests(responseData.contactsRequests);
         setCurrentUser(responseData);
+        setContacts(responseData.contacts);
       } catch (err) {
         console.log(err.message);
       }
@@ -59,7 +63,12 @@ function Requests({ token }) {
 
         if (response.statusText === 'Unauthorized') navigate('/login');
         const responseData = await response.json();
-        setSearchResult(responseData);
+
+        if (responseData.length > 0 || responseData.usernameError) {
+          setSearchResult(responseData);
+        } else {
+          setSearchResult([]);
+        }
       } catch (err) {
         console.log(err.message);
       }
@@ -70,9 +79,9 @@ function Requests({ token }) {
   return (
     <Layout token={token}>
       <div className='rightHeader'>
-        <strong>Contacts Page</strong>
+        <strong>Contacts Management</strong>
       </div>
-      <div className={styles.searchContainer}>
+      <div className={styles.container}>
         <form action='post'>
           <input
             type='text'
@@ -86,20 +95,21 @@ function Requests({ token }) {
             }}
           />
         </form>
-      </div>
-      <div className={styles.resultsContainer}>
-        <RequestsList
-          contactsRequests={contactsRequests}
-          searchResult={searchResult}
-          username={username}
-        />
 
-        <SearchResultList
-          token={token}
-          username={username}
-          searchResult={searchResult}
-          currentUser={currentUser}
-        />
+        <div className={styles.resultsContainer}>
+          <ContactList contacts={contacts} />
+          <RequestsList
+            contactsRequests={contactsRequests}
+            searchResult={searchResult}
+            username={username}
+          />
+          <SearchResultList
+            token={token}
+            username={username}
+            searchResult={searchResult}
+            currentUser={currentUser}
+          />
+        </div>
       </div>
     </Layout>
   );
