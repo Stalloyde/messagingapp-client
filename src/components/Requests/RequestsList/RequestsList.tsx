@@ -9,42 +9,40 @@ const RequestsList = ({ contactsRequests, searchResult, username }) => {
   return (
     <>
       {noSearchResults && !username && !hasContactRequests && (
-        <div>
-          <div>
-            <h2>Incoming Requests</h2>
-          </div>
+        <div className={styles.listContainer}>
+          <h2>Incoming Requests</h2>
           No requests found
         </div>
       )}
       {hasContactRequests && !username && (
-        <>
-          <div>
-            <h2>Incoming Requests</h2>
-          </div>
+        <div className={styles.listContainer}>
+          <h2>Incoming Requests</h2>
           {contactsRequests.map((request, index) => (
-            <div key={index} className={styles.listContainer}>
+            <div key={index} className={styles.requestContainer}>
               <div>{request.username}</div>
-              <div>
-                <button className={styles.approve}>
-                  <img
-                    src={acceptRequestIcon}
-                    alt='accept-request'
-                    className={styles.icon}
-                  />
-                </button>
-              </div>
-              <div>
-                <button className={styles.reject}>
-                  <img
-                    src={rejectRequestIcon}
-                    alt='reject-request'
-                    className={styles.icon}
-                  />
-                </button>
+              <div className={styles.buttonContainer}>
+                <div>
+                  <button className={styles.approve}>
+                    <img
+                      src={acceptRequestIcon}
+                      alt='accept-request'
+                      className={styles.icon}
+                    />
+                  </button>
+                </div>
+                <div>
+                  <button className={styles.reject}>
+                    <img
+                      src={rejectRequestIcon}
+                      alt='reject-request'
+                      className={styles.icon}
+                    />
+                  </button>
+                </div>
               </div>
             </div>
           ))}
-        </>
+        </div>
       )}
     </>
   );

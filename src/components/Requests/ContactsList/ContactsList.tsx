@@ -9,25 +9,27 @@ function Requests({ contacts }) {
   return (
     <>
       {contacts.length > 0 && (
-        <div>
+        <div className={styles.contactListContainer}>
           <h2>Contacts List</h2>
           {contacts.map((contact, index) => (
-            <div key={index} className={styles.listContainer}>
+            <div key={index}>
               <div>{contact.username}</div>
-              <button onClick={() => deleteContact(contact._id)}>
-                <img
-                  className={styles.icon}
-                  src={deleteContactIcon}
-                  alt='Delete Contact'
-                />
-              </button>
+              <div className={styles.buttonContainer}>
+                <button onClick={() => deleteContact(contact._id)}>
+                  <img
+                    className={styles.icon}
+                    src={deleteContactIcon}
+                    alt='Delete Contact'
+                  />
+                </button>
+              </div>
             </div>
           ))}
         </div>
       )}
 
       {contacts.length < 1 && (
-        <div>
+        <div className={styles.contactListContainer}>
           <h2>Contacts List</h2>
           Contacts list is empty
         </div>

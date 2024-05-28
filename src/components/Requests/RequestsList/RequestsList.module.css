@@ -1,7 +1,23 @@
 .listContainer {
-  display: flex;
   padding: 5px;
+  text-align: center;
+}
+
+.listContainer > h2 {
+  text-decoration: underline;
+}
+
+.requestContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
+  padding: 5px;
+} 
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
 .listContainer > div > button {

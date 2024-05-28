@@ -1,6 +1,17 @@
+.listContainer {
+  text-align: center;
+  padding: 5px;
+}
+
 .searchResult {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
+  padding: 5px;
+}
+
+.listContainer > h2 {
+  text-decoration: underline;
 }
 
 .icon {
@@ -8,7 +19,7 @@
 }
 
 .searchResult > button  {
-  gap: 5px;
+  gap: 5px; 
   padding: 0 5px;
   border-radius: 10px;
   height: min-content;
@@ -24,7 +35,7 @@
   cursor: auto;
 }
 
-.searchResult > button > div {
+.searchResult > div > button > div {
   display: flex;
   align-items: center;
   gap: 5px;

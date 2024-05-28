@@ -27,19 +27,15 @@ function SearchResultList({ token, username, searchResult, currentUser }) {
   return (
     <>
       {searchResult.usernameError && username && (
-        <>
-          <div>
-            <h2>Search Results</h2>
-          </div>
+        <div className={styles.listContainer}>
+          <h2>Search Results</h2>
           Username not found
-        </>
+        </div>
       )}
 
       {searchResult.length > 0 && (
-        <>
-          <div>
-            <h2>Search Results</h2>
-          </div>
+        <div className={styles.listContainer}>
+          <h2>Search Results</h2>
           <ul>
             {searchResult.map((result, index) => {
               const isRequestPending = result.contactsRequests.includes(
@@ -50,30 +46,36 @@ function SearchResultList({ token, username, searchResult, currentUser }) {
                 <li key={index} className={styles.searchResult}>
                   <div>{result.username}</div>
                   {isRequestPending && (
-                    <button disabled>
-                      <div>
-                        <img className={styles.icon} src={addContactIcon}></img>
-                        Requested
-                      </div>
-                    </button>
+                    <div>
+                      <button disabled>
+                        <div>
+                          <img
+                            className={styles.icon}
+                            src={addContactIcon}></img>
+                          Requested
+                        </div>
+                      </button>
+                    </div>
                   )}
                   {!isRequestPending && (
-                    <button>
-                      <div>
-                        <img
-                          className={styles.icon}
-                          src={addContactIcon}
-                          id={result._id}
-                          onClick={(e) => sendRequest(e.target.id)}></img>
-                        Request
-                      </div>
-                    </button>
+                    <div>
+                      <button>
+                        <div>
+                          <img
+                            className={styles.icon}
+                            src={addContactIcon}
+                            id={result._id}
+                            onClick={(e) => sendRequest(e.target.id)}></img>
+                          Request
+                        </div>
+                      </button>
+                    </div>
                   )}
                 </li>
               );
             })}
           </ul>
-        </>
+        </div>
       )}
     </>
   );

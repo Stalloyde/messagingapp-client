@@ -1,15 +1,27 @@
-.listContainer {
-    display: flex;
+.contactListContainer {
+    padding: 1em;   
+    min-width: 400px;
+    text-align: center;
+}
+
+.contactListContainer > h2 {
+    text-decoration: underline;
+}
+
+.contactListContainer > div {
+    display: grid;
     align-items: center;
+    grid-template-columns: 1fr 1fr;
+    padding: 5px;
 }
 
-.listContainer > button > img {
-    height: 25px;
-}
-
-.listContainer > button  {
+.buttonContainer > button  {
     gap: 5px;
     padding: 0 5px;
     border-radius: 10px;
     height: min-content;
-  }
+}
+
+.buttonContainer > button > img {
+    height: 25px;
+}
