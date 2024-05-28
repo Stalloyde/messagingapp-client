@@ -25,7 +25,7 @@ function LeftHeader({ token }) {
         setCurrentUser(responseData);
 
         const { contactsRequests } = responseData;
-        setRequestCount(contactsRequests);
+        setRequestCount(contactsRequests.length);
       } catch (err) {
         console.log(err.message);
       }
