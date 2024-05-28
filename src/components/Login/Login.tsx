@@ -5,7 +5,7 @@ import styles from './Login.module.css';
 import loginImage from '../../assets/speech-bubble.jpg';
 
 function Login({ setToken }) {
-  const [loginError, setLoginError] = useState([]);
+  const [loginError, setLoginError] = useState({});
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ function Login({ setToken }) {
       } else {
         setUsername('');
         setPassword('');
-        setLoginError([]);
+        setLoginError({});
         handleToken(responseData.Bearer);
         navigate('/');
       }
@@ -88,7 +88,7 @@ function Login({ setToken }) {
             />
           </div>
           <button>Log In</button>
-          {loginError.length > 0 && (
+          {loginError && (
             <div className={styles.errorMessage}>
               {loginError.usernameError} {loginError.passwordError}
             </div>
