@@ -7,13 +7,27 @@ type LayoutProps = {
   token: string;
 };
 
-function Layout({ children, token }: LayoutProps) {
+function Layout({
+  children,
+  token,
+  setCurrentUser,
+  contacts,
+  contactsRequests,
+}: LayoutProps) {
   return (
     <>
       <div className={styles.left}>
         <section>
-          <LeftHeader token={token} />
-          <Messages token={token} />
+          <LeftHeader
+            token={token}
+            setCurrentUser={setCurrentUser}
+            contactsRequests={contactsRequests}
+          />
+          <Messages
+            token={token}
+            contacts={contacts}
+            contactsRequests={contactsRequests}
+          />
         </section>
       </div>
 

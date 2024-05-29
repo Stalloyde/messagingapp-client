@@ -17,7 +17,9 @@ import Cookies from 'js-cookie';
 const App = () => {
   const jwtToken: string | undefined = Cookies.get('token');
   const [token, setToken] = useState(jwtToken);
-
+  const [currentUser, setCurrentUser] = useState();
+  const [contacts, setContacts] = useState([]);
+  const [contactsRequests, setContactsRequests] = useState([]);
   const router = createBrowserRouter([
     {
       path: '*',
@@ -25,11 +27,28 @@ const App = () => {
     },
     {
       path: '/',
-      element: <Layout token={token} />,
+      element: (
+        <Layout
+          token={token}
+          setCurrentUser={setCurrentUser}
+          contacts={contacts}
+          contactsRequests={contactsRequests}
+        />
+      ),
     },
     {
       path: '/requests',
-      element: <Requests token={token} />,
+      element: (
+        <Requests
+          token={token}
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+          contacts={contacts}
+          setContacts={setContacts}
+          contactsRequests={contactsRequests}
+          setContactsRequests={setContactsRequests}
+        />
+      ),
     },
     {
       path: '/requests/:id',

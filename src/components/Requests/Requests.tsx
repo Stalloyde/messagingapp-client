@@ -7,10 +7,15 @@ import ContactList from './ContactsList/ContactsList';
 import styles from './Requests.module.css';
 import '../../index.css';
 
-function Requests({ token }) {
-  const [currentUser, setCurrentUser] = useState();
-  const [contacts, setContacts] = useState([]);
-  const [contactsRequests, setContactsRequests] = useState([]);
+function Requests({
+  token,
+  currentUser,
+  setCurrentUser,
+  contacts,
+  setContacts,
+  contactsRequests,
+  setContactsRequests,
+}) {
   const [username, setUsername] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const navigate = useNavigate();
@@ -76,7 +81,11 @@ function Requests({ token }) {
   }, [username]);
 
   return (
-    <Layout token={token}>
+    <Layout
+      token={token}
+      setCurrentUser={setCurrentUser}
+      contacts={contacts}
+      contactsRequests={contactsRequests}>
       <div className='rightHeader'>
         <strong>Contacts Management</strong>
       </div>
@@ -96,18 +105,25 @@ function Requests({ token }) {
         </form>
 
         <div className={styles.resultsContainer}>
-          <ContactList contacts={contacts} token={token} />
+          <ContactList
+            contacts={contacts}
+            setContacts={setContacts}
+            contactsRequests={contactsRequests}
+            token={token}
+          />
           <RequestsList
             contactsRequests={contactsRequests}
+            setContactsRequests={setContactsRequests}
             searchResult={searchResult}
             username={username}
             token={token}
           />
           <SearchResultList
-            token={token}
             username={username}
+            setUsername={setUsername}
             searchResult={searchResult}
             currentUser={currentUser}
+            token={token}
           />
         </div>
       </div>

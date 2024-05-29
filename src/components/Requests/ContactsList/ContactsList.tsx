@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
 import deleteContactIcon from '../../../assets/icons8-delete-50.png';
 import styles from './ContactsList.module.css';
 
-function Requests({ contacts, token }) {
+function ContactsList({ contacts, setContacts, contactsRequests, token }) {
   async function deleteContact(id) {
     try {
       const headers: HeadersType = {
@@ -16,13 +17,33 @@ function Requests({ contacts, token }) {
 
       if (response.statusText === 'Unauthorized') navigate('/login');
       const responseData = await response.json();
-
-      if (responseData.error) navigate('/login');
-      console.log(responseData);
+      setContacts(responseData);
     } catch (err) {
       console.log(err.message);
     }
   }
+
+  useEffect(() => {
+    async function getContactsToRender() {
+      try {
+        const headers: HeadersType = {
+          'Content-Type': 'application/json',
+        };
+
+        if (token) headers.Authorization = token;
+        const response = await fetch('http://localhost:3000', { headers });
+
+        if (response.statusText === 'Unauthorized') navigate('/login');
+
+        const responseData = await response.json();
+        if (responseData.error) navigate('/login');
+        setContacts(responseData.contacts);
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+    getContactsToRender();
+  }, [contactsRequests]);
 
   return (
     <>
@@ -56,4 +77,4 @@ function Requests({ contacts, token }) {
   );
 }
 
-export default Requests;
+export default ContactsList;

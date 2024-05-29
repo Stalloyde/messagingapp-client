@@ -3,8 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './LeftHeader.module.css';
 import addUserIcon from '../../../assets/icons8-add-user-24.png';
 
-function LeftHeader({ token }) {
-  const [currentUser, setCurrentUser] = useState({});
+function LeftHeader({ token, setCurrentUser, contactsRequests }) {
   const [requestsCount, setRequestCount] = useState();
   const navigate = useNavigate();
 
@@ -31,7 +30,7 @@ function LeftHeader({ token }) {
       }
     }
     getCurrentUser();
-  }, [token]);
+  }, [contactsRequests]);
 
   return (
     <div className={styles.container}>

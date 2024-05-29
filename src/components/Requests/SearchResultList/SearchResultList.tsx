@@ -1,8 +1,13 @@
 import styles from './SearchResultList.module.css';
 import addContactIcon from '../../../assets/icons8-add-contact-24.png';
-import deleteContactIcon from '../../../assets/icons8-delete-50.png';
 
-function SearchResultList({ token, username, searchResult, currentUser }) {
+function SearchResultList({
+  username,
+  setUsername,
+  searchResult,
+  currentUser,
+  token,
+}) {
   async function sendRequest(id) {
     try {
       const headers: HeadersType = {
@@ -20,6 +25,7 @@ function SearchResultList({ token, username, searchResult, currentUser }) {
       if (response.statusText === 'Unauthorized') navigate('/login');
       const responseData = await response.json();
       console.log(responseData);
+      if (responseData) setUsername('');
     } catch (err) {
       console.log(err.message);
     }
@@ -60,13 +66,12 @@ function SearchResultList({ token, username, searchResult, currentUser }) {
                   )}
                   {!isRequestPending && (
                     <div>
-                      <button>
+                      <button onClick={() => sendRequest(result._id)}>
                         <div>
                           <img
                             className={styles.icon}
                             src={addContactIcon}
-                            id={result._id}
-                            onClick={() => sendRequest(result._id)}></img>
+                            id={result._id}></img>
                           Request
                         </div>
                       </button>
