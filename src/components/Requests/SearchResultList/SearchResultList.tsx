@@ -19,6 +19,7 @@ function SearchResultList({ token, username, searchResult, currentUser }) {
 
       if (response.statusText === 'Unauthorized') navigate('/login');
       const responseData = await response.json();
+      console.log(responseData);
     } catch (err) {
       console.log(err.message);
     }
@@ -29,7 +30,7 @@ function SearchResultList({ token, username, searchResult, currentUser }) {
       {searchResult.usernameError && username && (
         <div className={styles.listContainer}>
           <h2>Search Results</h2>
-          Username not found
+          <div>Username not found</div>
         </div>
       )}
 
@@ -65,7 +66,7 @@ function SearchResultList({ token, username, searchResult, currentUser }) {
                             className={styles.icon}
                             src={addContactIcon}
                             id={result._id}
-                            onClick={(e) => sendRequest(e.target.id)}></img>
+                            onClick={() => sendRequest(result._id)}></img>
                           Request
                         </div>
                       </button>

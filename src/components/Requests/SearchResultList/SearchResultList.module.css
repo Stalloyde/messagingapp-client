@@ -10,6 +10,10 @@
   padding: 5px;
 }
 
+.listContainer > div {
+  padding: 10px;
+}
+
 .listContainer > h2 {
   text-decoration: underline;
 }
