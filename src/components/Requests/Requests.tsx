@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import deleteContactIcon from '../../assets/icons8-delete-50.png';
 import Layout from '../Layout/Layout';
 import RequestsList from './RequestsList/RequestsList';
 import SearchResultList from './SearchResultList/SearchResultList';
@@ -97,11 +96,12 @@ function Requests({ token }) {
         </form>
 
         <div className={styles.resultsContainer}>
-          <ContactList contacts={contacts} />
+          <ContactList contacts={contacts} token={token} />
           <RequestsList
             contactsRequests={contactsRequests}
             searchResult={searchResult}
             username={username}
+            token={token}
           />
           <SearchResultList
             token={token}
