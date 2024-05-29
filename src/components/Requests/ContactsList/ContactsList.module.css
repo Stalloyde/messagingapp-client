@@ -12,7 +12,7 @@
     padding: 10px;
 }
 
-.contactList > div {
+.contactList {
     display: grid;
     align-items: center;
     grid-template-columns: 1fr 1fr;

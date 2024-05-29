@@ -7,6 +7,10 @@
   text-decoration: underline;
 }
 
+.listContainer > div {
+  padding: 10px;
+}
+
 .requestContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
