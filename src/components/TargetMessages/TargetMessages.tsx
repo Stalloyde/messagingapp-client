@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Layout from '../Layout/Layout';
 import styles from './TargetMessages.module.css';
 import sendIcon from '../../assets/icons8-send-24.png';
 import addFileIcon from '../../assets/icons8-add-50.png';
@@ -43,7 +42,7 @@ function TargetMessages({ token }) {
   }, [token]);
 
   return (
-    <Layout token={token}>
+    <>
       <div className='rightHeader'>
         <div>{profilePic} pic here</div>
         <strong>{username}</strong>
@@ -68,7 +67,7 @@ function TargetMessages({ token }) {
         <input type='text' placeholder='Type a message'></input>
         <img src={sendIcon} alt='send' />
       </div>
-    </Layout>
+    </>
   );
 }
 

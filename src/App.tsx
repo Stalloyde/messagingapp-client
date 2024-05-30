@@ -10,7 +10,7 @@ import Login from './components/Login/Login';
 import { useState } from 'react';
 import Signup from './components/Signup';
 import Requests from './components/Requests/Requests';
-import TargetRequest from './components/TargetRequest';
+import Index from './components/Index/Index';
 import TargetMessages from './components/TargetMessages/TargetMessages';
 import Cookies from 'js-cookie';
 
@@ -35,28 +35,27 @@ const App = () => {
           contactsRequests={contactsRequests}
         />
       ),
-    },
-    {
-      path: '/requests',
-      element: (
-        <Requests
-          token={token}
-          currentUser={currentUser}
-          setCurrentUser={setCurrentUser}
-          contacts={contacts}
-          setContacts={setContacts}
-          contactsRequests={contactsRequests}
-          setContactsRequests={setContactsRequests}
-        />
-      ),
-    },
-    {
-      path: '/requests/:id',
-      element: <TargetRequest />,
-    },
-    {
-      path: '/messages/:id',
-      element: <TargetMessages token={token} />,
+      children: [
+        { index: true, element: <Index /> },
+        {
+          path: 'requests',
+          element: (
+            <Requests
+              token={token}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+              contacts={contacts}
+              setContacts={setContacts}
+              contactsRequests={contactsRequests}
+              setContactsRequests={setContactsRequests}
+            />
+          ),
+        },
+        {
+          path: '/messages/:id',
+          element: <TargetMessages token={token} />,
+        },
+      ],
     },
     {
       path: '/login',

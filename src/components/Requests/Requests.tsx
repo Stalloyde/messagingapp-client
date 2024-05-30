@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Layout from '../Layout/Layout';
 import RequestsList from './RequestsList/RequestsList';
 import SearchResultList from './SearchResultList/SearchResultList';
 import ContactList from './ContactsList/ContactsList';
@@ -81,11 +80,7 @@ function Requests({
   }, [username]);
 
   return (
-    <Layout
-      token={token}
-      setCurrentUser={setCurrentUser}
-      contacts={contacts}
-      contactsRequests={contactsRequests}>
+    <>
       <div className='rightHeader'>
         <strong>Contacts Management</strong>
       </div>
@@ -127,7 +122,7 @@ function Requests({
           />
         </div>
       </div>
-    </Layout>
+    </>
   );
 }
 

@@ -1,14 +1,13 @@
 import Messages from '../Messages/Messages';
 import LeftHeader from './LeftHeader/LeftHeader';
+import { Outlet } from 'react-router-dom';
 import styles from './Layout.module.css';
 
 type LayoutProps = {
-  children?: React.ReactNode;
   token: string;
 };
 
 function Layout({
-  children,
   token,
   setCurrentUser,
   contacts,
@@ -33,11 +32,7 @@ function Layout({
 
       <div className={styles.right}>
         <main>
-          {children ? (
-            <>{children}</>
-          ) : (
-            <div className={styles.welcome}>Welcome to the Messaging App</div>
-          )}
+          <Outlet />
         </main>
       </div>
     </>
