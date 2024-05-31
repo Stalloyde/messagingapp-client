@@ -8,10 +8,6 @@
     text-decoration: underline;
 }
 
-.contactListContainer > div {
-    padding: 10px;
-}
-
 .contactList {
     display: grid;
     align-items: center;
