@@ -8,7 +8,7 @@ function LeftHeader({ token, setCurrentUser, contactsRequests }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function getCurrentUser() {
+    async function getCurrentUserRequests() {
       try {
         const headers: HeadersType = {
           'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ function LeftHeader({ token, setCurrentUser, contactsRequests }) {
         console.log(err.message);
       }
     }
-    getCurrentUser();
+    getCurrentUserRequests();
   }, [contactsRequests]);
 
   return (
