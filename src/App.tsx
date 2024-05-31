@@ -8,7 +8,7 @@ import Layout from './components/Layout/Layout';
 import './App.css';
 import Login from './components/Login/Login';
 import { useState } from 'react';
-import Signup from './components/Signup';
+import Signup from './components/Signup/Signup';
 import Requests from './components/Requests/Requests';
 import Index from './components/Index/Index';
 import TargetMessages from './components/TargetMessages/TargetMessages';

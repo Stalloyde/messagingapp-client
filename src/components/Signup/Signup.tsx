@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Signup.module.css';
-import signUpImage from '../assets/pexels-ds-stories-6991386.jpg';
+import signUpImage from '../../assets/pexels-ds-stories-6991386.jpg';
 
 function Signup() {
   const [signUpError, setSignUpError] = useState([]);
