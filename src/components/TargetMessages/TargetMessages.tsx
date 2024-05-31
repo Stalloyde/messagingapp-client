@@ -42,7 +42,7 @@ function TargetMessages({ token }) {
     getTargetMessages();
   }, [targetMessagesId]);
   return (
-    <>
+    <div className={styles.targetMessagesContainer}>
       <div className='rightHeader'>
         <div>{profilePic} pic here</div>
         <strong>{username}</strong>
@@ -51,7 +51,7 @@ function TargetMessages({ token }) {
         {messages &&
           messages.map((message, index) =>
             message.from === targetMessagesId ? (
-              <div key={index} className={styles.incoming}>
+              <div key={index} className={styles.incomingContainer}>
                 {message.content}
               </div>
             ) : (
@@ -67,7 +67,7 @@ function TargetMessages({ token }) {
         <input type='text' placeholder='Type a message'></input>
         <img src={sendIcon} alt='send' />
       </div>
-    </>
+    </div>
   );
 }
 

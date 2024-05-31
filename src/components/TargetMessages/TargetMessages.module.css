@@ -1,12 +1,21 @@
-.messagesContainer {
-    height: 715px;
+.targetMessagesContainer {
+    display:grid;
+    grid-template-rows: 0.05fr 1fr 65px;
+    height: 100%;
 }
 
-.incoming {
+.messagesContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1em;
+}
+
+.incomingContainer {
     background-color: gainsboro;
     color: black;
     padding: 10px;
-    margin: 1em;
+    margin: 5px;
     width:fit-content;
     max-width: 600px;
     height:min-content;
@@ -14,7 +23,7 @@
 }
 
 .outgoingContainer {
-    margin: 1em;
+    margin: 5px;
     display: flex;
     justify-content: flex-end;
 }
@@ -31,7 +40,6 @@
 
 .inputContainer {
     background-color: rgb(2, 95, 100);
-    height: 65px;
     padding: 10px;
 }
 
