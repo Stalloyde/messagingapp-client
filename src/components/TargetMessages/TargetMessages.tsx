@@ -31,6 +31,7 @@ function TargetMessages({ token }) {
 
         const responseData = await response.json();
         if (responseData.error) navigate('/login');
+
         setMessages(responseData.messages);
         setProfilePic(responseData.profilePic);
         setUsername(responseData.username);
@@ -39,8 +40,7 @@ function TargetMessages({ token }) {
       }
     }
     getTargetMessages();
-  }, [token]);
-
+  }, [targetMessagesId]);
   return (
     <>
       <div className='rightHeader'>
