@@ -10,6 +10,8 @@ function TargetMessages({ token }) {
   const [messages, setMessages] = useState();
   const [username, setUsername] = useState();
   const [profilePic, setProfilePic] = useState();
+  const [newMessage, setNewMessage] = useState('');
+
   const targetMessagesId = useParams().id;
   const navigate = useNavigate();
 
@@ -41,6 +43,35 @@ function TargetMessages({ token }) {
     }
     getTargetMessages();
   }, [targetMessagesId]);
+
+  async function sendNewMessage(e) {
+    e.preventDefault();
+
+    try {
+      const headers: HeadersType = {
+        'Content-Type': 'application/json',
+      };
+
+      if (token) headers.Authorization = token;
+      const response = await fetch(
+        `http://localhost:3000/messages/${targetMessagesId}`,
+        {
+          headers,
+          method: 'post',
+          body: JSON.stringify({ newMessage }),
+        },
+      );
+      if (response.statusText === 'Unauthorized') navigate('/login');
+
+      const responseData = await response.json();
+      if (responseData.error) navigate('/login');
+
+      setNewMessage('');
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
     <div className={styles.targetMessagesContainer}>
       <div className='rightHeader'>
@@ -64,7 +95,15 @@ function TargetMessages({ token }) {
       <div className={styles.inputContainer}>
         <img src={addEmoticonIcon} alt='add-emoticon' />
         <img src={addFileIcon} alt='add-file' />
-        <input type='text' placeholder='Type a message'></input>
+        <form method='POST' onSubmit={sendNewMessage}>
+          <input
+            type='text'
+            value={newMessage}
+            onChange={(e) => {
+              setNewMessage(e.target.value);
+            }}
+            placeholder='Type a message'></input>
+        </form>
         <img src={sendIcon} alt='send' />
       </div>
     </div>
