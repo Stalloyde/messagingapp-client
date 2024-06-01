@@ -24,7 +24,6 @@ function SearchResultList({
 
       if (response.statusText === 'Unauthorized') navigate('/login');
       const responseData = await response.json();
-      console.log(responseData);
       if (responseData) setUsername('');
     } catch (err) {
       console.log(err.message);
