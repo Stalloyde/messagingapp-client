@@ -1,6 +1,6 @@
 .container {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 0.2fr 0.2fr;
   height: 65px;
   align-items: center;
   background-color: rgb(2, 95, 100);

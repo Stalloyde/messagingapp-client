@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './LeftHeader.module.css';
 import addUserIcon from '../../../assets/icons8-add-user-24.png';
+import groupIcon from '../../../assets/icons8-group-24.png';
 
 function LeftHeader({ token, setCurrentUser, contactsRequests }) {
   const [requestsCount, setRequestCount] = useState();
@@ -35,7 +36,11 @@ function LeftHeader({ token, setCurrentUser, contactsRequests }) {
   return (
     <div className={styles.container}>
       <div>profile pic here</div>
-
+      <div className={styles.icon}>
+        <Link to='/group'>
+          <img src={groupIcon} alt='group' />
+        </Link>
+      </div>
       <div className={styles.icon}>
         {requestsCount > 0 && <p>{requestsCount}</p>}
         <Link to='/requests'>

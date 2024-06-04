@@ -10,6 +10,7 @@ import Login from './components/Login/Login';
 import { useState } from 'react';
 import Signup from './components/Signup/Signup';
 import Requests from './components/Requests/Requests';
+import Group from './components/Group/Group';
 import Index from './components/Index/Index';
 import TargetMessages from './components/TargetMessages/TargetMessages';
 import Cookies from 'js-cookie';
@@ -54,6 +55,16 @@ const App = () => {
         {
           path: '/messages/:id',
           element: <TargetMessages token={token} />,
+        },
+        {
+          path: '/group',
+          element: (
+            <Group
+              token={token}
+              contacts={contacts}
+              setContacts={setContacts}
+            />
+          ),
         },
       ],
     },
