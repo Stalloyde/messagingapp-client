@@ -3,7 +3,8 @@ import styles from './Group.module.css';
 import '../../index.css';
 
 function Requests({ token, contacts, setContacts }) {
-  const [checkedIndex, setCheckedIndex] = useState([]);
+  const [checkedUsers, setCheckedUsers] = useState([]);
+  const [groupName, setGroupName] = useState('');
 
   useEffect(() => {
     async function getContactsToRender() {
@@ -27,19 +28,37 @@ function Requests({ token, contacts, setContacts }) {
     getContactsToRender();
   }, []);
 
-  function markCheckbox(index) {
-    if (!checkedIndex.includes(index.toString())) {
-      setCheckedIndex([...checkedIndex, index]);
+  function markCheckbox(value) {
+    if (!checkedUsers.includes(value)) {
+      setCheckedUsers([...checkedUsers, value]);
     } else {
-      setCheckedIndex(checkedIndex.filter((i) => i !== index));
+      setCheckedUsers(checkedUsers.filter((user) => user !== value));
     }
   }
 
-  function createNewGroup(e) {
+  async function createNewGroup(e) {
     e.preventDefault();
-    if (checkedIndex.length > 1) alert('submitting');
-    if (checkedIndex.length < 2)
+    if (checkedUsers.length > 1) {
+      try {
+        const headers: HeadersType = {
+          'Content-Type': 'application/json',
+        };
+        if (token) headers.Authorization = token;
+        const response = await fetch('http://localhost:3000/group', {
+          headers,
+          method: 'POST',
+          body: JSON.stringify({ checkedUsers, groupName }),
+        });
+
+        if (response.statusText === 'Unauthorized') navigate('/login');
+        const responseData = await response.json();
+        console.log(responseData);
+      } catch (err) {
+        console.log(err.message);
+      }
+    } else {
       alert('Not enough participants to create a group');
+    }
   }
 
   return (
@@ -58,8 +77,9 @@ function Requests({ token, contacts, setContacts }) {
                   <input
                     type='checkbox'
                     id={index}
+                    value={contact.username}
                     onChange={(e) => {
-                      markCheckbox(e.target.id);
+                      markCheckbox(e.target.value);
                     }}
                   />
                 </label>
@@ -73,6 +93,10 @@ function Requests({ token, contacts, setContacts }) {
               type='text'
               id='group-name'
               placeholder='Group Name'
+              value={groupName}
+              onChange={(e) => {
+                setGroupName(e.target.value);
+              }}
               required
             />
           </div>
