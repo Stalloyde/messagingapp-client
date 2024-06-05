@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Messages.module.css';
+import groupIcon from '../../assets/icons8-group-24.png';
 
 //work on rerendering on deleteContact,approve contact
 function Messages({ token, contacts, contactsRequests }) {
-  const [contactsToRender, setContactsToRender] = useState([]);
+  const [toRender, setToRender] = useState([]);
 
   const navigate = useNavigate();
 
@@ -22,7 +23,7 @@ function Messages({ token, contacts, contactsRequests }) {
 
         const responseData = await response.json();
         if (responseData.error) navigate('/login');
-        setContactsToRender(responseData.contacts);
+        setToRender([...responseData.contacts, ...responseData.groups]);
       } catch (err) {
         console.log(err.message);
       }
@@ -30,19 +31,26 @@ function Messages({ token, contacts, contactsRequests }) {
     getContactsToRender();
   }, [contacts, contactsRequests]);
 
+  console.log(toRender);
   return (
     <div className={styles.container}>
       <ul>
-        {contactsToRender.length > 0 &&
-          contactsToRender.map((contact, index) => (
-            <Link key={index} to={`/messages/${contact._id}`}>
-              <li id={contact._id}>
+        {toRender.length > 0 &&
+          toRender.map((item, index) => (
+            <Link key={index} to={`/messages/${item._id}`}>
+              <li id={item._id}>
                 <div>Pic here</div>
                 <div className={styles.previewMessageContainer}>
-                  <strong>{contact.username}</strong>
+                  {item.username && <strong>{item.username}</strong>}
+                  {item.groupName && (
+                    <>
+                      <strong>{item.groupName}</strong>
+                      <img src={groupIcon} alt='group' />
+                    </>
+                  )}
                   <p className={styles.previewMessage}>
-                    {contact.messages.length > 0 ? (
-                      contact.messages[0].content
+                    {item.messages.length > 0 ? (
+                      item.messages[0].content
                     ) : (
                       <em>Click to chat</em>
                     )}
