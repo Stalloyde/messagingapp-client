@@ -2,19 +2,42 @@
     padding: 1em;
 }
 
+.container > h2 {
+    text-decoration: underline;
+    text-align: center;
+}
+
 .container > form {
     display:flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
-.container > form > input {
-    height: 40px;
-    border-radius: 10px;
-    padding: 5px;
+.container > form > div {
+    padding: 10px;
 }
 
-.resultsContainer {
+.contactListContainer > div > label {
     display: grid;
-    justify-content: center;
-    padding: 1em;
+    grid-template-columns: 1fr 0.1fr;
+    padding: 5px;
+    gap: 1em;
+    text-align: left;
+}
+
+.contactListContainer > div > label:hover {
+    cursor: pointer;
+}
+
+.groupNameContainer > input {
+    height: 30px;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.buttonContainer button {
+    padding: 5px;
+    border-radius: 10px;
+    height: min-content;
 }

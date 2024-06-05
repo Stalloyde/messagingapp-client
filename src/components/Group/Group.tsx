@@ -3,6 +3,8 @@ import styles from './Group.module.css';
 import '../../index.css';
 
 function Requests({ token, contacts, setContacts }) {
+  const [checkedIndex, setCheckedIndex] = useState([]);
+
   useEffect(() => {
     async function getContactsToRender() {
       try {
@@ -25,8 +27,19 @@ function Requests({ token, contacts, setContacts }) {
     getContactsToRender();
   }, []);
 
-  function createNewGroup() {
-    alert('create new group');
+  function markCheckbox(index) {
+    if (!checkedIndex.includes(index.toString())) {
+      setCheckedIndex([...checkedIndex, index]);
+    } else {
+      setCheckedIndex(checkedIndex.filter((i) => i !== index));
+    }
+  }
+
+  function createNewGroup(e) {
+    e.preventDefault();
+    if (checkedIndex.length > 1) alert('submitting');
+    if (checkedIndex.length < 2)
+      alert('Not enough participants to create a group');
   }
 
   return (
@@ -35,18 +48,38 @@ function Requests({ token, contacts, setContacts }) {
         <strong>Create Group Chat</strong>
       </div>
       <div className={styles.container}>
-        Select group paticipants
+        <h2>Select Group Participants</h2>
         <form method='post' onSubmit={createNewGroup}>
-          {contacts.map((contact, index) => (
-            <div key={index}>
-              <label htmlFor={index}>{contact.username}</label>
-              <input type='checkbox' id={index} />
-            </div>
-          ))}
+          <div className={styles.contactListContainer}>
+            {contacts.map((contact, index) => (
+              <div key={index}>
+                <label htmlFor={index}>
+                  {contact.username}
+                  <input
+                    type='checkbox'
+                    id={index}
+                    onChange={(e) => {
+                      markCheckbox(e.target.id);
+                    }}
+                  />
+                </label>
+              </div>
+            ))}
+          </div>
 
-          <button>Create Group</button>
+          <div className={styles.groupNameContainer}>
+            <label htmlFor='group-name'></label>
+            <input
+              type='text'
+              id='group-name'
+              placeholder='Group Name'
+              required
+            />
+          </div>
+          <div className={styles.buttonContainer}>
+            <button>Create Group</button>
+          </div>
         </form>
-        <div className={styles.resultsContainer}></div>
       </div>
     </>
   );
