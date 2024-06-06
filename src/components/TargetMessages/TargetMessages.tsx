@@ -9,6 +9,8 @@ import '../../index.css';
 function TargetMessages({ token }) {
   const [messages, setMessages] = useState();
   const [username, setUsername] = useState();
+  const [groupName, setGroupName] = useState('');
+  const [groupParticipants, setGroupParticipants] = useState([]);
   const [profilePic, setProfilePic] = useState();
   const [newMessage, setNewMessage] = useState('');
 
@@ -33,10 +35,12 @@ function TargetMessages({ token }) {
 
         const responseData = await response.json();
         if (responseData.error) navigate('/login');
-
+        console.log(responseData);
         setMessages(responseData.messages);
         setProfilePic(responseData.profilePic);
         setUsername(responseData.username);
+        setGroupParticipants(responseData.participants);
+        setGroupName(responseData.groupName);
       } catch (err) {
         console.log(err.message);
       }
@@ -65,7 +69,6 @@ function TargetMessages({ token }) {
 
       const responseData = await response.json();
       if (responseData.error) navigate('/login');
-
       setNewMessage('');
     } catch (err) {
       console.error(err);
@@ -74,9 +77,20 @@ function TargetMessages({ token }) {
 
   return (
     <div className={styles.targetMessagesContainer}>
-      <div className='rightHeader'>
+      <div className={styles.rightHeader}>
         <div>{profilePic} pic here</div>
-        <strong>{username}</strong>
+        {username && <strong>{username}</strong>}
+        {groupName && groupParticipants && (
+          <>
+            <strong>{groupName}</strong>
+
+            <div className={styles.groupContainer}>
+              {groupParticipants.map((participant, index) => (
+                <em key={index}>{participant.username}</em>
+              ))}
+            </div>
+          </>
+        )}
       </div>
       <div className={styles.messagesContainer}>
         {messages &&

@@ -4,7 +4,26 @@
     height: 100%;
 }
 
-.messagesContainer {
+.rightHeader {
+    display: flex;
+    gap: 1em;
+    height: 65px;
+    align-items: center;
+    background-color: rgb(2, 95, 100);
+    padding: 1em;
+}
+
+.groupContainer {
+    flex-grow: 1;
+    text-align: end;
+}
+
+.groupContainer > em {
+    font-size: small;
+    padding: 5px;
+}
+
+  .messagesContainer {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;

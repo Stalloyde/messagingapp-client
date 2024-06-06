@@ -81,7 +81,7 @@ function Requests({
 
   return (
     <>
-      <div className='rightHeader'>
+      <div className={styles.rightHeader}>
         <strong>Contacts Management</strong>
       </div>
       <div className={styles.container}>

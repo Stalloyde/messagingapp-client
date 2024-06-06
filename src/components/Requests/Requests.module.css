@@ -18,3 +18,12 @@
     justify-content: center;
     padding: 1em;
 }
+
+.rightHeader {
+    display: flex;
+    gap: 1em;
+    height: 65px;
+    align-items: center;
+    background-color: rgb(2, 95, 100);
+    padding: 1em;
+  }

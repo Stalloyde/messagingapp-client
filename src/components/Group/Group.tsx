@@ -63,7 +63,7 @@ function Requests({ token, contacts, setContacts }) {
 
   return (
     <>
-      <div className='rightHeader'>
+      <div className={styles.rightHeader}>
         <strong>Create Group Chat</strong>
       </div>
       <div className={styles.container}>

@@ -31,7 +31,6 @@ function Messages({ token, contacts, contactsRequests }) {
     getContactsToRender();
   }, [contacts, contactsRequests]);
 
-  console.log(toRender);
   return (
     <div className={styles.container}>
       <ul>
