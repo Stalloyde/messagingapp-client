@@ -4,9 +4,8 @@ import styles from './TargetMessages.module.css';
 import sendIcon from '../../assets/icons8-send-24.png';
 import addFileIcon from '../../assets/icons8-add-50.png';
 import addEmoticonIcon from '../../assets/icons8-happy-48.png';
-import '../../index.css';
 
-function TargetMessages({ token }) {
+function TargetMessages({ token, currentUser }) {
   const [messages, setMessages] = useState();
   const [username, setUsername] = useState();
   const [groupName, setGroupName] = useState('');
@@ -69,6 +68,7 @@ function TargetMessages({ token }) {
 
       const responseData = await response.json();
       if (responseData.error) navigate('/login');
+      console.log(responseData);
       setNewMessage('');
     } catch (err) {
       console.error(err);
@@ -83,7 +83,6 @@ function TargetMessages({ token }) {
         {groupName && groupParticipants && (
           <>
             <strong>{groupName}</strong>
-
             <div className={styles.groupContainer}>
               {groupParticipants.map((participant, index) => (
                 <em key={index}>{participant.username}</em>
@@ -94,14 +93,37 @@ function TargetMessages({ token }) {
       </div>
       <div className={styles.messagesContainer}>
         {messages &&
+          !groupName &&
+          !groupParticipants &&
           messages.map((message, index) =>
-            message.from === targetMessagesId ? (
+            message.from === currentUser._id ? (
               <div key={index} className={styles.incomingContainer}>
                 {message.content}
               </div>
             ) : (
               <div key={index} className={styles.outgoingContainer}>
                 <div className={styles.outgoingMessage}>{message.content}</div>
+              </div>
+            ),
+          )}
+
+        {messages &&
+          groupName &&
+          groupParticipants &&
+          messages.map((message, index) =>
+            message.from === currentUser._id ? (
+              <div key={index} className={styles.incomingContainer}>
+                <>
+                  <h3>{message.from.username}</h3>
+                  {message.content}
+                </>
+              </div>
+            ) : (
+              <div key={index} className={styles.outgoingContainer}>
+                <div className={styles.outgoingMessage}>
+                  <h3>{message.from.username}</h3>
+                  {message.content}
+                </div>
               </div>
             ),
           )}

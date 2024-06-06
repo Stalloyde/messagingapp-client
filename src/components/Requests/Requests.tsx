@@ -4,7 +4,6 @@ import RequestsList from './RequestsList/RequestsList';
 import SearchResultList from './SearchResultList/SearchResultList';
 import ContactList from './ContactsList/ContactsList';
 import styles from './Requests.module.css';
-import '../../index.css';
 
 function Requests({
   token,

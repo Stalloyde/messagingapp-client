@@ -54,7 +54,7 @@ const App = () => {
         },
         {
           path: '/messages/:id',
-          element: <TargetMessages token={token} />,
+          element: <TargetMessages token={token} currentUser={currentUser} />,
         },
         {
           path: '/group',
