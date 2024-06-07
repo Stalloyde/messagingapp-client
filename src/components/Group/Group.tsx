@@ -52,7 +52,9 @@ function Requests({ token, contacts, setContacts }) {
 
         if (response.statusText === 'Unauthorized') navigate('/login');
         const responseData = await response.json();
-        console.log(responseData);
+        setContacts([...responseData.contacts]);
+        setCheckedUsers([]);
+        setGroupName('');
       } catch (err) {
         console.log(err.message);
       }
@@ -78,6 +80,7 @@ function Requests({ token, contacts, setContacts }) {
                     type='checkbox'
                     id={index}
                     value={contact.username}
+                    checked={checkedUsers.includes(contact.username)}
                     onChange={(e) => {
                       markCheckbox(e.target.value);
                     }}
