@@ -34,7 +34,6 @@ function TargetMessages({ token, currentUser }) {
 
         const responseData = await response.json();
         if (responseData.error) navigate('/login');
-        console.log(responseData);
         setMessages(responseData.messages);
         setProfilePic(responseData.profilePic);
         setUsername(responseData.username);
@@ -68,8 +67,30 @@ function TargetMessages({ token, currentUser }) {
 
       const responseData = await response.json();
       if (responseData.error) navigate('/login');
-      console.log(responseData);
       setNewMessage('');
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function exitGroup() {
+    try {
+      const headers: HeadersType = {
+        'Content-Type': 'application/json',
+      };
+
+      if (token) headers.Authorization = token;
+      const response = await fetch(
+        `http://localhost:3000/messages/${targetMessagesId}/exit-group`,
+        {
+          headers,
+          method: 'put',
+        },
+      );
+      if (response.statusText === 'Unauthorized') navigate('/login');
+
+      const responseData = await response.json();
+      if (responseData.error) navigate('/login');
     } catch (err) {
       console.error(err);
     }
@@ -87,6 +108,7 @@ function TargetMessages({ token, currentUser }) {
               {groupParticipants.map((participant, index) => (
                 <em key={index}>{participant.username}</em>
               ))}
+              <button onClick={exitGroup}>Exit Group</button>
             </div>
           </>
         )}

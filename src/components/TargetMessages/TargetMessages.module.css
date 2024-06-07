@@ -81,3 +81,9 @@
     font-size:medium;
     padding-bottom: 2px;
 }
+
+.groupContainer > button {
+    padding: 0 5px;
+    border-radius: 10px;
+    height: min-content;
+}
