@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './Group.module.css';
-import '../../index.css';
 
-function Requests({ token, contacts, setContacts }) {
+function Group({ token, contacts, setContacts }) {
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [groupName, setGroupName] = useState('');
 
@@ -112,4 +111,4 @@ function Requests({ token, contacts, setContacts }) {
   );
 }
 
-export default Requests;
+export default Group;

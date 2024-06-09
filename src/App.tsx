@@ -21,6 +21,8 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState();
   const [contacts, setContacts] = useState([]);
   const [contactsRequests, setContactsRequests] = useState([]);
+  const [isExitingGroup, setIsExitingGroup] = useState(false);
+
   const router = createBrowserRouter([
     {
       path: '*',
@@ -54,7 +56,13 @@ const App = () => {
         },
         {
           path: '/messages/:id',
-          element: <TargetMessages token={token} currentUser={currentUser} />,
+          element: (
+            <TargetMessages
+              token={token}
+              currentUser={currentUser}
+              setContacts={setContacts}
+            />
+          ),
         },
         {
           path: '/group',

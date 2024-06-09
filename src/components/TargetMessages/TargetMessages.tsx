@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import ExitGroupModal from '../TargetMessages/ExitGroupModal';
 import styles from './TargetMessages.module.css';
 import sendIcon from '../../assets/icons8-send-24.png';
 import addFileIcon from '../../assets/icons8-add-50.png';
 import addEmoticonIcon from '../../assets/icons8-happy-48.png';
 
-function TargetMessages({ token, currentUser }) {
+function TargetMessages({ token, currentUser, setContacts }) {
   const [messages, setMessages] = useState();
   const [username, setUsername] = useState();
   const [groupName, setGroupName] = useState('');
   const [groupParticipants, setGroupParticipants] = useState([]);
   const [profilePic, setProfilePic] = useState();
   const [newMessage, setNewMessage] = useState('');
+  const [isExitingGroup, setIsExitingGroup] = useState(false);
 
   const targetMessagesId = useParams().id;
   const navigate = useNavigate();
@@ -73,29 +75,6 @@ function TargetMessages({ token, currentUser }) {
     }
   }
 
-  async function exitGroup() {
-    try {
-      const headers: HeadersType = {
-        'Content-Type': 'application/json',
-      };
-
-      if (token) headers.Authorization = token;
-      const response = await fetch(
-        `http://localhost:3000/messages/${targetMessagesId}/exit-group`,
-        {
-          headers,
-          method: 'put',
-        },
-      );
-      if (response.statusText === 'Unauthorized') navigate('/login');
-
-      const responseData = await response.json();
-      if (responseData.error) navigate('/login');
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   return (
     <div className={styles.targetMessagesContainer}>
       <div className={styles.rightHeader}>
@@ -108,12 +87,25 @@ function TargetMessages({ token, currentUser }) {
               {groupParticipants.map((participant, index) => (
                 <em key={index}>{participant.username}</em>
               ))}
-              <button onClick={exitGroup}>Exit Group</button>
+              <button
+                onClick={() => {
+                  setIsExitingGroup(true);
+                }}>
+                Exit Group
+              </button>
             </div>
           </>
         )}
       </div>
       <div className={styles.messagesContainer}>
+        {isExitingGroup && (
+          <ExitGroupModal
+            setIsExitingGroup={setIsExitingGroup}
+            setContacts={setContacts}
+            token={token}
+          />
+        )}
+
         {messages &&
           !groupName &&
           !groupParticipants &&
