@@ -97,51 +97,58 @@ function TargetMessages({ token, currentUser, setContacts }) {
           </>
         )}
       </div>
-      <div className={styles.messagesContainer}>
-        {isExitingGroup && (
-          <ExitGroupModal
-            setIsExitingGroup={setIsExitingGroup}
-            setContacts={setContacts}
-            token={token}
-          />
-        )}
+      {!currentUser && <div className={styles.loadingMessage}>Loading...</div>}
 
-        {messages &&
-          !groupName &&
-          !groupParticipants &&
-          messages.map((message, index) =>
-            message.from === currentUser._id ? (
-              <div key={index} className={styles.incomingContainer}>
-                {message.content}
-              </div>
-            ) : (
-              <div key={index} className={styles.outgoingContainer}>
-                <div className={styles.outgoingMessage}>{message.content}</div>
-              </div>
-            ),
+      {currentUser && (
+        <div className={styles.messagesContainer}>
+          {isExitingGroup && (
+            <ExitGroupModal
+              setIsExitingGroup={setIsExitingGroup}
+              setContacts={setContacts}
+              token={token}
+            />
           )}
 
-        {messages &&
-          groupName &&
-          groupParticipants &&
-          messages.map((message, index) =>
-            message.from === currentUser._id ? (
-              <div key={index} className={styles.incomingContainer}>
-                <>
-                  <h3>{message.from.username}</h3>
-                  {message.content}
-                </>
-              </div>
-            ) : (
-              <div key={index} className={styles.outgoingContainer}>
-                <div className={styles.outgoingMessage}>
-                  <h3>{message.from.username}</h3>
+          {messages &&
+            !groupName &&
+            !groupParticipants &&
+            messages.map((message, index) =>
+              message.from === currentUser._id ? (
+                <div key={index} className={styles.incomingContainer}>
                   {message.content}
                 </div>
-              </div>
-            ),
-          )}
-      </div>
+              ) : (
+                <div key={index} className={styles.outgoingContainer}>
+                  <div className={styles.outgoingMessage}>
+                    {message.content}
+                  </div>
+                </div>
+              ),
+            )}
+
+          {messages &&
+            groupName &&
+            groupParticipants &&
+            messages.map((message, index) =>
+              message.from === currentUser._id ? (
+                <div key={index} className={styles.incomingContainer}>
+                  <>
+                    <h3>{message.from.username}</h3>
+                    {message.content}
+                  </>
+                </div>
+              ) : (
+                <div key={index} className={styles.outgoingContainer}>
+                  <div className={styles.outgoingMessage}>
+                    <h3>{message.from.username}</h3>
+                    {message.content}
+                  </div>
+                </div>
+              ),
+            )}
+        </div>
+      )}
+
       <div className={styles.inputContainer}>
         <img src={addEmoticonIcon} alt='add-emoticon' />
         <img src={addFileIcon} alt='add-file' />

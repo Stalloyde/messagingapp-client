@@ -87,3 +87,7 @@
     border-radius: 10px;
     height: min-content;
 }
+
+.loadingMessage {
+    padding: 1em;
+}
