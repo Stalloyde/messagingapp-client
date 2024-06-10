@@ -50,3 +50,8 @@
     background-color: rgb(2, 95, 100);
     padding: 1em;
 }
+
+.errorMessage {
+    color: gold;
+    font-size: small;
+}

@@ -4,6 +4,7 @@ import styles from './Group.module.css';
 function Group({ token, contacts, setContacts }) {
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [groupName, setGroupName] = useState('');
+  const [createGroupError, setCreateGroupError] = useState('');
 
   useEffect(() => {
     async function getContactsToRender() {
@@ -58,7 +59,7 @@ function Group({ token, contacts, setContacts }) {
         console.log(err.message);
       }
     } else {
-      alert('Not enough participants to create a group');
+      setCreateGroupError('*Not enough participants to create a group');
     }
   }
 
@@ -70,6 +71,9 @@ function Group({ token, contacts, setContacts }) {
       <div className={styles.container}>
         <h2>Select Group Participants</h2>
         <form method='post' onSubmit={createNewGroup}>
+          {createGroupError && (
+            <div className={styles.errorMessage}>{createGroupError}</div>
+          )}
           <div className={styles.contactListContainer}>
             {contacts.map((contact, index) => (
               <div key={index}>
