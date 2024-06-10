@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import ExitGroupModal from '../TargetMessages/ExitGroupModal';
+import ExitGroupModal from './ExitGroupModal/ExitGroupModal';
 import styles from './TargetMessages.module.css';
 import sendIcon from '../../assets/icons8-send-24.png';
 import addFileIcon from '../../assets/icons8-add-50.png';
