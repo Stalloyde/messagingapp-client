@@ -1,0 +1,76 @@
+.rightHeader {
+    display: flex;
+    gap: 1em;
+    height: 65px;
+    align-items: center;
+    background-color: rgb(2, 95, 100);
+    padding: 1em;
+}
+
+.container {
+    padding: 1em;
+    display: grid;
+    width: 50%;
+    margin: 10% auto;
+}
+
+.profilePicContainer {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    padding: 1em;
+    border:3px solid rgb(2, 95, 100);
+    width:fit-content;
+    margin: 0 auto;
+}
+
+.profilePic {
+    height: 100px;
+}
+
+.usernameContainer, .statusContainer {
+    display: grid;
+    grid-template-columns: 1.5fr 8fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 1em;
+    border-bottom: 1px solid rgb(2, 95, 100);
+}
+
+.usernameContainer > div:nth-child(1), .statusContainer > div:nth-child(1) {
+    grid-row: 1/4;
+    text-align: center;
+}
+
+.usernameContainer > div:nth-child(3), .statusContainer > div:nth-child(3) {
+    grid-row: 2/3;
+    grid-column: 2/3;
+}
+
+.usernameContainer > em, .statusContainer > em {
+    font-size: small;
+    color: gold;
+    grid-row: 3/4;
+}
+
+.editIconContainer {    
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    padding: 5px;
+    grid-row: 2/3;
+    grid-column: 3/4;
+}
+
+.icons {
+    height: 25px;
+}
+
+.editIconContainer:hover {
+    cursor: pointer;
+}
+
+.loadingMessage {
+    padding: 1em;
+}
+

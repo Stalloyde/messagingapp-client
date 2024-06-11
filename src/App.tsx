@@ -11,6 +11,7 @@ import { useState } from 'react';
 import Signup from './components/Signup/Signup';
 import Requests from './components/Requests/Requests';
 import Group from './components/Group/Group';
+import Profile from './components/Profile/Profile';
 import Index from './components/Index/Index';
 import TargetMessages from './components/TargetMessages/TargetMessages';
 import Cookies from 'js-cookie';
@@ -21,7 +22,6 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState();
   const [contacts, setContacts] = useState([]);
   const [contactsRequests, setContactsRequests] = useState([]);
-  const [isExitingGroup, setIsExitingGroup] = useState(false);
 
   const router = createBrowserRouter([
     {
@@ -40,8 +40,9 @@ const App = () => {
       ),
       children: [
         { index: true, element: <Index /> },
+
         {
-          path: 'requests',
+          path: '/requests',
           element: (
             <Requests
               token={token}
@@ -53,6 +54,10 @@ const App = () => {
               setContactsRequests={setContactsRequests}
             />
           ),
+        },
+        {
+          path: '/profile',
+          element: <Profile token={token} currentUser={currentUser} />,
         },
         {
           path: '/messages/:id',
@@ -76,6 +81,7 @@ const App = () => {
         },
       ],
     },
+
     {
       path: '/login',
       element: <Login setToken={setToken} />,

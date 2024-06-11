@@ -35,7 +35,9 @@ function LeftHeader({ token, setCurrentUser, contactsRequests }) {
 
   return (
     <div className={styles.container}>
-      <div>profile pic here</div>
+      <Link to='/profile'>
+        <div> Profile Pic here </div>
+      </Link>
       <div className={styles.icon}>
         <Link to='/group'>
           <img src={groupIcon} alt='group' />
