@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Messages.module.css';
 import groupIcon from '../../assets/icons8-group-24.png';
+import defaultAvatar from '../../assets/icons8-avatar-50.png';
 
 //work on rerendering on deleteContact,approve contact
 function Messages({ token, contacts, contactsRequests }) {
@@ -38,7 +39,15 @@ function Messages({ token, contacts, contactsRequests }) {
           toRender.map((item, index) => (
             <Link key={index} to={`/messages/${item._id}`}>
               <li id={item._id}>
-                <div>Pic here</div>
+                {item.profilePic ? (
+                  <img src={item.profilePic} alt='profile-pic' />
+                ) : (
+                  <img
+                    src={defaultAvatar}
+                    alt='profile-pic'
+                    className={styles.icons}
+                  />
+                )}
                 <div className={styles.previewMessageContainer}>
                   {item.username && <strong>{item.username}</strong>}
                   {item.groupName && (

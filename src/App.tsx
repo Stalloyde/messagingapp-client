@@ -33,6 +33,7 @@ const App = () => {
       element: (
         <Layout
           token={token}
+          currentUser={currentUser}
           setCurrentUser={setCurrentUser}
           contacts={contacts}
           contactsRequests={contactsRequests}

@@ -10,6 +10,7 @@ type LayoutProps = {
 
 function Layout({
   token,
+  currentUser,
   setCurrentUser,
   contacts,
   contactsRequests,
@@ -20,6 +21,7 @@ function Layout({
         <section>
           <LeftHeader
             token={token}
+            currentUser={currentUser}
             setCurrentUser={setCurrentUser}
             contactsRequests={contactsRequests}
           />

@@ -4,7 +4,7 @@
 
 .container > ul > a > li {
     display: grid;
-    grid-template-columns: 1fr 7fr;
+    grid-template-columns: 45px 1fr;
     align-items: center;
     border-bottom: 1px solid rgba(220, 220, 220, 0.541);
 }
@@ -24,4 +24,8 @@
 .previewMessageContainer > img {
     height: 20px;
     padding-left: 10px;
+}
+
+.icons {
+    height: 30px;
 }
