@@ -5,8 +5,17 @@ import changeImageIcon from '../../assets/icons8-add-50.png';
 import defaultAvatar from '../../assets/icons8-avatar-50.png';
 import usernameIcon from '../../assets/icons8-username-32.png';
 import statusIcon from '../../assets/icons8-info-50.png';
+import EditModal from './EditModal';
 
 function Profile({ token, currentUser }) {
+  const [isEditingUsername, setIsEditingUsername] = useState(false);
+  const [isEditingStatus, setIsEditingStatus] = useState(false);
+
+  function toggleIsEditing(target) {
+    if (target === 'username') setIsEditingUsername(!isEditingUsername);
+    if (target === 'status') setIsEditingStatus(!isEditingStatus);
+  }
+
   return (
     <>
       <div className={styles.rightHeader}>
@@ -16,6 +25,17 @@ function Profile({ token, currentUser }) {
       {!currentUser && <div className={styles.loadingMessage}>Loading...</div>}
       {currentUser && (
         <div className={styles.container}>
+          {(isEditingStatus && !isEditingUsername) ||
+          (isEditingUsername && !isEditingStatus) ? (
+            <EditModal
+              currentUser={currentUser}
+              isEditingStatus={isEditingStatus}
+              isUsernameStatus={isEditingUsername}
+              setIsEditingStatus={setIsEditingStatus}
+              setIsEditingUsername={setIsEditingUsername}
+            />
+          ) : null}
+
           <div className={styles.profilePicContainer}>
             {!currentUser.profilePic ? (
               <img
@@ -50,7 +70,14 @@ function Profile({ token, currentUser }) {
             <strong>Username:</strong>
             <div>{currentUser.username}</div>
             <div className={styles.editIconContainer}>
-              <img src={editIcon} alt='edit' className={styles.icons} />
+              <img
+                src={editIcon}
+                alt='edit'
+                className={styles.icons}
+                onClick={() => {
+                  toggleIsEditing('username');
+                }}
+              />
             </div>
             <em>This is also your login username</em>
           </div>
@@ -70,7 +97,14 @@ function Profile({ token, currentUser }) {
               <div>-</div>
             )}
             <div className={styles.editIconContainer}>
-              <img src={editIcon} alt='edit' className={styles.icons} />
+              <img
+                src={editIcon}
+                alt='edit'
+                className={styles.icons}
+                onClick={() => {
+                  toggleIsEditing('status');
+                }}
+              />
             </div>
             <em>This shows up when other users search for your username</em>
           </div>

@@ -48,6 +48,11 @@
     grid-column: 2/3;
 }
 
+.usernameContainer > div, .statusContainer > div {
+    display: flex;
+    gap: 10px;
+}
+
 .usernameContainer > em, .statusContainer > em {
     font-size: small;
     color: gold;
