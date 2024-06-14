@@ -54,6 +54,7 @@
 .errorMessage {
     color: gold;
     width:max-content;
+    font-style: italic;
 }
 
 

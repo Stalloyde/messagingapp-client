@@ -41,6 +41,7 @@
 }
 
 .errorMessage {
+    font-style: italic;
     color: gold;
 }
 
