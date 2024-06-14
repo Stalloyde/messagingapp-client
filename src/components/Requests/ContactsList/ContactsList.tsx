@@ -1,27 +1,11 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import deleteContactIcon from '../../../assets/icons8-delete-50.png';
 import styles from './ContactsList.module.css';
+import DeleteContactModal from './DeleteContactModal/DeleteContactModal';
 
 function ContactsList({ contacts, setContacts, contactsRequests, token }) {
-  async function deleteContact(id) {
-    try {
-      const headers: HeadersType = {
-        'Content-Type': 'application/json',
-      };
-
-      if (token) headers.Authorization = token;
-      const response = await fetch(`http://localhost:3000/requests/${id}`, {
-        headers,
-        method: 'DELETE',
-      });
-
-      if (response.statusText === 'Unauthorized') navigate('/login');
-      const responseData = await response.json();
-      setContacts(responseData);
-    } catch (err) {
-      console.log(err.message);
-    }
-  }
+  const [isDeletingContact, setIsDeletingContact] = useState(false);
+  const [toDeleteId, setToDeleteId] = useState('');
 
   useEffect(() => {
     async function getContactsToRender() {
@@ -45,8 +29,23 @@ function ContactsList({ contacts, setContacts, contactsRequests, token }) {
     getContactsToRender();
   }, [contactsRequests]);
 
+  function handleClick(id) {
+    setIsDeletingContact(true);
+    setToDeleteId(id);
+  }
+
   return (
     <>
+      {isDeletingContact && (
+        <DeleteContactModal
+          setIsDeletingContact={setIsDeletingContact}
+          setContacts={setContacts}
+          token={token}
+          toDeleteId={toDeleteId}
+          setToDeleteId={setToDeleteId}
+        />
+      )}
+
       {contacts.length > 0 && (
         <div className={styles.contactListContainer}>
           <h2>Contacts List</h2>
@@ -57,11 +56,16 @@ function ContactsList({ contacts, setContacts, contactsRequests, token }) {
                 <p className={styles.status}>{contact.status}</p>
               </div>
               <div className={styles.buttonContainer}>
-                <button onClick={() => deleteContact(contact._id)}>
+                <button
+                  id={contact._id}
+                  onClick={(e) => {
+                    handleClick(e.target.id);
+                  }}>
                   <img
                     className={styles.icon}
                     src={deleteContactIcon}
                     alt='Delete Contact'
+                    id={contact._id}
                   />
                 </button>
               </div>
