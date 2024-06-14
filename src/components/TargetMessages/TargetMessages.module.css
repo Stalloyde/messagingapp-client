@@ -13,6 +13,10 @@
     padding: 1em;
 }
 
+.rightHeader > img {
+    height: 30px;
+}
+
 .groupContainer {
     flex-grow: 1;
     text-align: end;

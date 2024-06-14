@@ -5,6 +5,7 @@ import styles from './TargetMessages.module.css';
 import sendIcon from '../../assets/icons8-send-24.png';
 import addFileIcon from '../../assets/icons8-add-50.png';
 import addEmoticonIcon from '../../assets/icons8-happy-48.png';
+import defaultAvatar from '../../assets/icons8-avatar-50.png';
 
 function TargetMessages({ token, currentUser, setContacts }) {
   const [messages, setMessages] = useState();
@@ -77,27 +78,37 @@ function TargetMessages({ token, currentUser, setContacts }) {
 
   return (
     <div className={styles.targetMessagesContainer}>
-      <div className={styles.rightHeader}>
-        <div>{profilePic} pic here</div>
-        {username && <strong>{username}</strong>}
-        {groupName && groupParticipants && (
-          <>
-            <strong>{groupName}</strong>
-            <div className={styles.groupContainer}>
-              {groupParticipants.map((participant, index) => (
-                <em key={index}>{participant.username}</em>
-              ))}
-              <button
-                onClick={() => {
-                  setIsExitingGroup(true);
-                }}>
-                Exit Group
-              </button>
-            </div>
-          </>
-        )}
-      </div>
       {!currentUser && <div className={styles.loadingMessage}>Loading...</div>}
+      {currentUser && (
+        <div className={styles.rightHeader}>
+          {currentUser.profilePic ? (
+            <div>{currentUser.profilePic}</div>
+          ) : (
+            <img
+              src={defaultAvatar}
+              alt='profile-pic'
+              className={styles.icons}
+            />
+          )}
+          {username && <strong>{username}</strong>}
+          {groupName && groupParticipants && (
+            <>
+              <strong>{groupName}</strong>
+              <div className={styles.groupContainer}>
+                {groupParticipants.map((participant, index) => (
+                  <em key={index}>{participant.username}</em>
+                ))}
+                <button
+                  onClick={() => {
+                    setIsExitingGroup(true);
+                  }}>
+                  Exit Group
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      )}
 
       {currentUser && (
         <div className={styles.messagesContainer}>
