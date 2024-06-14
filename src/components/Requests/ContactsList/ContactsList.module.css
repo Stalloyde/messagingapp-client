@@ -10,9 +10,22 @@
 
 .contactList {
     display: grid;
-    align-items: center;
     grid-template-columns: 1fr 1fr;
     padding: 5px;
+}
+
+.contactList > div:first-child {
+    text-align: left;
+}
+
+.status {
+    font-style: italic;
+    font-size: 12px;
+    color: gold;
+}
+
+.buttonContainer {
+    text-align: end;
 }
 
 .buttonContainer > button  {

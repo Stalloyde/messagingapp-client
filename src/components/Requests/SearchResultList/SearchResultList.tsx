@@ -50,9 +50,12 @@ function SearchResultList({
 
               return (
                 <li key={index} className={styles.searchResult}>
-                  <div>{result.username}</div>
+                  <div>
+                    <p>{result.username}</p>
+                    <p className={styles.status}>{result.status}</p>
+                  </div>
                   {isRequestPending && (
-                    <div>
+                    <div className={styles.buttonContainer}>
                       <button disabled>
                         <div>
                           <img
@@ -64,7 +67,7 @@ function SearchResultList({
                     </div>
                   )}
                   {!isRequestPending && (
-                    <div>
+                    <div className={styles.buttonContainer}>
                       <button onClick={() => sendRequest(result._id)}>
                         <div>
                           <img

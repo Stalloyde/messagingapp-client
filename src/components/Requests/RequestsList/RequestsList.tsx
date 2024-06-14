@@ -47,7 +47,10 @@ const RequestsList = ({
           <h2>Incoming Requests</h2>
           {contactsRequests.map((request, index) => (
             <div key={index} className={styles.requestContainer}>
-              <div>{request.username}</div>
+              <div>
+                <p>{request.username}</p>
+                <p className={styles.status}>{request.status}</p>
+              </div>
               <div className={styles.buttonContainer}>
                 <div>
                   <button

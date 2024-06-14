@@ -52,7 +52,10 @@ function ContactsList({ contacts, setContacts, contactsRequests, token }) {
           <h2>Contacts List</h2>
           {contacts.map((contact, index) => (
             <div key={index} className={styles.contactList}>
-              <div>{contact.username}</div>
+              <div>
+                <p>{contact.username}</p>
+                <p className={styles.status}>{contact.status}</p>
+              </div>
               <div className={styles.buttonContainer}>
                 <button onClick={() => deleteContact(contact._id)}>
                   <img
