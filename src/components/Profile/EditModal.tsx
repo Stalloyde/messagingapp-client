@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -7,22 +7,22 @@ import {
   TextField,
   Button,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 function EditModal({
+  token,
   currentUser,
-  isEditingStatus,
+  setCurrentUser,
   isUsernameStatus,
   setIsEditingStatus,
   setIsEditingUsername,
 }) {
   const [open, setOpen] = useState(true);
-  const [inputValue, setInputValue] = useState('');
-
-  useEffect(() => {
-    isEditingStatus
-      ? setInputValue(currentUser.status)
-      : setInputValue(currentUser.username);
-  }, []);
+  const [usernameInputValue, setUsernameInputValue] = useState(
+    currentUser.username,
+  );
+  const [statusInputValue, setStatusInputValue] = useState(currentUser.status);
+  const navigate = useNavigate();
 
   function handleClose() {
     setOpen(false);
@@ -30,11 +30,32 @@ function EditModal({
     setIsEditingUsername(false);
   }
 
-  function saveEdit() {
-    alert('saving');
-    setOpen(false);
-    setIsEditingStatus(false);
-    setIsEditingUsername(false);
+  async function saveEdit() {
+    try {
+      const headers: HeadersType = {
+        'Content-Type': 'application/json',
+      };
+
+      if (token) headers.Authorization = token;
+      const response = await fetch('http://localhost:3000/editProfile', {
+        headers,
+        method: 'PUT',
+        body: JSON.stringify({
+          newUsername: usernameInputValue,
+          newStatus: statusInputValue,
+        }),
+      });
+
+      if (response.statusText === 'Unauthorized') navigate('/login');
+      const responseData = await response.json();
+
+      setOpen(false);
+      setIsEditingStatus(false);
+      setIsEditingUsername(false);
+      setCurrentUser(responseData);
+    } catch (err) {
+      console.error(err.message);
+    }
   }
 
   return (
@@ -45,10 +66,6 @@ function EditModal({
         component: 'form',
         onSubmit: (e) => {
           e.preventDefault();
-          //   const formData = new FormData(e.currentTarget);
-          //   const formJson = Object.fromEntries(formData.entries());
-          //   const email = formJson.email;
-          //   console.log(email);
           saveEdit();
         },
       }}>
@@ -65,9 +82,9 @@ function EditModal({
             type='text'
             fullWidth
             variant='standard'
-            value={inputValue}
+            value={usernameInputValue}
             onChange={(e) => {
-              setInputValue(e.target.value);
+              setUsernameInputValue(e.target.value);
             }}
             sx={{
               '#username-label': {
@@ -86,9 +103,9 @@ function EditModal({
             type='text'
             fullWidth
             variant='standard'
-            value={inputValue}
+            value={statusInputValue}
             onChange={(e) => {
-              setInputValue(e.target.value);
+              setStatusInputValue(e.target.value);
             }}
             sx={{
               '#status-label': {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styles from './Profile.module.css';
 import editIcon from '../../assets/icons8-edit-50.png';
 import changeImageIcon from '../../assets/icons8-add-50.png';
@@ -7,7 +7,7 @@ import usernameIcon from '../../assets/icons8-username-32.png';
 import statusIcon from '../../assets/icons8-info-50.png';
 import EditModal from './EditModal';
 
-function Profile({ token, currentUser }) {
+function Profile({ token, currentUser, setCurrentUser }) {
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const [isEditingStatus, setIsEditingStatus] = useState(false);
 
@@ -28,8 +28,9 @@ function Profile({ token, currentUser }) {
           {(isEditingStatus && !isEditingUsername) ||
           (isEditingUsername && !isEditingStatus) ? (
             <EditModal
+              token={token}
               currentUser={currentUser}
-              isEditingStatus={isEditingStatus}
+              setCurrentUser={setCurrentUser}
               isUsernameStatus={isEditingUsername}
               setIsEditingStatus={setIsEditingStatus}
               setIsEditingUsername={setIsEditingUsername}

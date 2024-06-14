@@ -58,7 +58,13 @@ const App = () => {
         },
         {
           path: '/profile',
-          element: <Profile token={token} currentUser={currentUser} />,
+          element: (
+            <Profile
+              token={token}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          ),
         },
         {
           path: '/messages/:id',
