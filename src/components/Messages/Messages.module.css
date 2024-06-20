@@ -14,6 +14,10 @@
     cursor: pointer;
 }
 
+.container > ul > a > li > img {
+    height: 30px;
+}
+
 .previewMessage {
     white-space: nowrap;
     overflow: hidden;

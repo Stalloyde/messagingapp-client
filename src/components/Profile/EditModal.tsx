@@ -6,11 +6,12 @@ import {
   DialogActions,
   TextField,
   Button,
+  styled,
 } from '@mui/material';
+import styles from './Profile.module.css';
 import { useNavigate } from 'react-router-dom';
 
 type HeadersType = {
-  'Content-Type': string;
   Authorization?: string;
 };
 
@@ -23,7 +24,7 @@ type messageType = {
 type groupType = {
   _id: string;
   groupName: string;
-  profilePic?: string;
+  profilePic: { url: string };
   messages: messageType[];
 };
 
@@ -32,7 +33,7 @@ type responseType = {
   username: string;
   status: string;
   contacts: userPropType[];
-  profilePic: string;
+  profilePic: { url: string };
   messages: messageType[];
   contactsRequests: userPropType[];
   groups: groupType[];
@@ -43,7 +44,7 @@ type userPropType = {
   username: string;
   status: string;
   contacts: userPropType[];
-  profilePic: string;
+  profilePic: { url: string };
   messages: messageType[];
   contactsRequests: userPropType[];
   groups: groupType[];
@@ -55,28 +56,54 @@ type EditModalPropsType = {
   setCurrentUser: React.Dispatch<
     React.SetStateAction<userPropType | undefined>
   >;
-  isUsernameStatus: boolean;
+  isEditingUsername: boolean;
+  isEditingStatus: boolean;
+  isEditingPic: boolean;
   setIsEditingStatus: React.Dispatch<React.SetStateAction<boolean>>;
   setIsEditingUsername: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEditingPic: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function EditModal({
   token,
   currentUser,
   setCurrentUser,
-  isUsernameStatus,
+  isEditingStatus,
   setIsEditingStatus,
+  isEditingUsername,
   setIsEditingUsername,
+  isEditingPic,
+  setIsEditingPic,
 }: EditModalPropsType) {
   const [open, setOpen] = useState(true);
   const [usernameInputValue, setUsernameInputValue] = useState('');
   const [statusInputValue, setStatusInputValue] = useState('');
+  const [image, setImage] = useState<undefined | File>();
   const navigate = useNavigate();
+
+  const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
+
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImage(e.target.files[0]);
+    }
+  };
 
   function handleClose() {
     setOpen(false);
     setIsEditingStatus(false);
     setIsEditingUsername(false);
+    setIsEditingPic(false);
   }
 
   useEffect(() => {
@@ -87,19 +114,19 @@ function EditModal({
   }, []);
 
   async function saveEdit() {
+    const formData = new FormData();
+    formData.append('newUsername', usernameInputValue);
+    formData.append('newStatus', statusInputValue);
+    if (image) formData.append('newProfilePic', image);
+
     try {
-      const headers: HeadersType = {
-        'Content-Type': 'application/json',
-      };
+      const headers: HeadersType = {};
 
       if (token) headers.Authorization = token;
       const response = await fetch('http://localhost:3000/editProfile', {
         headers,
         method: 'PUT',
-        body: JSON.stringify({
-          newUsername: usernameInputValue,
-          newStatus: statusInputValue,
-        }),
+        body: formData,
       });
 
       if (response.statusText === 'Unauthorized') navigate('/login');
@@ -108,6 +135,7 @@ function EditModal({
       setOpen(false);
       setIsEditingStatus(false);
       setIsEditingUsername(false);
+      setIsEditingPic(false);
       setCurrentUser(responseData);
     } catch (err) {
       console.error(err.message);
@@ -127,7 +155,7 @@ function EditModal({
       }}>
       <DialogTitle>Edit Info</DialogTitle>
       <DialogContent>
-        {isUsernameStatus ? (
+        {isEditingUsername && (
           <TextField
             autoFocus
             required
@@ -148,7 +176,8 @@ function EditModal({
               },
             }}
           />
-        ) : (
+        )}
+        {isEditingStatus && (
           <TextField
             autoFocus
             required
@@ -169,6 +198,26 @@ function EditModal({
               },
             }}
           />
+        )}
+
+        {isEditingPic && (
+          <>
+            <Button component='label' variant='contained' tabIndex={-1}>
+              Upload Image
+              <VisuallyHiddenInput
+                type='file'
+                accept='image/png, image/jpeg, image/*'
+                onChange={handleImage}
+              />
+            </Button>
+            <p className={styles.uploaded}>
+              {image ? (
+                <>
+                  Uploaded: <em>{image.name} </em>
+                </>
+              ) : null}
+            </p>
+          </>
         )}
       </DialogContent>
 

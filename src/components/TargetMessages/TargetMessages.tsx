@@ -21,7 +21,7 @@ type messageType = {
 type groupType = {
   _id: string;
   groupName: string;
-  profilePic?: string;
+  profilePic: { url: string };
   messages: messageType[];
 };
 
@@ -30,7 +30,7 @@ type responseType = {
   username?: string;
   status?: string;
   contacts?: userPropType[];
-  profilePic: string;
+  profilePic: { url: string };
   messages: messageType[];
   contactsRequests?: userPropType[];
   groups?: groupType[];
@@ -43,7 +43,7 @@ type userPropType = {
   username: string;
   status: string;
   contacts: userPropType[];
-  profilePic: string;
+  profilePic: { url: string };
   messages: messageType[];
   contactsRequests: userPropType[];
   groups: groupType[];
@@ -62,6 +62,7 @@ function TargetMessages({
 }: TargetMessagesPropsType) {
   const [messages, setMessages] = useState<messageType[]>();
   const [username, setUsername] = useState<string>();
+  const [profilePic, setProfilePic] = useState('');
   const [groupName, setGroupName] = useState<string>('');
   const [groupParticipants, setGroupParticipants] = useState<userPropType[]>(
     [],
@@ -93,6 +94,8 @@ function TargetMessages({
 
         setMessages(responseData.messages);
         setUsername(responseData.username);
+        setProfilePic(responseData.profilePic);
+        setGroupName('');
 
         if (responseData.participants)
           setGroupParticipants(responseData.participants);
@@ -137,8 +140,8 @@ function TargetMessages({
       {!currentUser && <div className={styles.loadingMessage}>Loading...</div>}
       {currentUser && (
         <div className={styles.rightHeader}>
-          {currentUser.profilePic ? (
-            <div>{currentUser.profilePic}</div>
+          {profilePic ? (
+            <img src={profilePic} />
           ) : (
             <img
               src={defaultAvatar}

@@ -16,7 +16,7 @@ type messageType = {
 type groupType = {
   _id: string;
   groupName: string;
-  profilePic?: string;
+  profilePic: { url: string };
   messages: messageType[];
 };
 
@@ -25,7 +25,7 @@ type userPropType = {
   username: string;
   status: string;
   contacts: userPropType[];
-  profilePic: string;
+  profilePic: { url: string };
   messages: messageType[];
   contactsRequests: userPropType[];
   groups: groupType[];
@@ -40,10 +40,12 @@ type ProfilePropsType = {
 };
 
 function Profile({ token, currentUser, setCurrentUser }: ProfilePropsType) {
+  const [isEditingPic, setIsEditingPic] = useState(false);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const [isEditingStatus, setIsEditingStatus] = useState(false);
 
   function toggleIsEditing(target: string) {
+    if (target === 'picture') setIsEditingPic(!isEditingPic);
     if (target === 'username') setIsEditingUsername(!isEditingUsername);
     if (target === 'status') setIsEditingStatus(!isEditingStatus);
   }
@@ -57,15 +59,17 @@ function Profile({ token, currentUser, setCurrentUser }: ProfilePropsType) {
       {!currentUser && <div className={styles.loadingMessage}>Loading...</div>}
       {currentUser && (
         <div className={styles.container}>
-          {(isEditingStatus && !isEditingUsername) ||
-          (isEditingUsername && !isEditingStatus) ? (
+          {isEditingStatus || isEditingUsername || isEditingPic ? (
             <EditModal
               token={token}
               currentUser={currentUser}
               setCurrentUser={setCurrentUser}
-              isUsernameStatus={isEditingUsername}
+              isEditingStatus={isEditingStatus}
               setIsEditingStatus={setIsEditingStatus}
+              isEditingUsername={isEditingUsername}
               setIsEditingUsername={setIsEditingUsername}
+              isEditingPic={isEditingPic}
+              setIsEditingPic={setIsEditingPic}
             />
           ) : null}
 
@@ -78,7 +82,7 @@ function Profile({ token, currentUser, setCurrentUser }: ProfilePropsType) {
               />
             ) : (
               <img
-                src={currentUser.profilePic}
+                src={currentUser.profilePic.url}
                 alt='profile-pic'
                 className={styles.profilePic}
               />
@@ -88,6 +92,9 @@ function Profile({ token, currentUser, setCurrentUser }: ProfilePropsType) {
                 src={changeImageIcon}
                 alt='change-image'
                 className={styles.icons}
+                onClick={() => {
+                  toggleIsEditing('picture');
+                }}
               />
             </div>
           </div>

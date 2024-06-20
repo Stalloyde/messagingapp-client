@@ -16,7 +16,7 @@ type responseType = {
   username: string;
   status: string;
   contacts: userPropType[];
-  profilePic: string;
+  profilePic: { url: string };
   messages: messageType[];
   contactsRequests: userPropType[];
   groups: groupType[];
@@ -27,7 +27,7 @@ type userPropType = {
   username: string;
   status: string;
   contacts: userPropType[];
-  profilePic: string;
+  profilePic: { url: string };
   messages: messageType[];
   contactsRequests: userPropType[];
   groups: groupType[];
@@ -36,7 +36,7 @@ type userPropType = {
 type groupType = {
   _id?: string;
   groupName: string;
-  profilePic?: string;
+  profilePic: { url: string };
   messages: messageType[];
 };
 
@@ -91,7 +91,7 @@ function Messages({ token, contacts, contactsRequests }: MessagesPropsType) {
           <Link key={index} to={`/messages/${item._id ?? ''}`}>
             <li id={item._id}>
               {item.profilePic ? (
-                <img src={item.profilePic} alt='profile-pic' />
+                <img src={item.profilePic.url} alt='profile-pic' />
               ) : (
                 <img
                   src={defaultAvatar}
