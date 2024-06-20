@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ExitGroupModal from './ExitGroupModal/ExitGroupModal';
 import styles from './TargetMessages.module.css';
@@ -7,13 +7,66 @@ import addFileIcon from '../../assets/icons8-add-50.png';
 import addEmoticonIcon from '../../assets/icons8-happy-48.png';
 import defaultAvatar from '../../assets/icons8-avatar-50.png';
 
-function TargetMessages({ token, currentUser, setContacts }) {
-  const [messages, setMessages] = useState();
-  const [username, setUsername] = useState();
-  const [groupName, setGroupName] = useState('');
-  const [groupParticipants, setGroupParticipants] = useState([]);
-  const [profilePic, setProfilePic] = useState();
-  const [newMessage, setNewMessage] = useState('');
+type HeadersType = {
+  'Content-Type': string;
+  Authorization?: string;
+};
+
+type messageType = {
+  content: string;
+  from: userPropType | string;
+  to: userPropType | string;
+};
+
+type groupType = {
+  _id: string;
+  groupName: string;
+  profilePic?: string;
+  messages: messageType[];
+};
+
+type responseType = {
+  error?: string;
+  username?: string;
+  status?: string;
+  contacts?: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests?: userPropType[];
+  groups?: groupType[];
+  groupName?: string;
+  participants?: userPropType[];
+};
+
+type userPropType = {
+  _id?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type TargetMessagesPropsType = {
+  token?: string;
+  currentUser?: userPropType;
+  setContacts: React.Dispatch<React.SetStateAction<userPropType[]>>;
+};
+
+function TargetMessages({
+  token,
+  currentUser,
+  setContacts,
+}: TargetMessagesPropsType) {
+  const [messages, setMessages] = useState<messageType[]>();
+  const [username, setUsername] = useState<string>();
+  const [groupName, setGroupName] = useState<string>('');
+  const [groupParticipants, setGroupParticipants] = useState<userPropType[]>(
+    [],
+  );
+  const [newMessage, setNewMessage] = useState<string>('');
   const [isExitingGroup, setIsExitingGroup] = useState(false);
 
   const targetMessagesId = useParams().id;
@@ -33,23 +86,26 @@ function TargetMessages({ token, currentUser, setContacts }) {
             headers,
           },
         );
-        if (response.statusText === 'Unauthorized') navigate('/login');
 
-        const responseData = await response.json();
+        if (response.statusText === 'Unauthorized') navigate('/login');
+        const responseData = (await response.json()) as responseType;
         if (responseData.error) navigate('/login');
+
         setMessages(responseData.messages);
-        setProfilePic(responseData.profilePic);
         setUsername(responseData.username);
-        setGroupParticipants(responseData.participants);
-        setGroupName(responseData.groupName);
-      } catch (err) {
+
+        if (responseData.participants)
+          setGroupParticipants(responseData.participants);
+        if (responseData.groupName) setGroupName(responseData.groupName);
+      } catch (err: unknown) {
         console.log(err.message);
       }
     }
-    getTargetMessages();
+    void getTargetMessages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetMessagesId]);
 
-  async function sendNewMessage(e) {
+  async function sendNewMessage(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     try {
@@ -68,10 +124,10 @@ function TargetMessages({ token, currentUser, setContacts }) {
       );
       if (response.statusText === 'Unauthorized') navigate('/login');
 
-      const responseData = await response.json();
+      const responseData = (await response.json()) as responseType;
       if (responseData.error) navigate('/login');
       setNewMessage('');
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(err);
     }
   }
@@ -91,7 +147,7 @@ function TargetMessages({ token, currentUser, setContacts }) {
             />
           )}
           {username && <strong>{username}</strong>}
-          {groupName && groupParticipants && (
+          {groupName && groupParticipants.length > 0 && (
             <>
               <strong>{groupName}</strong>
               <div className={styles.groupContainer}>
@@ -122,7 +178,7 @@ function TargetMessages({ token, currentUser, setContacts }) {
 
           {messages &&
             !groupName &&
-            !groupParticipants &&
+            groupParticipants.length < 1 &&
             messages.map((message, index) =>
               message.from === currentUser._id ? (
                 <div key={index} className={styles.incomingContainer}>
@@ -139,9 +195,10 @@ function TargetMessages({ token, currentUser, setContacts }) {
 
           {messages &&
             groupName &&
-            groupParticipants &&
+            groupParticipants.length > 0 &&
             messages.map((message, index) =>
-              message.from === currentUser._id ? (
+              typeof message.from === 'object' &&
+              message.from._id === currentUser._id ? (
                 <div key={index} className={styles.incomingContainer}>
                   <>
                     <h3>{message.from.username}</h3>
@@ -151,7 +208,9 @@ function TargetMessages({ token, currentUser, setContacts }) {
               ) : (
                 <div key={index} className={styles.outgoingContainer}>
                   <div className={styles.outgoingMessage}>
-                    <h3>{message.from.username}</h3>
+                    {typeof message.from === 'object' && (
+                      <h3>{message.from.username}</h3>
+                    )}
                     {message.content}
                   </div>
                 </div>
@@ -163,6 +222,7 @@ function TargetMessages({ token, currentUser, setContacts }) {
       <div className={styles.inputContainer}>
         <img src={addEmoticonIcon} alt='add-emoticon' />
         <img src={addFileIcon} alt='add-file' />
+        {/*eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form method='POST' onSubmit={sendNewMessage}>
           <input
             type='text'

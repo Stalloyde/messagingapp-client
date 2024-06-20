@@ -1,14 +1,56 @@
+import { useNavigate } from 'react-router-dom';
 import styles from './SearchResultList.module.css';
 import addContactIcon from '../../../assets/icons8-add-contact-24.png';
+
+type HeadersType = {
+  'Content-Type': string;
+  Authorization?: string;
+};
+
+type messageType = {
+  content: string;
+  from: userPropType | string;
+  to: userPropType | string;
+};
+
+type groupType = {
+  _id: string;
+  groupName: string;
+  profilePic?: string;
+  messages: messageType[];
+};
+
+type userPropType = {
+  _id?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[] | string[];
+  groups: groupType[];
+};
+
+type RequestsPropsType = {
+  username?: string;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
+  searchResult: userPropType[];
+  searchResultError: string | null;
+  currentUser?: userPropType;
+  token?: string;
+};
 
 function SearchResultList({
   username,
   setUsername,
   searchResult,
+  searchResultError,
   currentUser,
   token,
-}) {
-  async function sendRequest(id) {
+}: RequestsPropsType) {
+  const navigate = useNavigate();
+
+  async function sendRequest(id: string) {
     try {
       const headers: HeadersType = {
         'Content-Type': 'application/json',
@@ -23,30 +65,31 @@ function SearchResultList({
       });
 
       if (response.statusText === 'Unauthorized') navigate('/login');
-      const responseData = await response.json();
-      if (responseData) setUsername('');
-    } catch (err) {
+      setUsername('');
+    } catch (err: unknown) {
       console.log(err.message);
     }
   }
 
   return (
     <>
-      {searchResult.usernameError && username && (
+      {searchResultError && username && (
         <div className={styles.listContainer}>
           <h2>Search Results</h2>
           <div>Username not found</div>
         </div>
       )}
 
-      {searchResult.length > 0 && (
+      {currentUser && searchResult.length > 0 && (
         <div className={styles.listContainer}>
           <h2>Search Results</h2>
           <ul>
             {searchResult.map((result, index) => {
-              const isRequestPending = result.contactsRequests.includes(
-                currentUser._id,
-              );
+              const isRequestPending = currentUser._id
+                ? (result.contactsRequests as string[]).includes(
+                    currentUser._id,
+                  )
+                : false;
 
               return (
                 <li key={index} className={styles.searchResult}>
@@ -68,7 +111,10 @@ function SearchResultList({
                   )}
                   {!isRequestPending && (
                     <div className={styles.buttonContainer}>
-                      <button onClick={() => sendRequest(result._id)}>
+                      <button
+                        onClick={() => {
+                          if (result._id) void sendRequest(result._id);
+                        }}>
                         <div>
                           <img
                             className={styles.icon}

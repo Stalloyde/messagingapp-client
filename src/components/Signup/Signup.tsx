@@ -1,16 +1,46 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Signup.module.css';
 import signUpImage from '../../assets/pexels-ds-stories-6991386.jpg';
 
+type messageType = {
+  content: string;
+  from: userType | string;
+  to: userType | string;
+};
+
+type groupType = {
+  _id: string;
+  groupName: string;
+  profilePic?: string;
+  messages: messageType[];
+};
+
+type responseType = {
+  usernameError?: string;
+  passwordError?: string;
+  confirmPasswordError?: string;
+};
+
+type userType = {
+  _id?: string;
+  username: string;
+  status: string;
+  contacts: userType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userType[];
+  groups: groupType[];
+};
+
 function Signup() {
-  const [signUpError, setSignUpError] = useState([]);
+  const [signUpError, setSignUpError] = useState<responseType>({});
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
 
-  async function handleSignup(e) {
+  async function handleSignup(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     try {
@@ -23,7 +53,7 @@ function Signup() {
         body: JSON.stringify({ username, password, confirmPassword }),
       });
 
-      const responseData = await response.json();
+      const responseData = (await response.json()) as responseType;
 
       if (
         responseData.usernameError ||
@@ -37,10 +67,10 @@ function Signup() {
         setUsername('');
         setPassword('');
         setConfirmPassword('');
-        setSignUpError([]);
+        setSignUpError({});
         navigate('/');
       }
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(err.message);
     }
   }
@@ -58,6 +88,7 @@ function Signup() {
             </p>
           </div>
 
+          {/*eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <form action='post' onSubmit={handleSignup}>
             <div>
               <label htmlFor='username'>Username: </label>

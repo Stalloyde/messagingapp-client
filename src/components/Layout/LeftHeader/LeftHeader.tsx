@@ -5,8 +5,62 @@ import addUserIcon from '../../../assets/icons8-add-user-24.png';
 import groupIcon from '../../../assets/icons8-group-24.png';
 import defaultAvatar from '../../../assets/icons8-avatar-50.png';
 
-function LeftHeader({ token, currentUser, setCurrentUser, contactsRequests }) {
-  const [requestsCount, setRequestCount] = useState();
+type HeadersType = {
+  'Content-Type': string;
+  Authorization?: string;
+};
+
+type messageType = {
+  content: string;
+  from: userPropType | string;
+  to: userPropType | string;
+};
+
+type groupType = {
+  _id: string;
+  groupName: string;
+  profilePic?: string;
+  messages: messageType[];
+};
+
+type responseType = {
+  error?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type userPropType = {
+  id?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type LeftHeaderPropsType = {
+  token?: string;
+  currentUser?: userPropType;
+  setCurrentUser: React.Dispatch<
+    React.SetStateAction<userPropType | undefined>
+  >;
+  contactsRequests: object[];
+};
+
+function LeftHeader({
+  token,
+  currentUser,
+  setCurrentUser,
+  contactsRequests,
+}: LeftHeaderPropsType) {
+  const [requestsCount, setRequestCount] = useState<number>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,22 +75,22 @@ function LeftHeader({ token, currentUser, setCurrentUser, contactsRequests }) {
 
         if (response.statusText === 'Unauthorized') navigate('/login');
 
-        const responseData = await response.json();
+        const responseData = (await response.json()) as responseType;
         if (responseData.error) navigate('/login');
         setCurrentUser(responseData);
 
         const { contactsRequests } = responseData;
         setRequestCount(contactsRequests.length);
-      } catch (err) {
+      } catch (err: unknown) {
         console.log(err.message);
       }
     }
-    getCurrentUserRequests();
+    void getCurrentUserRequests();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contactsRequests]);
 
   return (
     <div className={styles.container}>
-      {!currentUser && <div className={styles.loadingMessage}>Loading...</div>}
       {currentUser && (
         <>
           <Link to='/profile' className={styles.userContainer}>
@@ -57,7 +111,7 @@ function LeftHeader({ token, currentUser, setCurrentUser, contactsRequests }) {
             </Link>
           </div>
           <div className={styles.icon}>
-            {requestsCount > 0 && <p>{requestsCount}</p>}
+            {requestsCount && requestsCount > 0 ? <p>{requestsCount}</p> : null}
             <Link to='/requests'>
               <img src={addUserIcon} alt='add-user' />
             </Link>

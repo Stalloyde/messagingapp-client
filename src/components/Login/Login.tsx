@@ -1,11 +1,28 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import styles from './Login.module.css';
 import loginImage from '../../assets/speech-bubble.jpg';
 
-function Login({ setToken }) {
-  const [loginError, setLoginError] = useState({});
+type loginErrorType = {
+  usernameError?: string;
+  passwordError?: string;
+};
+
+type responseType = {
+  usernameError?: string;
+  passwordError?: string;
+  username?: string;
+  Bearer?: string;
+};
+
+type LoginPropsType = {
+  token?: string;
+  setToken: React.Dispatch<React.SetStateAction<string | undefined>>;
+};
+
+function Login({ setToken }: LoginPropsType) {
+  const [loginError, setLoginError] = useState<loginErrorType>({});
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -16,10 +33,12 @@ function Login({ setToken }) {
       expires: oneHour,
       secure: true,
     });
-    setToken(Cookies.get('token'));
+
+    const cookie = Cookies.get('token');
+    if (cookie) setToken(cookie);
   };
 
-  async function handleLogin(e) {
+  async function handleLogin(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     try {
@@ -32,19 +51,21 @@ function Login({ setToken }) {
         body: JSON.stringify({ username, password }),
       });
 
-      const responseData = await response.json();
+      const responseData = (await response.json()) as responseType;
 
-      if (!responseData.user && !responseData.Bearer) {
+      console.log(responseData);
+      if (!responseData.username && !responseData.Bearer) {
         setLoginError(responseData);
         setPassword('');
       } else {
         setUsername('');
         setPassword('');
         setLoginError({});
-        handleToken(responseData.Bearer);
+        const bearerToken = responseData.Bearer;
+        if (bearerToken) handleToken(bearerToken);
         navigate('/');
       }
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(err.message);
     }
   }
@@ -59,6 +80,7 @@ function Login({ setToken }) {
             Don&apos;t have an account? <Link to='/signup'>Sign Up</Link>
           </p>
         </div>
+        {/*eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form method='post' onSubmit={handleLogin} action='/'>
           <div>
             <label htmlFor='username'>Username: </label>
@@ -88,11 +110,9 @@ function Login({ setToken }) {
             />
           </div>
           <button>Log In</button>
-          {loginError && (
-            <div className={styles.errorMessage}>
-              {loginError.usernameError} {loginError.passwordError}
-            </div>
-          )}
+          <div className={styles.errorMessage}>
+            {loginError.usernameError} {loginError.passwordError}
+          </div>
         </form>
       </div>
     </>

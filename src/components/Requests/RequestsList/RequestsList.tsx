@@ -1,6 +1,58 @@
+import { useNavigate } from 'react-router-dom';
 import acceptRequestIcon from '../../../assets/icons8-checked-user-24.png';
 import rejectRequestIcon from '../../../assets/icons8-unfriend-50.png';
 import styles from './RequestsList.module.css';
+
+type HeadersType = {
+  'Content-Type': string;
+  Authorization?: string;
+};
+
+type messageType = {
+  content: string;
+  from: userPropType | string;
+  to: userPropType | string;
+};
+
+type groupType = {
+  _id: string;
+  groupName: string;
+  profilePic?: string;
+  messages: messageType[];
+};
+
+type responseType = {
+  length?: number;
+  usernameError?: string;
+  error?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type userPropType = {
+  length?: number;
+  _id?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type RequestsListPropsType = {
+  contactsRequests: userPropType[];
+  setContactsRequests: React.Dispatch<React.SetStateAction<userPropType[]>>;
+  searchResult: userPropType[];
+  username?: string;
+  token?: string;
+};
 
 const RequestsList = ({
   contactsRequests,
@@ -8,11 +60,12 @@ const RequestsList = ({
   searchResult,
   username,
   token,
-}) => {
+}: RequestsListPropsType) => {
   const noSearchResults = searchResult.length === 0;
   const hasContactRequests = contactsRequests.length > 0;
+  const navigate = useNavigate();
 
-  async function handleRequest(id, action) {
+  async function handleRequest(id: string, action: string) {
     try {
       const headers: HeadersType = {
         'Content-Type': 'application/json',
@@ -27,9 +80,9 @@ const RequestsList = ({
       });
 
       if (response.statusText === 'Unauthorized') navigate('/login');
-      const responseData = await response.json();
-      if (responseData) setContactsRequests(responseData);
-    } catch (err) {
+      const responseData = (await response.json()) as responseType;
+      setContactsRequests(responseData.contactsRequests);
+    } catch (err: unknown) {
       console.log(err.message);
     }
   }
@@ -56,7 +109,8 @@ const RequestsList = ({
                   <button
                     className={styles.approve}
                     onClick={() => {
-                      handleRequest(request._id, 'approve');
+                      if (request._id)
+                        void handleRequest(request._id, 'approve');
                     }}>
                     <img
                       src={acceptRequestIcon}
@@ -69,7 +123,8 @@ const RequestsList = ({
                   <button
                     className={styles.reject}
                     onClick={() => {
-                      handleRequest(request._id, 'reject');
+                      if (request._id)
+                        void handleRequest(request._id, 'reject');
                     }}>
                     <img
                       src={rejectRequestIcon}

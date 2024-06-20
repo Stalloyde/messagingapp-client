@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -9,6 +9,57 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
+type HeadersType = {
+  'Content-Type': string;
+  Authorization?: string;
+};
+
+type messageType = {
+  content: string;
+  from: userPropType | string;
+  to: userPropType | string;
+};
+
+type groupType = {
+  _id: string;
+  groupName: string;
+  profilePic?: string;
+  messages: messageType[];
+};
+
+type responseType = {
+  error?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type userPropType = {
+  id?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type EditModalPropsType = {
+  token?: string;
+  currentUser?: userPropType;
+  setCurrentUser: React.Dispatch<
+    React.SetStateAction<userPropType | undefined>
+  >;
+  isUsernameStatus: boolean;
+  setIsEditingStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEditingUsername: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 function EditModal({
   token,
   currentUser,
@@ -16,12 +67,10 @@ function EditModal({
   isUsernameStatus,
   setIsEditingStatus,
   setIsEditingUsername,
-}) {
+}: EditModalPropsType) {
   const [open, setOpen] = useState(true);
-  const [usernameInputValue, setUsernameInputValue] = useState(
-    currentUser.username,
-  );
-  const [statusInputValue, setStatusInputValue] = useState(currentUser.status);
+  const [usernameInputValue, setUsernameInputValue] = useState('');
+  const [statusInputValue, setStatusInputValue] = useState('');
   const navigate = useNavigate();
 
   function handleClose() {
@@ -29,6 +78,13 @@ function EditModal({
     setIsEditingStatus(false);
     setIsEditingUsername(false);
   }
+
+  useEffect(() => {
+    if (currentUser) {
+      setUsernameInputValue(currentUser.username);
+      setStatusInputValue(currentUser.status);
+    }
+  }, []);
 
   async function saveEdit() {
     try {
@@ -47,7 +103,7 @@ function EditModal({
       });
 
       if (response.statusText === 'Unauthorized') navigate('/login');
-      const responseData = await response.json();
+      const responseData = (await response.json()) as responseType;
 
       setOpen(false);
       setIsEditingStatus(false);
@@ -64,9 +120,9 @@ function EditModal({
       onClose={handleClose}
       PaperProps={{
         component: 'form',
-        onSubmit: (e) => {
+        onSubmit: (e: FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-          saveEdit();
+          void saveEdit();
         },
       }}>
       <DialogTitle>Edit Info</DialogTitle>

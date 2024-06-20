@@ -7,11 +7,43 @@ import usernameIcon from '../../assets/icons8-username-32.png';
 import statusIcon from '../../assets/icons8-info-50.png';
 import EditModal from './EditModal';
 
-function Profile({ token, currentUser, setCurrentUser }) {
+type messageType = {
+  content: string;
+  from: userPropType | string;
+  to: userPropType | string;
+};
+
+type groupType = {
+  _id: string;
+  groupName: string;
+  profilePic?: string;
+  messages: messageType[];
+};
+
+type userPropType = {
+  id?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type ProfilePropsType = {
+  token?: string;
+  currentUser?: userPropType;
+  setCurrentUser: React.Dispatch<
+    React.SetStateAction<userPropType | undefined>
+  >;
+};
+
+function Profile({ token, currentUser, setCurrentUser }: ProfilePropsType) {
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const [isEditingStatus, setIsEditingStatus] = useState(false);
 
-  function toggleIsEditing(target) {
+  function toggleIsEditing(target: string) {
     if (target === 'username') setIsEditingUsername(!isEditingUsername);
     if (target === 'status') setIsEditingStatus(!isEditingStatus);
   }

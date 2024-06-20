@@ -1,11 +1,67 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import deleteContactIcon from '../../../assets/icons8-delete-50.png';
 import styles from './ContactsList.module.css';
 import DeleteContactModal from './DeleteContactModal/DeleteContactModal';
 
-function ContactsList({ contacts, setContacts, contactsRequests, token }) {
+type HeadersType = {
+  'Content-Type': string;
+  Authorization?: string;
+};
+
+type messageType = {
+  content: string;
+  from: userPropType | string;
+  to: userPropType | string;
+};
+
+type groupType = {
+  _id: string;
+  groupName: string;
+  profilePic?: string;
+  messages: messageType[];
+};
+
+type responseType = {
+  length?: number;
+  usernameError?: string;
+  error?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type userPropType = {
+  _id?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type ContactsListPropsType = {
+  token?: string;
+  contacts: userPropType[];
+  setContacts: React.Dispatch<React.SetStateAction<userPropType[]>>;
+  contactsRequests: userPropType[];
+};
+
+function ContactsList({
+  contacts,
+  setContacts,
+  contactsRequests,
+  token,
+}: ContactsListPropsType) {
   const [isDeletingContact, setIsDeletingContact] = useState(false);
   const [toDeleteId, setToDeleteId] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getContactsToRender() {
@@ -19,17 +75,18 @@ function ContactsList({ contacts, setContacts, contactsRequests, token }) {
 
         if (response.statusText === 'Unauthorized') navigate('/login');
 
-        const responseData = await response.json();
+        const responseData = (await response.json()) as responseType;
         if (responseData.error) navigate('/login');
         setContacts(responseData.contacts);
-      } catch (err) {
+      } catch (err: unknown) {
         console.log(err.message);
       }
     }
-    getContactsToRender();
+    void getContactsToRender();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contactsRequests]);
 
-  function handleClick(id) {
+  function handleClick(id: string) {
     setIsDeletingContact(true);
     setToDeleteId(id);
   }
@@ -58,8 +115,8 @@ function ContactsList({ contacts, setContacts, contactsRequests, token }) {
               <div className={styles.buttonContainer}>
                 <button
                   id={contact._id}
-                  onClick={(e) => {
-                    handleClick(e.target.id);
+                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                    handleClick(e.currentTarget.id);
                   }}>
                   <img
                     className={styles.icon}

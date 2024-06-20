@@ -1,8 +1,59 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './DeleteContactModal.module.css';
 import { Dialog } from '@mui/material';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+
+type HeadersType = {
+  'Content-Type': string;
+  Authorization?: string;
+};
+
+type messageType = {
+  content: string;
+  from: userPropType | string;
+  to: userPropType | string;
+};
+
+type groupType = {
+  _id: string;
+  groupName: string;
+  profilePic?: string;
+  messages: messageType[];
+};
+
+type userPropType = {
+  _id?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type responseType = {
+  length?: number;
+  usernameError?: string;
+  error?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type DeleteContactModalPropsType = {
+  setIsDeletingContact: React.Dispatch<React.SetStateAction<boolean>>;
+  setContacts: React.Dispatch<React.SetStateAction<userPropType[]>>;
+  token?: string;
+  toDeleteId: string;
+  setToDeleteId: React.Dispatch<React.SetStateAction<string>>;
+};
 
 function DeleteContactModal({
   setIsDeletingContact,
@@ -10,8 +61,9 @@ function DeleteContactModal({
   token,
   toDeleteId,
   setToDeleteId,
-}) {
+}: DeleteContactModalPropsType) {
   const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
 
   async function deleteContact() {
     try {
@@ -29,11 +81,11 @@ function DeleteContactModal({
       );
 
       if (response.statusText === 'Unauthorized') navigate('/login');
-      const responseData = await response.json();
-      setContacts(responseData);
+      const responseData = (await response.json()) as responseType;
+      setContacts(responseData.contacts);
       setToDeleteId('');
       handleClose();
-    } catch (err) {
+    } catch (err: unknown) {
       console.log(err.message);
     }
   }
@@ -53,6 +105,7 @@ function DeleteContactModal({
 
           <div className={styles.buttonContainer}>
             <button onClick={handleClose}>Cancel</button>
+            {/*eslint-disable-next-line @typescript-eslint/no-misused-promises */}
             <button className={styles.yes} onClick={deleteContact}>
               Yes
             </button>

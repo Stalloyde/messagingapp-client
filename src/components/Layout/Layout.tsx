@@ -1,11 +1,40 @@
 import Messages from '../Messages/Messages';
 import LeftHeader from './LeftHeader/LeftHeader';
-
 import { Outlet } from 'react-router-dom';
 import styles from './Layout.module.css';
 
-type LayoutProps = {
-  token: string;
+type messageType = {
+  content: string;
+  from: userPropType | string;
+  to: userPropType | string;
+};
+
+type groupType = {
+  _id: string;
+  groupName: string;
+  profilePic?: string;
+  messages: messageType[];
+};
+
+type userPropType = {
+  id?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type LayoutPropsType = {
+  token?: string;
+  currentUser?: userPropType;
+  setCurrentUser: React.Dispatch<
+    React.SetStateAction<userPropType | undefined>
+  >;
+  contacts: userPropType[];
+  contactsRequests: userPropType[];
 };
 
 function Layout({
@@ -14,7 +43,7 @@ function Layout({
   setCurrentUser,
   contacts,
   contactsRequests,
-}: LayoutProps) {
+}: LayoutPropsType) {
   return (
     <>
       <div className={styles.left}>

@@ -1,10 +1,58 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Group.module.css';
 
-function Group({ token, contacts, setContacts }) {
-  const [checkedUsers, setCheckedUsers] = useState([]);
+type HeadersType = {
+  'Content-Type': string;
+  Authorization?: string;
+};
+
+type messageType = {
+  content: string;
+  from: userPropType | string;
+  to: userPropType | string;
+};
+
+type groupType = {
+  _id: string;
+  groupName: string;
+  profilePic?: string;
+  messages: messageType[];
+};
+
+type responseType = {
+  error?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type userPropType = {
+  id?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type GroupPropsType = {
+  token?: string;
+  contacts: userPropType[];
+  setContacts: React.Dispatch<React.SetStateAction<userPropType[]>>;
+};
+
+function Group({ token, contacts, setContacts }: GroupPropsType) {
+  const [checkedUsers, setCheckedUsers] = useState<string[]>([]);
   const [groupName, setGroupName] = useState('');
   const [createGroupError, setCreateGroupError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getContactsToRender() {
@@ -18,17 +66,18 @@ function Group({ token, contacts, setContacts }) {
 
         if (response.statusText === 'Unauthorized') navigate('/login');
 
-        const responseData = await response.json();
+        const responseData = (await response.json()) as responseType;
         if (responseData.error) navigate('/login');
         setContacts(responseData.contacts);
-      } catch (err) {
+      } catch (err: unknown) {
         console.log(err.message);
       }
     }
-    getContactsToRender();
+    void getContactsToRender();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function markCheckbox(value) {
+  function markCheckbox(value: string) {
     if (!checkedUsers.includes(value)) {
       setCheckedUsers([...checkedUsers, value]);
     } else {
@@ -36,7 +85,7 @@ function Group({ token, contacts, setContacts }) {
     }
   }
 
-  async function createNewGroup(e) {
+  async function createNewGroup(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (checkedUsers.length > 1) {
       try {
@@ -51,11 +100,11 @@ function Group({ token, contacts, setContacts }) {
         });
 
         if (response.statusText === 'Unauthorized') navigate('/login');
-        const responseData = await response.json();
+        const responseData = (await response.json()) as responseType;
         setContacts([...responseData.contacts]);
         setCheckedUsers([]);
         setGroupName('');
-      } catch (err) {
+      } catch (err: unknown) {
         console.log(err.message);
       }
     } else {
@@ -70,6 +119,7 @@ function Group({ token, contacts, setContacts }) {
       </div>
       <div className={styles.container}>
         <h2>Select Group Participants</h2>
+        {/*eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form method='post' onSubmit={createNewGroup}>
           {createGroupError && (
             <div className={styles.errorMessage}>{createGroupError}</div>
@@ -77,11 +127,11 @@ function Group({ token, contacts, setContacts }) {
           <div className={styles.contactListContainer}>
             {contacts.map((contact, index) => (
               <div key={index}>
-                <label htmlFor={index}>
+                <label htmlFor={contact.id}>
                   {contact.username}
                   <input
                     type='checkbox'
-                    id={index}
+                    id={contact.id}
                     value={contact.username}
                     checked={checkedUsers.includes(contact.username)}
                     onChange={(e) => {

@@ -16,12 +16,35 @@ import Index from './components/Index/Index';
 import TargetMessages from './components/TargetMessages/TargetMessages';
 import Cookies from 'js-cookie';
 
+type messageType = {
+  content: string;
+  from: userType | string;
+  to: userType | string;
+};
+
+type groupType = {
+  _id: string;
+  groupName: string;
+  profilePic?: string;
+  messages: messageType[];
+};
+
+type userType = {
+  username: string;
+  status: string;
+  contacts: userType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userType[];
+  groups: groupType[];
+};
+
 const App = () => {
   const jwtToken: string | undefined = Cookies.get('token');
   const [token, setToken] = useState(jwtToken);
-  const [currentUser, setCurrentUser] = useState();
-  const [contacts, setContacts] = useState([]);
-  const [contactsRequests, setContactsRequests] = useState([]);
+  const [currentUser, setCurrentUser] = useState<userType>();
+  const [contacts, setContacts] = useState<userType[]>([]);
+  const [contactsRequests, setContactsRequests] = useState<userType[]>([]);
 
   const router = createBrowserRouter([
     {

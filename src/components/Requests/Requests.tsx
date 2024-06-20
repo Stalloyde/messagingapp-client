@@ -5,6 +5,60 @@ import SearchResultList from './SearchResultList/SearchResultList';
 import ContactList from './ContactsList/ContactsList';
 import styles from './Requests.module.css';
 
+type HeadersType = {
+  'Content-Type': string;
+  Authorization?: string;
+};
+
+type messageType = {
+  content: string;
+  from: userPropType | string;
+  to: userPropType | string;
+};
+
+type groupType = {
+  _id: string;
+  groupName: string;
+  profilePic?: string;
+  messages: messageType[];
+};
+
+type responseType = {
+  length?: number;
+  usernameError?: string;
+  error?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type userPropType = {
+  _id?: string;
+  username: string;
+  status: string;
+  contacts: userPropType[];
+  profilePic: string;
+  messages: messageType[];
+  contactsRequests: userPropType[];
+  groups: groupType[];
+};
+
+type RequestsPropsType = {
+  token?: string;
+  currentUser?: userPropType;
+  setCurrentUser: React.Dispatch<
+    React.SetStateAction<userPropType | undefined>
+  >;
+  contacts: userPropType[];
+  setContacts: React.Dispatch<React.SetStateAction<userPropType[]>>;
+  contactsRequests: userPropType[];
+  setContactsRequests: React.Dispatch<React.SetStateAction<userPropType[]>>;
+};
+
 function Requests({
   token,
   currentUser,
@@ -13,12 +67,13 @@ function Requests({
   setContacts,
   contactsRequests,
   setContactsRequests,
-}) {
+}: RequestsPropsType) {
   const [username, setUsername] = useState('');
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchResult, setSearchResult] = useState<userPropType[]>([]);
+  const [searchResultError, setSearchResultError] = useState<string | null>('');
   const navigate = useNavigate();
 
-  function preventSubmit(e) {
+  function preventSubmit(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') e.preventDefault();
   }
 
@@ -35,17 +90,18 @@ function Requests({
         });
 
         if (response.statusText === 'Unauthorized') navigate('/login');
-        const responseData = await response.json();
+        const responseData = (await response.json()) as responseType;
 
         if (responseData.error) navigate('/login');
         setContactsRequests(responseData.contactsRequests);
         setCurrentUser(responseData);
         setContacts(responseData.contacts);
-      } catch (err) {
+      } catch (err: unknown) {
         console.log(err.message);
       }
     }
-    getRequests();
+    void getRequests();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   useEffect(() => {
@@ -64,18 +120,24 @@ function Requests({
         });
 
         if (response.statusText === 'Unauthorized') navigate('/login');
-        const responseData = await response.json();
+        const responseData = (await response.json()) as responseType;
 
-        if (responseData.length > 0 || responseData.usernameError) {
+        if (Array.isArray(responseData)) {
           setSearchResult(responseData);
+          setSearchResultError(null);
+        } else if (responseData.usernameError) {
+          setSearchResult([]);
+          setSearchResultError(responseData.usernameError);
         } else {
           setSearchResult([]);
+          setSearchResultError(null);
         }
-      } catch (err) {
+      } catch (err: unknown) {
         console.log(err.message);
       }
     }
-    searchUsername();
+    void searchUsername();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username]);
 
   return (
@@ -116,6 +178,7 @@ function Requests({
             username={username}
             setUsername={setUsername}
             searchResult={searchResult}
+            searchResultError={searchResultError}
             currentUser={currentUser}
             token={token}
           />
