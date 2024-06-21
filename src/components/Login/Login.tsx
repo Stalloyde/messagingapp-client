@@ -53,7 +53,6 @@ function Login({ setToken }: LoginPropsType) {
 
       const responseData = (await response.json()) as responseType;
 
-      console.log(responseData);
       if (!responseData.username && !responseData.Bearer) {
         setLoginError(responseData);
         setPassword('');
