@@ -62,7 +62,7 @@ function TargetMessages({
 }: TargetMessagesPropsType) {
   const [messages, setMessages] = useState<messageType[]>();
   const [username, setUsername] = useState<string>();
-  const [profilePic, setProfilePic] = useState('');
+  const [profilePic, setProfilePic] = useState<{ url: string }>();
   const [groupName, setGroupName] = useState<string>('');
   const [groupParticipants, setGroupParticipants] = useState<userPropType[]>(
     [],
@@ -72,6 +72,21 @@ function TargetMessages({
 
   const targetMessagesId = useParams().id;
   const navigate = useNavigate();
+
+  function renderSingleContactMessages(responseData: responseType) {
+    setMessages(responseData.messages);
+    setUsername(responseData.username);
+    setProfilePic(responseData.profilePic);
+    setGroupName('');
+    setGroupParticipants([]);
+  }
+
+  function renderGroupMessages(responseData: responseType) {
+    if (responseData.participants && responseData.groupName) {
+      setGroupParticipants(responseData.participants);
+      setGroupName(responseData.groupName);
+    }
+  }
 
   useEffect(() => {
     async function getTargetMessages() {
@@ -92,14 +107,8 @@ function TargetMessages({
         const responseData = (await response.json()) as responseType;
         if (responseData.error) navigate('/login');
 
-        setMessages(responseData.messages);
-        setUsername(responseData.username);
-        setProfilePic(responseData.profilePic);
-        setGroupName('');
-
-        if (responseData.participants)
-          setGroupParticipants(responseData.participants);
-        if (responseData.groupName) setGroupName(responseData.groupName);
+        renderSingleContactMessages(responseData);
+        renderGroupMessages(responseData);
       } catch (err: unknown) {
         console.log(err.message);
       }
