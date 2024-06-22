@@ -132,7 +132,7 @@ function TargetMessages({
   }, [targetMessagesId]);
 
   useEffect(() => {
-    socket.on('receiveMessage', (data) => {
+    socket.on('receiveMessage', () => {
       void getTargetMessages();
     });
   }, [socket]);
