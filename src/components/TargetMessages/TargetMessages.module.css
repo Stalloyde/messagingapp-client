@@ -27,10 +27,11 @@
     padding: 5px;
 }
 
-  .messagesContainer {
+.messagesContainer {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    flex-direction: column-reverse;
+    overflow-y: scroll;
+    height: 730px;
     padding: 1em;
 }
 

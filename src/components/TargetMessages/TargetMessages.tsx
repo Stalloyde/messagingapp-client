@@ -6,6 +6,8 @@ import sendIcon from '../../assets/icons8-send-24.png';
 import addFileIcon from '../../assets/icons8-add-50.png';
 import addEmoticonIcon from '../../assets/icons8-happy-48.png';
 import defaultAvatar from '../../assets/icons8-avatar-50.png';
+import io from 'socket.io-client';
+const socket = io.connect('http://localhost:3000');
 
 type HeadersType = {
   'Content-Type': string;
@@ -88,37 +90,60 @@ function TargetMessages({
     }
   }
 
-  useEffect(() => {
-    async function getTargetMessages() {
-      try {
-        const headers: HeadersType = {
-          'Content-Type': 'application/json',
-        };
+  async function getTargetMessages() {
+    try {
+      const headers: HeadersType = {
+        'Content-Type': 'application/json',
+      };
 
-        if (token) headers.Authorization = token;
-        const response = await fetch(
-          `http://localhost:3000/messages/${targetMessagesId}`,
-          {
-            headers,
-          },
-        );
+      if (token) headers.Authorization = token;
+      const response = await fetch(
+        `http://localhost:3000/messages/${targetMessagesId}`,
+        {
+          headers,
+        },
+      );
 
-        if (response.statusText === 'Unauthorized') navigate('/login');
-        const responseData = (await response.json()) as responseType;
-        if (responseData.error) navigate('/login');
+      if (response.statusText === 'Unauthorized') navigate('/login');
+      const responseData = (await response.json()) as responseType;
+      if (responseData.error) navigate('/login');
 
-        renderSingleContactMessages(responseData);
-        renderGroupMessages(responseData);
-      } catch (err: unknown) {
-        console.log(err.message);
-      }
+      renderSingleContactMessages(responseData);
+      renderGroupMessages(responseData);
+    } catch (err: unknown) {
+      console.log(err.message);
     }
+  }
+
+  if (currentUser)
+    socket.emit('joinRoom', {
+      room: currentUser._id,
+    });
+
+  if (groupName)
+    socket.emit('joinRoom', {
+      room: targetMessagesId,
+    });
+
+  //initial render and re-render when click on new target
+  useEffect(() => {
     void getTargetMessages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetMessagesId]);
 
+  useEffect(() => {
+    socket.on('receiveMessage', (data) => {
+      void getTargetMessages();
+    });
+  }, [socket]);
+
   async function sendNewMessage(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    socket.emit('sendMessage', {
+      message: newMessage,
+      room: targetMessagesId,
+    });
 
     try {
       const headers: HeadersType = {
@@ -139,6 +164,7 @@ function TargetMessages({
       const responseData = (await response.json()) as responseType;
       if (responseData.error) navigate('/login');
       setNewMessage('');
+      void getTargetMessages();
     } catch (err: unknown) {
       console.error(err);
     }
