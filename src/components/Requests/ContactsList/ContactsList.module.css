@@ -1,6 +1,5 @@
 .contactListContainer {
     padding: 1em;   
-    min-width: 400px;
     text-align: center;
 }
 
@@ -37,4 +36,11 @@
 
 .buttonContainer > button > img {
     height: 25px;
+}
+
+@media (max-width: 600px) {
+    .contactListContainer {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
 }

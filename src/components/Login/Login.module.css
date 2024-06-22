@@ -1,6 +1,10 @@
+.container {
+    width: 90vw;
+    display: flex;
+}
+
 .formContainer {
     grid-column: 1/3;
-    width: 60%;
     margin: auto;
     text-align: center;
     background-color: rgb(2, 95, 100);
@@ -19,24 +23,30 @@
 
 .formContainer > form {
     display: grid;
-    grid-template-columns: 2fr 2fr 1fr;
+    justify-content: center;
     color: gainsboro;
-    padding: 2em;
+    padding: 1em;
+    gap: 1em;
 }
 
-.formContainer > form > div > input {
+.formContainer > form > div > div {
+    text-align: left;
+}
+
+.formContainer > form > div > div > input {
     height: 30px;
     padding: 5px;
     border-radius: 10px;
 }
 
-.formContainer > form > button {
-    width: 50%;
+.formContainer > form > div > button {
+    width: 60px;
+    height: 30px;
     border-radius: 10px;
 }
 
 .formContainer > img {
-    height: 300px;
+    width: 400px;
     padding: 1em;
 }
 
@@ -45,4 +55,17 @@
     color: gold;
 }
 
+
+@media (max-width: 600px) {
+    .container {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .formContainer > img {
+        width: 300px;
+        padding: 1em;
+        margin: 0 auto;
+    }   
+}
 

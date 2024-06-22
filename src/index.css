@@ -6,10 +6,9 @@
 }
 
 #root {
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: minmax(250px,1fr) 2fr;
   padding: 1% 5%;
   background-color:rgb(57, 62, 70);
 }
@@ -27,3 +26,10 @@ li {
   list-style: none;
 }
 
+@media (max-width: 600px) {
+  #root {
+    display:block;
+    padding: 0;
+    height: 100vh;
+  }   
+}

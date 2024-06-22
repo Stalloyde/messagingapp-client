@@ -58,3 +58,10 @@
   align-items: center;
   gap: 5px;
 }
+
+@media (max-width: 600px) {
+  .listContainer {
+      max-height: 300px;
+      overflow-y: scroll;
+  }
+}

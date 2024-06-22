@@ -70,7 +70,7 @@ function Login({ setToken }: LoginPropsType) {
   }
 
   return (
-    <>
+    <div className={styles.container}>
       <div className={styles.formContainer}>
         <img src={loginImage} alt='image' />
         <div className={styles.formHeader}>
@@ -81,40 +81,51 @@ function Login({ setToken }: LoginPropsType) {
         </div>
         {/*eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form method='post' onSubmit={handleLogin} action='/'>
+          <div className={styles.errorMessage}>
+            {loginError.usernameError && loginError.usernameError}
+            {loginError.passwordError && loginError.passwordError}
+          </div>
           <div>
-            <label htmlFor='username'>Username: </label>
-            <input
-              type='text'
-              id='username'
-              name='username'
-              required
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-              value={username}
-            />
+            <div>
+              <label htmlFor='username'>Username: </label>
+            </div>
+            <div>
+              <input
+                type='text'
+                id='username'
+                name='username'
+                required
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
+                value={username}
+              />
+            </div>
           </div>
 
           <div>
-            <label htmlFor='password'>Password: </label>
-            <input
-              type='password'
-              name='password'
-              id='password'
-              required
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              value={password}
-            />
+            <div>
+              <label htmlFor='password'>Password: </label>
+            </div>
+            <div>
+              <input
+                type='password'
+                name='password'
+                id='password'
+                required
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+                value={password}
+              />
+            </div>
           </div>
-          <button>Log In</button>
-          <div className={styles.errorMessage}>
-            {loginError.usernameError} {loginError.passwordError}
+          <div>
+            <button>Log In</button>
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }
 

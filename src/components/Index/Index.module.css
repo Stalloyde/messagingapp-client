@@ -8,3 +8,9 @@
     align-items: center;
     height: 100%;
 }
+
+@media (max-width: 600px) {
+    .welcome {
+        height: 400px;
+    }
+}

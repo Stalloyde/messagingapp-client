@@ -189,9 +189,9 @@ function TargetMessages({
             <>
               <strong>{groupName}</strong>
               <div className={styles.groupContainer}>
-                {groupParticipants.map((participant, index) => (
-                  <em key={index}>{participant.username}</em>
-                ))}
+                <div>
+                  <em>{groupParticipants.length} members</em>
+                </div>
                 <button
                   onClick={() => {
                     setIsExitingGroup(true);

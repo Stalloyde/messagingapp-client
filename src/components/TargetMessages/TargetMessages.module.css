@@ -18,11 +18,12 @@
 }
 
 .groupContainer {
+    display: flex;
     flex-grow: 1;
-    text-align: end;
+    justify-content: flex-end;
 }
 
-.groupContainer > em {
+.groupContainer > div > em {
     font-size: small;
     padding: 5px;
 }
@@ -95,4 +96,15 @@
 
 .loadingMessage {
     padding: 1em;
+}
+
+@media (max-width: 600px) {
+    .messagesContainer {
+        max-height: 500px;
+        overflow-y: scroll;
+    }
+
+    .groupContainer > div > em {
+        font-size:  9px;
+    }
 }

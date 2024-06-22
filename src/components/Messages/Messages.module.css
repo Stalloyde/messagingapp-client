@@ -23,7 +23,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 500px;
 }
 
 .previewMessageContainer > img {
@@ -34,3 +33,12 @@
 .icons {
     height: 30px;
 }
+
+@media (max-width: 600px) {
+    .container {
+        max-height: 320px;
+        overflow-y: scroll;
+    }   
+}
+
+

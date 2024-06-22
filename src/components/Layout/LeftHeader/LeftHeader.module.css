@@ -43,3 +43,11 @@
 .icons {
   height: 30px;
 }
+
+@media (max-width: 600px) {
+  .icon > p {
+    height: 15px;
+    width: 15px;
+    font-size: 12px;
+  }
+}
