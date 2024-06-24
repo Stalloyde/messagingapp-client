@@ -72,8 +72,6 @@ function LeftHeader({
         if (token) headers.Authorization = token;
         const response = await fetch('https://messagingapp.fly.dev', {
           headers,
-          mode: 'cors',
-          credentials: 'include',
         });
 
         if (response.status === 401) navigate('/login');
