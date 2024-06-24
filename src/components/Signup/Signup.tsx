@@ -71,7 +71,7 @@ function Signup() {
         navigate('/');
       }
     } catch (err: unknown) {
-      console.error(err.message);
+      console.error(err);
     }
   }
 

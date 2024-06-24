@@ -83,7 +83,7 @@ function Messages({ token, contacts, contactsRequests }: MessagesPropsType) {
         setToRenderContacts([...contacts]);
         setToRenderGroups([...groups]);
       } catch (err: unknown) {
-        console.log(err.message);
+        console.error(err);
       }
     }
     void getContactsToRender();

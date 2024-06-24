@@ -75,7 +75,7 @@ function SearchResultList({
 
       setUsername('');
     } catch (err: unknown) {
-      console.log(err.message);
+      console.error(err);
     }
   }
 

@@ -102,7 +102,7 @@ function Requests({
         setCurrentUser(responseData);
         setContacts(responseData.contacts);
       } catch (err: unknown) {
-        console.log(err.message);
+        console.error(err);
       }
     }
     void getRequests();
@@ -142,7 +142,7 @@ function Requests({
           setSearchResultError(null);
         }
       } catch (err: unknown) {
-        console.log(err.message);
+        console.error(err);
       }
     }
     void searchUsername();

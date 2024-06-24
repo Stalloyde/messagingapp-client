@@ -91,7 +91,7 @@ const RequestsList = ({
       const responseData = (await response.json()) as responseType;
       setContactsRequests(responseData.contactsRequests);
     } catch (err: unknown) {
-      console.log(err.message);
+      console.error(err);
     }
   }
 

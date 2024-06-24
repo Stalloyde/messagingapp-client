@@ -143,7 +143,7 @@ function EditModal({
       setIsEditingPic(false);
       setCurrentUser(responseData);
     } catch (err) {
-      console.error(err.message);
+      console.error(err);
     }
   }
 

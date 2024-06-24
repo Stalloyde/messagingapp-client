@@ -116,7 +116,7 @@ function TargetMessages({
       renderSingleContactMessages(responseData);
       renderGroupMessages(responseData);
     } catch (err: unknown) {
-      console.log(err.message);
+      console.error(err);
     }
   }
 

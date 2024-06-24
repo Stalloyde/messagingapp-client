@@ -65,7 +65,7 @@ function Login({ setToken }: LoginPropsType) {
         navigate('/');
       }
     } catch (err: unknown) {
-      console.error(err.message);
+      console.error(err);
     }
   }
 

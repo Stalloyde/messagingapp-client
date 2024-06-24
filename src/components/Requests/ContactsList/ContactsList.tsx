@@ -85,7 +85,7 @@ function ContactsList({
         if (responseData.error) navigate('/login');
         setContacts(responseData.contacts);
       } catch (err: unknown) {
-        console.log(err.message);
+        console.error(err);
       }
     }
     void getContactsToRender();

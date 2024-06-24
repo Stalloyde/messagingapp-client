@@ -87,7 +87,7 @@ function LeftHeader({
         const { contactsRequests } = responseData;
         setRequestCount(contactsRequests.length);
       } catch (err: unknown) {
-        console.log(err.message);
+        console.error(err);
       }
     }
     void getCurrentUserRequests();

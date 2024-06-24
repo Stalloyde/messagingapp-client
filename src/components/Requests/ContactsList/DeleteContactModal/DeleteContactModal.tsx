@@ -90,7 +90,7 @@ function DeleteContactModal({
       setToDeleteId('');
       handleClose();
     } catch (err: unknown) {
-      console.log(err.message);
+      console.error(err);
     }
   }
 
