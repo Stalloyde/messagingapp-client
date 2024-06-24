@@ -6,8 +6,8 @@ import sendIcon from '../../assets/icons8-send-24.png';
 import addFileIcon from '../../assets/icons8-add-50.png';
 import addEmoticonIcon from '../../assets/icons8-happy-48.png';
 import defaultAvatar from '../../assets/icons8-avatar-50.png';
-import io from 'socket.io-client';
-const socket = io.connect('https://messagingapp.fly.dev');
+import io, { Socket } from 'socket.io-client';
+const socket: Socket = io('https://messagingapp.fly.dev');
 
 type HeadersType = {
   'Content-Type': string;
@@ -23,7 +23,7 @@ type messageType = {
 type groupType = {
   _id: string;
   groupName: string;
-  profilePic: { url: string };
+  profilePic: { url: string } | null;
   messages: messageType[];
 };
 
@@ -32,7 +32,7 @@ type responseType = {
   username?: string;
   status?: string;
   contacts?: userPropType[];
-  profilePic: { url: string };
+  profilePic: { url: string } | null;
   messages: messageType[];
   contactsRequests?: userPropType[];
   groups?: groupType[];
@@ -45,7 +45,7 @@ type userPropType = {
   username: string;
   status: string;
   contacts: userPropType[];
-  profilePic: { url: string };
+  profilePic: { url: string } | null;
   messages: messageType[];
   contactsRequests: userPropType[];
   groups: groupType[];
@@ -64,7 +64,7 @@ function TargetMessages({
 }: TargetMessagesPropsType) {
   const [messages, setMessages] = useState<messageType[]>();
   const [username, setUsername] = useState<string>();
-  const [profilePic, setProfilePic] = useState<{ url: string }>();
+  const [profilePic, setProfilePic] = useState<{ url: string } | null>();
   const [groupName, setGroupName] = useState<string>('');
   const [groupParticipants, setGroupParticipants] = useState<userPropType[]>(
     [],
@@ -185,7 +185,7 @@ function TargetMessages({
       {currentUser && (
         <div className={styles.rightHeader}>
           {profilePic ? (
-            <img src={profilePic} />
+            <img src={profilePic.url} />
           ) : (
             <img
               src={defaultAvatar}

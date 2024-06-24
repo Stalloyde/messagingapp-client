@@ -16,7 +16,7 @@ type messageType = {
 type groupType = {
   _id: string;
   groupName: string;
-  profilePic: { url: string };
+  profilePic: { url: string } | null;
   messages: messageType[];
 };
 
@@ -25,7 +25,7 @@ type userPropType = {
   username: string;
   status: string;
   contacts: userPropType[];
-  profilePic: { url: string };
+  profilePic: { url: string } | null;
   messages: messageType[];
   contactsRequests: userPropType[] | string[];
   groups: groupType[];
