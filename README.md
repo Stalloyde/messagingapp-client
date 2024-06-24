@@ -35,3 +35,4 @@ Photo credits:
 Photo by <a href="https://unsplash.com/@lunarts?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Volodymyr Hryshchenko</a> on <a href="https://unsplash.com/photos/three-crumpled-yellow-papers-on-green-surface-surrounded-by-yellow-lined-papers-V5vqWC9gyEU?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
 
 Photo by DS stories: https://www.pexels.com/photo/speech-bubbles-on-surface-6991386/
+<a href='https://dryicons.com/free-icons/chat-logo'> Icon by Dryicons </a>
