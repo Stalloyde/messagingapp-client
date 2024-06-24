@@ -73,7 +73,7 @@ function DeleteContactModal({
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `http://localhost:3000/requests/${toDeleteId}`,
+        `https://messagingapp.fly.dev/requests/${toDeleteId}`,
         {
           headers,
           method: 'DELETE',

@@ -73,11 +73,14 @@ const RequestsList = ({
 
       if (token) headers.Authorization = token;
 
-      const response = await fetch(`http://localhost:3000/requests/${id}`, {
-        headers,
-        method: 'PUT',
-        body: JSON.stringify({ action }),
-      });
+      const response = await fetch(
+        `https://messagingapp.fly.dev/requests/${id}`,
+        {
+          headers,
+          method: 'PUT',
+          body: JSON.stringify({ action }),
+        },
+      );
 
       if (response.statusText === 'Unauthorized') navigate('/login');
       const responseData = (await response.json()) as responseType;

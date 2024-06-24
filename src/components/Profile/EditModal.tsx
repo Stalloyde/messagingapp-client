@@ -123,7 +123,7 @@ function EditModal({
       const headers: HeadersType = {};
 
       if (token) headers.Authorization = token;
-      const response = await fetch('http://localhost:3000/editProfile', {
+      const response = await fetch('https://messagingapp.fly.dev/editProfile', {
         headers,
         method: 'PUT',
         body: formData,

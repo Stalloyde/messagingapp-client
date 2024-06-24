@@ -71,7 +71,9 @@ function ContactsList({
         };
 
         if (token) headers.Authorization = token;
-        const response = await fetch('http://localhost:3000', { headers });
+        const response = await fetch('https://messagingapp.fly.dev', {
+          headers,
+        });
 
         if (response.statusText === 'Unauthorized') navigate('/login');
 

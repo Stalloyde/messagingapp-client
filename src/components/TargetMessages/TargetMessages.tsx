@@ -7,7 +7,7 @@ import addFileIcon from '../../assets/icons8-add-50.png';
 import addEmoticonIcon from '../../assets/icons8-happy-48.png';
 import defaultAvatar from '../../assets/icons8-avatar-50.png';
 import io from 'socket.io-client';
-const socket = io.connect('http://localhost:3000');
+const socket = io.connect('https://messagingapp.fly.dev');
 
 type HeadersType = {
   'Content-Type': string;
@@ -98,7 +98,7 @@ function TargetMessages({
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `http://localhost:3000/messages/${targetMessagesId}`,
+        `https://messagingapp.fly.dev/messages/${targetMessagesId}`,
         {
           headers,
         },
@@ -152,7 +152,7 @@ function TargetMessages({
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `http://localhost:3000/messages/${targetMessagesId}`,
+        `https://messagingapp.fly.dev/messages/${targetMessagesId}`,
         {
           headers,
           method: 'post',
