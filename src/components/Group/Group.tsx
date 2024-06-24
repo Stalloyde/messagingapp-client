@@ -99,7 +99,7 @@ function Group({ token, contacts, setContacts }: GroupPropsType) {
           'Content-Type': 'application/json',
         };
         if (token) headers.Authorization = token;
-        const response = await fetch('http://localhost:3000/group', {
+        const response = await fetch('https://messagingapp.fly.dev/group', {
           headers,
           method: 'POST',
           body: JSON.stringify({ checkedUsers, groupName }),
