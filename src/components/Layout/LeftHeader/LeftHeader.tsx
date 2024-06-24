@@ -86,7 +86,7 @@ function LeftHeader({
 
         const { contactsRequests } = responseData;
         setRequestCount(contactsRequests.length);
-      } catch (err: unknown) {
+      } catch (err) {
         console.error(err);
       }
     }

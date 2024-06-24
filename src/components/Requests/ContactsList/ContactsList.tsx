@@ -84,7 +84,7 @@ function ContactsList({
         const responseData = (await response.json()) as responseType;
         if (responseData.error) navigate('/login');
         setContacts(responseData.contacts);
-      } catch (err: unknown) {
+      } catch (err) {
         console.error(err);
       }
     }

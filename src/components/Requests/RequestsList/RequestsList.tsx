@@ -90,7 +90,7 @@ const RequestsList = ({
 
       const responseData = (await response.json()) as responseType;
       setContactsRequests(responseData.contactsRequests);
-    } catch (err: unknown) {
+    } catch (err) {
       console.error(err);
     }
   }

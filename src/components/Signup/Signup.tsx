@@ -70,7 +70,7 @@ function Signup() {
         setSignUpError({});
         navigate('/');
       }
-    } catch (err: unknown) {
+    } catch (err) {
       console.error(err);
     }
   }

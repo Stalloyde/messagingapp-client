@@ -75,7 +75,7 @@ function Group({ token, contacts, setContacts }: GroupPropsType) {
         const responseData = (await response.json()) as responseType;
         if (responseData.error) navigate('/login');
         setContacts(responseData.contacts);
-      } catch (err: unknown) {
+      } catch (err) {
         console.error(err);
       }
     }
@@ -110,8 +110,8 @@ function Group({ token, contacts, setContacts }: GroupPropsType) {
         setContacts([...responseData.contacts]);
         setCheckedUsers([]);
         setGroupName('');
-      } catch (err: unknown) {
-        console.log(err.message);
+      } catch (err) {
+        console.log(err);
       }
     } else {
       setCreateGroupError('*Not enough participants to create a group');

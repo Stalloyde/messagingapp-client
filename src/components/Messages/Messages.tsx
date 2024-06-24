@@ -82,7 +82,7 @@ function Messages({ token, contacts, contactsRequests }: MessagesPropsType) {
         if (responseData.error) navigate('/login');
         setToRenderContacts([...contacts]);
         setToRenderGroups([...groups]);
-      } catch (err: unknown) {
+      } catch (err) {
         console.error(err);
       }
     }

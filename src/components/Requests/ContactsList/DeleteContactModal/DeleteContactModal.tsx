@@ -89,7 +89,7 @@ function DeleteContactModal({
       setContacts(responseData.contacts);
       setToDeleteId('');
       handleClose();
-    } catch (err: unknown) {
+    } catch (err) {
       console.error(err);
     }
   }

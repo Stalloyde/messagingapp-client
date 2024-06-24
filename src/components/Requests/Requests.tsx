@@ -101,7 +101,7 @@ function Requests({
         setContactsRequests(responseData.contactsRequests);
         setCurrentUser(responseData);
         setContacts(responseData.contacts);
-      } catch (err: unknown) {
+      } catch (err) {
         console.error(err);
       }
     }
@@ -141,7 +141,7 @@ function Requests({
           setSearchResult([]);
           setSearchResultError(null);
         }
-      } catch (err: unknown) {
+      } catch (err) {
         console.error(err);
       }
     }

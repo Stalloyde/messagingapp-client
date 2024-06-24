@@ -115,7 +115,7 @@ function TargetMessages({
 
       renderSingleContactMessages(responseData);
       renderGroupMessages(responseData);
-    } catch (err: unknown) {
+    } catch (err) {
       console.error(err);
     }
   }
@@ -174,7 +174,7 @@ function TargetMessages({
       if (responseData.error) navigate('/login');
       setNewMessage('');
       void getTargetMessages();
-    } catch (err: unknown) {
+    } catch (err) {
       console.error(err);
     }
   }
