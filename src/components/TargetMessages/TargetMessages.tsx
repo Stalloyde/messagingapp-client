@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect, FormEvent, MouseEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ExitGroupModal from './ExitGroupModal/ExitGroupModal';
 import styles from './TargetMessages.module.css';
@@ -148,7 +148,9 @@ function TargetMessages({
     });
   }, [socket]);
 
-  async function sendNewMessage(e: FormEvent<HTMLFormElement>) {
+  async function sendNewMessage(
+    e: FormEvent<HTMLFormElement> | MouseEvent<HTMLImageElement>,
+  ) {
     e.preventDefault();
 
     socket.emit('sendMessage', {
@@ -285,7 +287,13 @@ function TargetMessages({
             }}
             placeholder='Type a message'></input>
         </form>
-        <img src={sendIcon} alt='send' />
+        <img
+          src={sendIcon}
+          alt='send'
+          /*eslint-disable-next-line @typescript-eslint/no-misused-promises */
+          onClick={sendNewMessage}
+          className={styles.sendMessageIcon}
+        />
       </div>
     </div>
   );
