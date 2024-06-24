@@ -75,7 +75,11 @@ function ContactsList({
           headers,
         });
 
-        if (response.statusText === 'Unauthorized') navigate('/login');
+        if (response.status === 401) navigate('/login');
+        if (!response.ok)
+          throw new Error(
+            `This is an HTTP error: The status is ${response.status}`,
+          );
 
         const responseData = (await response.json()) as responseType;
         if (responseData.error) navigate('/login');

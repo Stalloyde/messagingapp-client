@@ -79,8 +79,12 @@ function DeleteContactModal({
           method: 'DELETE',
         },
       );
+      if (response.status === 401) navigate('/login');
+      if (!response.ok)
+        throw new Error(
+          `This is an HTTP error: The status is ${response.status}`,
+        );
 
-      if (response.statusText === 'Unauthorized') navigate('/login');
       const responseData = (await response.json()) as responseType;
       setContacts(responseData.contacts);
       setToDeleteId('');
