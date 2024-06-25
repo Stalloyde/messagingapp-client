@@ -10,14 +10,16 @@ The backend repo: https://github.com/Stalloyde/messagingapp
 
 All users are able search/add/delete contacts, create groups and chat with contacts. Below are a few demo accounts for you test the app out with:
 
-```username: pineapple
+```
+username: pineapple
 password: 123
 
 username: bae2won
 password: 123
 
 Username: user
-password: 123```
+password: 123
+```
 
 # Plans Moving Forward
 To integrate socket.io to the project, enabling real-time chat.
