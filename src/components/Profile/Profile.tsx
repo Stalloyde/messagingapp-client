@@ -119,7 +119,9 @@ function Profile({ token, currentUser, setCurrentUser }: ProfilePropsType) {
                 }}
               />
             </div>
-            <em>This is also your login username</em>
+            <em>
+              This is also your login username. Editing is disabled for now
+            </em>
           </div>
 
           <div className={styles.statusContainer}>

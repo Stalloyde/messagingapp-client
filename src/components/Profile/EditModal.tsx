@@ -172,6 +172,7 @@ function EditModal({
             fullWidth
             variant='standard'
             value={usernameInputValue}
+            disabled
             onChange={(e) => {
               setUsernameInputValue(e.target.value);
             }}
