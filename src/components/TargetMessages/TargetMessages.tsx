@@ -9,7 +9,6 @@ import defaultAvatar from '../../assets/icons8-avatar-50.png';
 import io, { Socket } from 'socket.io-client';
 
 const socket: Socket = io('https://messagingapp.fly.dev', {
-  withCredentials: true,
   extraHeaders: {
     'Access-Control-Allow-Origin': 'https://messagingapp-client.vercel.app',
   },
