@@ -255,16 +255,16 @@ function TargetMessages({
               message.from._id === currentUser._id ? (
                 <div key={index} className={styles.outgoingContainer}>
                   <div className={styles.outgoingMessage}>
-                    {typeof message.from === 'object' && (
-                      <h3>{message.from.username}</h3>
-                    )}
+                    <h3>{message.from.username}</h3>
                     {message.content}
                   </div>
                 </div>
               ) : (
                 <div key={index} className={styles.incomingContainer}>
                   <>
-                    <h3>{message.from.username}</h3>
+                    {typeof message.from === 'object' && (
+                      <h3>{message.from.username}</h3>
+                    )}
                     {message.content}
                   </>
                 </div>
