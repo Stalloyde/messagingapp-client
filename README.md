@@ -1,3 +1,27 @@
+# LINK TO LIVE APP: https://messagingapp-client.vercel.app/
+
+This is the client-side repo of a full-stack chat messaging app. Built with:
+
+Front-end: React + Typescript
+Back-end: NodeJS + Express
+Database: MongoDB
+
+The backend repo: https://github.com/Stalloyde/messagingapp-client
+
+All users are able search/add/delete contacts, create groups and chat with contacts. Below are a few demo accounts for you test the app out with:
+
+username: pineapple
+password: 123
+
+username: bae2won
+password: 123
+
+Username: user
+password: 123
+
+# Plans Moving Forward
+To integrate socket.io to the project, enabling real-time chat.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -29,10 +53,3 @@ export default {
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
-
-Photo credits:
-
-Photo by <a href="https://unsplash.com/@lunarts?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Volodymyr Hryshchenko</a> on <a href="https://unsplash.com/photos/three-crumpled-yellow-papers-on-green-surface-surrounded-by-yellow-lined-papers-V5vqWC9gyEU?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
-
-Photo by DS stories: https://www.pexels.com/photo/speech-bubbles-on-surface-6991386/
-<a href='https://dryicons.com/free-icons/chat-logo'> Icon by Dryicons </a>
