@@ -125,7 +125,7 @@ function TargetMessages({
     }
   }
 
-  if (currentUser)
+  if (currentUser && username)
     socket.emit('joinRoom', {
       room: currentUser._id,
     });
@@ -235,14 +235,14 @@ function TargetMessages({
             groupParticipants.length < 1 &&
             messages.map((message, index) =>
               message.from === currentUser._id ? (
-                <div key={index} className={styles.incomingContainer}>
-                  {message.content}
-                </div>
-              ) : (
                 <div key={index} className={styles.outgoingContainer}>
                   <div className={styles.outgoingMessage}>
                     {message.content}
                   </div>
+                </div>
+              ) : (
+                <div key={index} className={styles.incomingContainer}>
+                  {message.content}
                 </div>
               ),
             )}
@@ -253,13 +253,6 @@ function TargetMessages({
             messages.map((message, index) =>
               typeof message.from === 'object' &&
               message.from._id === currentUser._id ? (
-                <div key={index} className={styles.incomingContainer}>
-                  <>
-                    <h3>{message.from.username}</h3>
-                    {message.content}
-                  </>
-                </div>
-              ) : (
                 <div key={index} className={styles.outgoingContainer}>
                   <div className={styles.outgoingMessage}>
                     {typeof message.from === 'object' && (
@@ -267,6 +260,13 @@ function TargetMessages({
                     )}
                     {message.content}
                   </div>
+                </div>
+              ) : (
+                <div key={index} className={styles.incomingContainer}>
+                  <>
+                    <h3>{message.from.username}</h3>
+                    {message.content}
+                  </>
                 </div>
               ),
             )}
