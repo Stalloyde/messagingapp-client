@@ -6,13 +6,6 @@ import sendIcon from '../../assets/icons8-send-24.png';
 import addFileIcon from '../../assets/icons8-add-50.png';
 import addEmoticonIcon from '../../assets/icons8-happy-48.png';
 import defaultAvatar from '../../assets/icons8-avatar-50.png';
-import io, { Socket } from 'socket.io-client';
-
-const socket: Socket = io('https://messagingapp.fly.dev', {
-  extraHeaders: {
-    'Access-Control-Allow-Origin': 'https://messagingapp-client.vercel.app',
-  },
-});
 
 type HeadersType = {
   'Content-Type': string;
@@ -124,38 +117,16 @@ function TargetMessages({
       console.error(err);
     }
   }
-
-  if (currentUser && username)
-    socket.emit('joinRoom', {
-      room: currentUser._id,
-    });
-
-  if (groupName)
-    socket.emit('joinRoom', {
-      room: targetMessagesId,
-    });
-
   //initial render and re-render when click on new target
   useEffect(() => {
     void getTargetMessages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetMessagesId]);
 
-  useEffect(() => {
-    socket.on('receiveMessage', () => {
-      void getTargetMessages();
-    });
-  }, [socket]);
-
   async function sendNewMessage(
     e: FormEvent<HTMLFormElement> | MouseEvent<HTMLImageElement>,
   ) {
     e.preventDefault();
-
-    socket.emit('sendMessage', {
-      message: newMessage,
-      room: targetMessagesId,
-    });
 
     try {
       const headers: HeadersType = {
