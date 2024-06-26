@@ -52,6 +52,7 @@ type LeftHeaderPropsType = {
     React.SetStateAction<userPropType | undefined>
   >;
   contactsRequests: object[];
+  contacts: userPropType[];
 };
 
 function LeftHeader({
@@ -59,6 +60,7 @@ function LeftHeader({
   currentUser,
   setCurrentUser,
   contactsRequests,
+  contacts,
 }: LeftHeaderPropsType) {
   const [requestsCount, setRequestCount] = useState<number>();
   const navigate = useNavigate();
@@ -93,7 +95,7 @@ function LeftHeader({
     }
     void getCurrentUserRequests();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contactsRequests]);
+  }, [contactsRequests, contacts]);
 
   return (
     <div className={styles.container}>

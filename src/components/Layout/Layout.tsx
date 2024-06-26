@@ -53,6 +53,7 @@ function Layout({
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
             contactsRequests={contactsRequests}
+            contacts={contacts}
           />
           <Messages
             token={token}
