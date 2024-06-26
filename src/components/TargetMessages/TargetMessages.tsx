@@ -8,7 +8,7 @@ import addEmoticonIcon from '../../assets/icons8-happy-48.png';
 import defaultAvatar from '../../assets/icons8-avatar-50.png';
 import io, { Socket } from 'socket.io-client';
 
-const socket: Socket = io('http://messagingapp.fly.dev', {
+const socket: Socket = io('https://messagingapp.fly.dev', {
   extraHeaders: {
     'Access-Control-Allow-Origin': 'https://messagingapp-client.vercel.app',
   },
