@@ -112,9 +112,11 @@ function TargetMessages({
       if (isUserPropType(responseData)) {
         setTargetUser(responseData);
         setTargetGroup(undefined);
+        setContacts([]);
       } else if (isGroupType(responseData)) {
         setTargetUser(undefined);
         setTargetGroup(responseData);
+        setContacts([]);
       }
     } catch (err) {
       console.error(err);
@@ -205,6 +207,7 @@ function TargetMessages({
       }
 
       setNewMessage('');
+      setContacts([]);
       void getTargetMessages();
     } catch (err) {
       console.error(err);
