@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent, MouseEvent } from 'react';
+import { useState, useEffect, FormEvent, MouseEvent, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ExitGroupModal from './ExitGroupModal/ExitGroupModal';
 import styles from './TargetMessages.module.css';
@@ -6,6 +6,13 @@ import sendIcon from '../../assets/icons8-send-24.png';
 import addFileIcon from '../../assets/icons8-add-50.png';
 import addEmoticonIcon from '../../assets/icons8-happy-48.png';
 import defaultAvatar from '../../assets/icons8-avatar-50.png';
+import io, { Socket } from 'socket.io-client';
+
+const socket: Socket = io('http://messagingapp.fly.dev', {
+  extraHeaders: {
+    'Access-Control-Allow-Origin': 'https://messagingapp-client.vercel.app',
+  },
+});
 
 type HeadersType = {
   'Content-Type': string;
@@ -21,6 +28,7 @@ type messageType = {
 type groupType = {
   _id: string;
   groupName: string;
+  participants?: userPropType[];
   profilePic: { url: string } | null;
   messages: messageType[];
 };
@@ -60,35 +68,26 @@ function TargetMessages({
   currentUser,
   setContacts,
 }: TargetMessagesPropsType) {
-  const [messages, setMessages] = useState<messageType[]>();
-  const [username, setUsername] = useState<string>();
-  const [profilePic, setProfilePic] = useState<{ url: string } | null>();
-  const [groupName, setGroupName] = useState<string>('');
-  const [groupParticipants, setGroupParticipants] = useState<userPropType[]>(
-    [],
-  );
+  const [targetUser, setTargetUser] = useState<userPropType>();
+  const [targetGroup, setTargetGroup] = useState<groupType>();
   const [newMessage, setNewMessage] = useState<string>('');
   const [isExitingGroup, setIsExitingGroup] = useState(false);
 
   const targetMessagesId = useParams().id;
+
   const navigate = useNavigate();
 
-  function renderSingleContactMessages(responseData: responseType) {
-    setMessages(responseData.messages);
-    setUsername(responseData.username);
-    setProfilePic(responseData.profilePic);
-    setGroupName('');
-    setGroupParticipants([]);
+  function isUserPropType(
+    responseData: responseType,
+  ): responseData is userPropType {
+    return responseData.username !== undefined;
   }
 
-  function renderGroupMessages(responseData: responseType) {
-    if (responseData.participants && responseData.groupName) {
-      setGroupParticipants(responseData.participants);
-      setGroupName(responseData.groupName);
-    }
+  function isGroupType(responseData: responseType): responseData is groupType {
+    return responseData.groupName !== undefined;
   }
 
-  async function getTargetMessages() {
+  const getTargetMessages = useCallback(async () => {
     try {
       const headers: HeadersType = {
         'Content-Type': 'application/json',
@@ -110,18 +109,56 @@ function TargetMessages({
 
       const responseData = (await response.json()) as responseType;
       if (responseData.error) navigate('/login');
-
-      renderSingleContactMessages(responseData);
-      renderGroupMessages(responseData);
+      if (isUserPropType(responseData)) {
+        setTargetUser(responseData);
+        setTargetGroup(undefined);
+      } else if (isGroupType(responseData)) {
+        setTargetUser(undefined);
+        setTargetGroup(responseData);
+      }
     } catch (err) {
       console.error(err);
     }
-  }
+  }, [token, targetMessagesId, navigate]);
+
   //initial render and re-render when click on new target
   useEffect(() => {
     void getTargetMessages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetMessagesId]);
+
+  useEffect(() => {
+    if (targetGroup) {
+      socket.emit('joinGroupRoom', {
+        groupRoom: targetGroup.groupName,
+      });
+    }
+
+    if (targetUser && currentUser) {
+      socket.emit('joinPrivateRoom', {
+        id1: currentUser.username,
+        id2: targetUser.username,
+      });
+    }
+  }, [targetGroup, targetUser, currentUser]);
+
+  useEffect(() => {
+    const handlePrivateMessage = () => {
+      void getTargetMessages();
+    };
+
+    const handleGroupMessage = () => {
+      void getTargetMessages();
+    };
+
+    socket.on('receivePrivateMessage', handlePrivateMessage);
+    socket.on('receiveGroupMessage', handleGroupMessage);
+
+    return () => {
+      socket.off('receivePrivateMessage', handlePrivateMessage);
+      socket.off('receiveGroupMessage', handleGroupMessage);
+    };
+  }, [getTargetMessages]);
 
   async function sendNewMessage(
     e: FormEvent<HTMLFormElement> | MouseEvent<HTMLImageElement>,
@@ -150,6 +187,23 @@ function TargetMessages({
 
       const responseData = (await response.json()) as responseType;
       if (responseData.error) navigate('/login');
+
+      if (targetUser && currentUser) {
+        socket.emit('privateMessage', {
+          id1: currentUser.username,
+          id2: targetUser.username,
+          msg: newMessage,
+        });
+      }
+
+      if (currentUser && targetGroup) {
+        socket.emit('groupMessage', {
+          id: currentUser.username,
+          room: targetGroup.groupName,
+          msg: newMessage,
+        });
+      }
+
       setNewMessage('');
       void getTargetMessages();
     } catch (err) {
@@ -160,51 +214,30 @@ function TargetMessages({
   return (
     <div className={styles.targetMessagesContainer}>
       {!currentUser && <div className={styles.loadingMessage}>Loading...</div>}
-      {currentUser && (
-        <div className={styles.rightHeader}>
-          {profilePic ? (
-            <img src={profilePic.url} />
-          ) : (
-            <img
-              src={defaultAvatar}
-              alt='profile-pic'
-              className={styles.icons}
-            />
-          )}
-          {username && <strong>{username}</strong>}
-          {groupName && groupParticipants.length > 0 && (
-            <>
-              <strong>{groupName}</strong>
-              <div className={styles.groupContainer}>
-                <div>
-                  <em>{groupParticipants.length} members</em>
-                </div>
-                <button
-                  onClick={() => {
-                    setIsExitingGroup(true);
-                  }}>
-                  Exit Group
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-      )}
+      {currentUser && targetUser && (
+        <>
+          <div className={styles.rightHeader}>
+            {targetUser.profilePic ? (
+              <img src={targetUser.profilePic.url} />
+            ) : (
+              <img
+                src={defaultAvatar}
+                alt='profile-pic'
+                className={styles.icons}
+              />
+            )}
+            {targetUser.username && <strong>{targetUser.username}</strong>}
+          </div>
+          <div className={styles.messagesContainer}>
+            {isExitingGroup && (
+              <ExitGroupModal
+                setIsExitingGroup={setIsExitingGroup}
+                setContacts={setContacts}
+                token={token}
+              />
+            )}
 
-      {currentUser && (
-        <div className={styles.messagesContainer}>
-          {isExitingGroup && (
-            <ExitGroupModal
-              setIsExitingGroup={setIsExitingGroup}
-              setContacts={setContacts}
-              token={token}
-            />
-          )}
-
-          {messages &&
-            !groupName &&
-            groupParticipants.length < 1 &&
-            messages.map((message, index) =>
+            {targetUser.messages.map((message, index) =>
               message.from === currentUser._id ? (
                 <div key={index} className={styles.outgoingContainer}>
                   <div className={styles.outgoingMessage}>
@@ -217,11 +250,48 @@ function TargetMessages({
                 </div>
               ),
             )}
+          </div>
+        </>
+      )}
 
-          {messages &&
-            groupName &&
-            groupParticipants.length > 0 &&
-            messages.map((message, index) =>
+      {currentUser && targetGroup && (
+        <>
+          <>
+            <div className={styles.rightHeader}>
+              {targetGroup.profilePic ? (
+                <img src={targetGroup.profilePic.url} />
+              ) : (
+                <img
+                  src={defaultAvatar}
+                  alt='profile-pic'
+                  className={styles.icons}
+                />
+              )}
+              <strong>{targetGroup.groupName}</strong>
+              <div className={styles.groupContainer}>
+                <div>
+                  {targetGroup.participants && (
+                    <em>{targetGroup.participants.length} members</em>
+                  )}
+                </div>
+                <button
+                  onClick={() => {
+                    setIsExitingGroup(true);
+                  }}>
+                  Exit Group
+                </button>
+              </div>
+            </div>
+          </>
+          <div className={styles.messagesContainer}>
+            {isExitingGroup && (
+              <ExitGroupModal
+                setIsExitingGroup={setIsExitingGroup}
+                setContacts={setContacts}
+                token={token}
+              />
+            )}
+            {targetGroup.messages.map((message, index) =>
               typeof message.from === 'object' &&
               message.from._id === currentUser._id ? (
                 <div key={index} className={styles.outgoingContainer}>
@@ -241,7 +311,8 @@ function TargetMessages({
                 </div>
               ),
             )}
-        </div>
+          </div>
+        </>
       )}
 
       <div className={styles.inputContainer}>
