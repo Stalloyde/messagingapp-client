@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import deleteContactIcon from '../../../assets/icons8-delete-50.png';
 import styles from './ContactsList.module.css';
 import DeleteContactModal from './DeleteContactModal/DeleteContactModal';
+import { GetContext } from '../../../GetContext';
 
 type HeadersType = {
   'Content-Type': string;
@@ -46,22 +47,11 @@ type userPropType = {
   groups: groupType[];
 };
 
-type ContactsListPropsType = {
-  token?: string;
-  contacts: userPropType[];
-  setContacts: React.Dispatch<React.SetStateAction<userPropType[]>>;
-  contactsRequests: userPropType[];
-};
-
-function ContactsList({
-  contacts,
-  setContacts,
-  contactsRequests,
-  token,
-}: ContactsListPropsType) {
+function ContactsList() {
   const [isDeletingContact, setIsDeletingContact] = useState(false);
   const [toDeleteId, setToDeleteId] = useState('');
   const navigate = useNavigate();
+  const { contacts, setContacts, contactsRequests, token } = GetContext();
 
   useEffect(() => {
     async function getContactsToRender() {
@@ -102,8 +92,6 @@ function ContactsList({
       {isDeletingContact && (
         <DeleteContactModal
           setIsDeletingContact={setIsDeletingContact}
-          setContacts={setContacts}
-          token={token}
           toDeleteId={toDeleteId}
           setToDeleteId={setToDeleteId}
         />

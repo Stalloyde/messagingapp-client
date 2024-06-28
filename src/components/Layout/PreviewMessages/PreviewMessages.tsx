@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './PreviewMessages.module.css';
-import groupIcon from '../../assets/icons8-group-24.png';
-import defaultAvatar from '../../assets/icons8-avatar-50.png';
+import groupIcon from '../../../assets/icons8-group-24.png';
+import defaultAvatar from '../../../assets/icons8-avatar-50.png';
+import { GetContext } from '../../../GetContext';
 
 type HeadersType = {
   'Content-Type': string;
@@ -46,17 +47,12 @@ type messageType = {
   to: userPropType | string;
 };
 
-type MessagesPropsType = {
-  token?: string;
-  contacts: userPropType[];
-  contactsRequests: userPropType[];
-};
-
-function Messages({ token, contacts, contactsRequests }: MessagesPropsType) {
+function Messages() {
   const [toRenderContacts, setToRenderContacts] = useState<userPropType[]>([]);
   const [toRenderGroups, setToRenderGroups] = useState<groupType[]>([]);
-
   const navigate = useNavigate();
+
+  const { token, contactsRequests, contacts } = GetContext();
 
   useEffect(() => {
     async function getContactsToRender() {

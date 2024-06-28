@@ -4,6 +4,7 @@ import styles from './LeftHeader.module.css';
 import addUserIcon from '../../../assets/icons8-add-user-24.png';
 import groupIcon from '../../../assets/icons8-group-24.png';
 import defaultAvatar from '../../../assets/icons8-avatar-50.png';
+import { GetContext } from '../../../GetContext';
 
 type HeadersType = {
   'Content-Type': string;
@@ -45,25 +46,12 @@ type userPropType = {
   groups: groupType[];
 };
 
-type LeftHeaderPropsType = {
-  token?: string;
-  currentUser?: userPropType;
-  setCurrentUser: React.Dispatch<
-    React.SetStateAction<userPropType | undefined>
-  >;
-  contactsRequests: object[];
-  contacts: userPropType[];
-};
-
-function LeftHeader({
-  token,
-  currentUser,
-  setCurrentUser,
-  contactsRequests,
-  contacts,
-}: LeftHeaderPropsType) {
+function LeftHeader() {
   const [requestsCount, setRequestCount] = useState<number>();
   const navigate = useNavigate();
+
+  const { token, currentUser, setCurrentUser, contactsRequests, contacts } =
+    GetContext();
 
   useEffect(() => {
     async function getCurrentUserRequests() {

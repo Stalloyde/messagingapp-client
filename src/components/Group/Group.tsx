@@ -1,6 +1,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Group.module.css';
+import { GetContext } from '../../GetContext';
 
 type HeadersType = {
   'Content-Type': string;
@@ -42,17 +43,13 @@ type userPropType = {
   groups: groupType[];
 };
 
-type GroupPropsType = {
-  token?: string;
-  contacts: userPropType[];
-  setContacts: React.Dispatch<React.SetStateAction<userPropType[]>>;
-};
-
-function Group({ token, contacts, setContacts }: GroupPropsType) {
+function Group() {
   const [checkedUsers, setCheckedUsers] = useState<string[]>([]);
   const [groupName, setGroupName] = useState('');
   const [createGroupError, setCreateGroupError] = useState('');
   const navigate = useNavigate();
+
+  const { token, contacts, setContacts } = GetContext();
 
   useEffect(() => {
     async function getContactsToRender() {
@@ -133,11 +130,11 @@ function Group({ token, contacts, setContacts }: GroupPropsType) {
           <div className={styles.contactListContainer}>
             {contacts.map((contact, index) => (
               <div key={index}>
-                <label htmlFor={contact.id}>
+                <label htmlFor={contact._id}>
                   {contact.username}
                   <input
                     type='checkbox'
-                    id={contact.id}
+                    id={contact._id}
                     value={contact.username}
                     checked={checkedUsers.includes(contact.username)}
                     onChange={(e) => {

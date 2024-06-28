@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import acceptRequestIcon from '../../../assets/icons8-checked-user-24.png';
 import rejectRequestIcon from '../../../assets/icons8-unfriend-50.png';
 import styles from './RequestsList.module.css';
+import { GetContext } from '../../../GetContext';
 
 type HeadersType = {
   'Content-Type': string;
@@ -47,20 +48,12 @@ type userPropType = {
 };
 
 type RequestsListPropsType = {
-  contactsRequests: userPropType[];
-  setContactsRequests: React.Dispatch<React.SetStateAction<userPropType[]>>;
   searchResult: userPropType[];
   username?: string;
-  token?: string;
 };
 
-const RequestsList = ({
-  contactsRequests,
-  setContactsRequests,
-  searchResult,
-  username,
-  token,
-}: RequestsListPropsType) => {
+const RequestsList = ({ searchResult, username }: RequestsListPropsType) => {
+  const { token, contactsRequests, setContactsRequests } = GetContext();
   const noSearchResults = searchResult.length === 0;
   const hasContactRequests = contactsRequests.length > 0;
   const navigate = useNavigate();

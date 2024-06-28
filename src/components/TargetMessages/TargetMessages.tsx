@@ -1,3 +1,4 @@
+import { Context } from '../../App';
 import { useState, useEffect, FormEvent, MouseEvent, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ExitGroupModal from './ExitGroupModal/ExitGroupModal';
@@ -7,6 +8,7 @@ import addFileIcon from '../../assets/icons8-add-50.png';
 import addEmoticonIcon from '../../assets/icons8-happy-48.png';
 import defaultAvatar from '../../assets/icons8-avatar-50.png';
 import io, { Socket } from 'socket.io-client';
+import { GetContext } from '../../GetContext';
 
 const socket: Socket = io('https://messagingapp.fly.dev', {
   extraHeaders: {
@@ -57,25 +59,15 @@ type userPropType = {
   groups: groupType[];
 };
 
-type TargetMessagesPropsType = {
-  token?: string;
-  currentUser?: userPropType;
-  setContacts: React.Dispatch<React.SetStateAction<userPropType[]>>;
-};
-
-function TargetMessages({
-  token,
-  currentUser,
-  setContacts,
-}: TargetMessagesPropsType) {
+function TargetMessages() {
   const [targetUser, setTargetUser] = useState<userPropType>();
   const [targetGroup, setTargetGroup] = useState<groupType>();
   const [newMessage, setNewMessage] = useState<string>('');
   const [isExitingGroup, setIsExitingGroup] = useState(false);
-
+  const navigate = useNavigate();
   const targetMessagesId = useParams().id;
 
-  const navigate = useNavigate();
+  const { token, currentUser, setContacts } = GetContext();
 
   function isUserPropType(
     responseData: responseType,
@@ -233,11 +225,7 @@ function TargetMessages({
           </div>
           <div className={styles.messagesContainer}>
             {isExitingGroup && (
-              <ExitGroupModal
-                setIsExitingGroup={setIsExitingGroup}
-                setContacts={setContacts}
-                token={token}
-              />
+              <ExitGroupModal setIsExitingGroup={setIsExitingGroup} />
             )}
 
             {targetUser.messages.map((message, index) =>
@@ -288,11 +276,7 @@ function TargetMessages({
           </>
           <div className={styles.messagesContainer}>
             {isExitingGroup && (
-              <ExitGroupModal
-                setIsExitingGroup={setIsExitingGroup}
-                setContacts={setContacts}
-                token={token}
-              />
+              <ExitGroupModal setIsExitingGroup={setIsExitingGroup} />
             )}
             {targetGroup.messages.map((message, index) =>
               typeof message.from === 'object' &&

@@ -4,6 +4,7 @@ import RequestsList from './RequestsList/RequestsList';
 import SearchResultList from './SearchResultList/SearchResultList';
 import ContactList from './ContactsList/ContactsList';
 import styles from './Requests.module.css';
+import { GetContext } from '../../GetContext';
 
 type HeadersType = {
   'Content-Type': string;
@@ -47,31 +48,14 @@ type userPropType = {
   groups: groupType[];
 };
 
-type RequestsPropsType = {
-  token?: string;
-  currentUser?: userPropType;
-  setCurrentUser: React.Dispatch<
-    React.SetStateAction<userPropType | undefined>
-  >;
-  contacts: userPropType[];
-  setContacts: React.Dispatch<React.SetStateAction<userPropType[]>>;
-  contactsRequests: userPropType[];
-  setContactsRequests: React.Dispatch<React.SetStateAction<userPropType[]>>;
-};
-
-function Requests({
-  token,
-  currentUser,
-  setCurrentUser,
-  contacts,
-  setContacts,
-  contactsRequests,
-  setContactsRequests,
-}: RequestsPropsType) {
+function Requests() {
   const [username, setUsername] = useState('');
   const [searchResult, setSearchResult] = useState<userPropType[]>([]);
   const [searchResultError, setSearchResultError] = useState<string | null>('');
   const navigate = useNavigate();
+
+  const { token, setCurrentUser, setContacts, setContactsRequests } =
+    GetContext();
 
   function preventSubmit(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') e.preventDefault();
@@ -170,26 +154,13 @@ function Requests({
         </form>
 
         <div className={styles.resultsContainer}>
-          <ContactList
-            contacts={contacts}
-            setContacts={setContacts}
-            contactsRequests={contactsRequests}
-            token={token}
-          />
-          <RequestsList
-            contactsRequests={contactsRequests}
-            setContactsRequests={setContactsRequests}
-            searchResult={searchResult}
-            username={username}
-            token={token}
-          />
+          <ContactList />
+          <RequestsList searchResult={searchResult} username={username} />
           <SearchResultList
             username={username}
             setUsername={setUsername}
             searchResult={searchResult}
             searchResultError={searchResultError}
-            currentUser={currentUser}
-            token={token}
           />
         </div>
       </div>

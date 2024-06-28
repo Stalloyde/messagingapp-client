@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './SearchResultList.module.css';
 import addContactIcon from '../../../assets/icons8-add-contact-24.png';
+import { GetContext } from '../../../GetContext';
 
 type HeadersType = {
   'Content-Type': string;
@@ -45,10 +46,9 @@ function SearchResultList({
   setUsername,
   searchResult,
   searchResultError,
-  currentUser,
-  token,
 }: RequestsPropsType) {
   const navigate = useNavigate();
+  const { token, currentUser } = GetContext();
 
   async function sendRequest(id: string) {
     try {

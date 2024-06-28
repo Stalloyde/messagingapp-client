@@ -6,6 +6,7 @@ import defaultAvatar from '../../assets/icons8-avatar-50.png';
 import usernameIcon from '../../assets/icons8-username-32.png';
 import statusIcon from '../../assets/icons8-info-50.png';
 import EditModal from './EditModal';
+import { GetContext } from '../../GetContext';
 
 type messageType = {
   content: string;
@@ -31,18 +32,12 @@ type userPropType = {
   groups: groupType[];
 };
 
-type ProfilePropsType = {
-  token?: string;
-  currentUser?: userPropType;
-  setCurrentUser: React.Dispatch<
-    React.SetStateAction<userPropType | undefined>
-  >;
-};
-
-function Profile({ token, currentUser, setCurrentUser }: ProfilePropsType) {
+function Profile() {
   const [isEditingPic, setIsEditingPic] = useState(false);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const [isEditingStatus, setIsEditingStatus] = useState(false);
+
+  const { currentUser } = GetContext();
 
   function toggleIsEditing(target: string) {
     if (target === 'picture') setIsEditingPic(!isEditingPic);
@@ -61,9 +56,6 @@ function Profile({ token, currentUser, setCurrentUser }: ProfilePropsType) {
         <div className={styles.container}>
           {isEditingStatus || isEditingUsername || isEditingPic ? (
             <EditModal
-              token={token}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
               isEditingStatus={isEditingStatus}
               setIsEditingStatus={setIsEditingStatus}
               isEditingUsername={isEditingUsername}

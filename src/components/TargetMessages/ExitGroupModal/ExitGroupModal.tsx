@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Dialog } from '@mui/material';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+import { GetContext } from '../../../GetContext';
 
 type HeadersType = {
   'Content-Type': string;
@@ -45,20 +46,16 @@ type userPropType = {
   groups: groupType[];
 };
 
-type ExitGroupModalPropsType = {
-  token?: string;
+type ExitGroupModalPropType = {
   setIsExitingGroup: React.Dispatch<React.SetStateAction<boolean>>;
-  setContacts: React.Dispatch<React.SetStateAction<userPropType[]>>;
 };
 
-function ExitGroupModal({
-  setIsExitingGroup,
-  setContacts,
-  token,
-}: ExitGroupModalPropsType) {
+function ExitGroupModal({ setIsExitingGroup }: ExitGroupModalPropType) {
   const [open, setOpen] = useState(true);
   const targetMessagesId = useParams().id;
   const navigate = useNavigate();
+
+  const { setContacts, token } = GetContext();
 
   const handleClose = () => {
     setOpen(false);

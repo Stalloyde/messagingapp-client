@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import styles from './Profile.module.css';
 import { useNavigate } from 'react-router-dom';
+import { GetContext } from '../../GetContext';
 
 type HeadersType = {
   Authorization?: string;
@@ -51,11 +52,6 @@ type userPropType = {
 };
 
 type EditModalPropsType = {
-  token?: string;
-  currentUser?: userPropType;
-  setCurrentUser: React.Dispatch<
-    React.SetStateAction<userPropType | undefined>
-  >;
   isEditingUsername: boolean;
   isEditingStatus: boolean;
   isEditingPic: boolean;
@@ -65,9 +61,6 @@ type EditModalPropsType = {
 };
 
 function EditModal({
-  token,
-  currentUser,
-  setCurrentUser,
   isEditingStatus,
   setIsEditingStatus,
   isEditingUsername,
@@ -80,6 +73,8 @@ function EditModal({
   const [statusInputValue, setStatusInputValue] = useState('');
   const [image, setImage] = useState<undefined | File>();
   const navigate = useNavigate();
+
+  const { token, currentUser, setCurrentUser } = GetContext();
 
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',

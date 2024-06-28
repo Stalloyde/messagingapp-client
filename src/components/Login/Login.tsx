@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import styles from './Login.module.css';
 import loginImage from '../../assets/speech-bubble.jpg';
+import { GetContext } from '../../GetContext';
 
 type loginErrorType = {
   usernameError?: string;
@@ -16,16 +17,13 @@ type responseType = {
   Bearer?: string;
 };
 
-type LoginPropsType = {
-  token?: string;
-  setToken: React.Dispatch<React.SetStateAction<string | undefined>>;
-};
-
-function Login({ setToken }: LoginPropsType) {
+function Login() {
   const [loginError, setLoginError] = useState<loginErrorType>({});
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
+  const { setToken } = GetContext();
 
   const handleToken = (BearerToken: string) => {
     const oneHour = new Date(new Date().getTime() + 1000 * 60 * 1000);

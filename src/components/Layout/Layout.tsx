@@ -1,4 +1,4 @@
-import PreviewMessages from '../PreviewMessages/PreviewMessages';
+import PreviewMessages from './PreviewMessages/PreviewMessages';
 import LeftHeader from './LeftHeader/LeftHeader';
 import { Outlet } from 'react-router-dom';
 import styles from './Layout.module.css';
@@ -27,39 +27,13 @@ type userPropType = {
   groups: groupType[];
 };
 
-type LayoutPropsType = {
-  token?: string;
-  currentUser?: userPropType;
-  setCurrentUser: React.Dispatch<
-    React.SetStateAction<userPropType | undefined>
-  >;
-  contacts: userPropType[];
-  contactsRequests: userPropType[];
-};
-
-function Layout({
-  token,
-  currentUser,
-  setCurrentUser,
-  contacts,
-  contactsRequests,
-}: LayoutPropsType) {
+function Layout() {
   return (
     <>
       <div className={styles.left}>
         <section>
-          <LeftHeader
-            token={token}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-            contactsRequests={contactsRequests}
-            contacts={contacts}
-          />
-          <PreviewMessages
-            token={token}
-            contacts={contacts}
-            contactsRequests={contactsRequests}
-          />
+          <LeftHeader />
+          <PreviewMessages />
         </section>
       </div>
 

@@ -4,6 +4,7 @@ import styles from './DeleteContactModal.module.css';
 import { Dialog } from '@mui/material';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+import { GetContext } from '../../../../GetContext';
 
 type HeadersType = {
   'Content-Type': string;
@@ -49,21 +50,19 @@ type responseType = {
 
 type DeleteContactModalPropsType = {
   setIsDeletingContact: React.Dispatch<React.SetStateAction<boolean>>;
-  setContacts: React.Dispatch<React.SetStateAction<userPropType[]>>;
-  token?: string;
   toDeleteId: string;
   setToDeleteId: React.Dispatch<React.SetStateAction<string>>;
 };
 
 function DeleteContactModal({
   setIsDeletingContact,
-  setContacts,
-  token,
   toDeleteId,
   setToDeleteId,
 }: DeleteContactModalPropsType) {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
+
+  const { token, setContacts } = GetContext();
 
   async function deleteContact() {
     try {
