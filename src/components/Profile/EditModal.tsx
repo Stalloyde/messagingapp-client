@@ -10,44 +10,22 @@ import {
 } from '@mui/material';
 import styles from './Profile.module.css';
 import { useNavigate } from 'react-router-dom';
-import { GetContext } from '../../GetContext';
-
-type HeadersType = {
-  Authorization?: string;
-};
-
-type messageType = {
-  content: string;
-  from: userPropType | string;
-  to: userPropType | string;
-};
-
-type groupType = {
-  _id: string;
-  groupName: string;
-  profilePic: { url: string } | null;
-  messages: messageType[];
-};
+import { GetContext } from '../../utils/GetContext';
+import {
+  HeadersType,
+  userType,
+  groupType,
+  messageType,
+} from '../../utils/TypesDeclaration';
 
 type responseType = {
   error?: string;
   username: string;
   status: string;
-  contacts: userPropType[];
+  contacts: userType[];
   profilePic: { url: string } | null;
   messages: messageType[];
-  contactsRequests: userPropType[];
-  groups: groupType[];
-};
-
-type userPropType = {
-  id?: string;
-  username: string;
-  status: string;
-  contacts: userPropType[];
-  profilePic: { url: string } | null;
-  messages: messageType[];
-  contactsRequests: userPropType[];
+  contactsRequests: userType[];
   groups: groupType[];
 };
 
@@ -115,7 +93,9 @@ function EditModal({
     if (image) formData.append('newProfilePic', image);
 
     try {
-      const headers: HeadersType = {};
+      const headers: HeadersType = {
+        'Content-Type': '',
+      };
 
       if (token) headers.Authorization = token;
       const response = await fetch('https://messagingapp.fly.dev/editProfile', {

@@ -4,45 +4,22 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Dialog } from '@mui/material';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import { GetContext } from '../../../GetContext';
-
-type HeadersType = {
-  'Content-Type': string;
-  Authorization?: string;
-};
-
-type messageType = {
-  content: string;
-  from: userPropType | string;
-  to: userPropType | string;
-};
+import { GetContext } from '../../../utils/GetContext';
+import {
+  HeadersType,
+  messageType,
+  groupType,
+  userType,
+} from '../../../utils/TypesDeclaration';
 
 type responseType = {
   error?: string;
   username: string;
   status: string;
-  contacts: userPropType[];
+  contacts: userType[];
   profilePic: { url: string } | null;
   messages: messageType[];
-  contactsRequests: userPropType[];
-  groups: groupType[];
-};
-
-type groupType = {
-  _id: string;
-  groupName: string;
-  profilePic: { url: string } | null;
-  messages: messageType[];
-};
-
-type userPropType = {
-  id?: string;
-  username: string;
-  status: string;
-  contacts: userPropType[];
-  profilePic: { url: string } | null;
-  messages: messageType[];
-  contactsRequests: userPropType[];
+  contactsRequests: userType[];
   groups: groupType[];
 };
 

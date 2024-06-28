@@ -3,34 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './Signup.module.css';
 import signUpImage from '../../assets/pexels-ds-stories-6991386.jpg';
 
-type messageType = {
-  content: string;
-  from: userType | string;
-  to: userType | string;
-};
-
-type groupType = {
-  _id: string;
-  groupName: string;
-  profilePic: { url: string } | null;
-  messages: messageType[];
-};
-
 type responseType = {
   usernameError?: string;
   passwordError?: string;
   confirmPasswordError?: string;
-};
-
-type userType = {
-  _id?: string;
-  username: string;
-  status: string;
-  contacts: userType[];
-  profilePic: { url: string } | null;
-  messages: messageType[];
-  contactsRequests: userType[];
-  groups: groupType[];
 };
 
 function Signup() {

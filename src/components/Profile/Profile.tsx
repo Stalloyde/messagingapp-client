@@ -6,31 +6,7 @@ import defaultAvatar from '../../assets/icons8-avatar-50.png';
 import usernameIcon from '../../assets/icons8-username-32.png';
 import statusIcon from '../../assets/icons8-info-50.png';
 import EditModal from './EditModal';
-import { GetContext } from '../../GetContext';
-
-type messageType = {
-  content: string;
-  from: userPropType | string;
-  to: userPropType | string;
-};
-
-type groupType = {
-  _id: string;
-  groupName: string;
-  profilePic: { url: string } | null;
-  messages: messageType[];
-};
-
-type userPropType = {
-  id?: string;
-  username: string;
-  status: string;
-  contacts: userPropType[];
-  profilePic: { url: string } | null;
-  messages: messageType[];
-  contactsRequests: userPropType[];
-  groups: groupType[];
-};
+import { GetContext } from '../../utils/GetContext';
 
 function Profile() {
   const [isEditingPic, setIsEditingPic] = useState(false);

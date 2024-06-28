@@ -14,41 +14,7 @@ import Profile from './components/Profile/Profile';
 import Index from './components/Index/Index';
 import TargetMessages from './components/TargetMessages/TargetMessages';
 import Cookies from 'js-cookie';
-
-type messageType = {
-  content: string;
-  from: userType | string;
-  to: userType | string;
-};
-
-type groupType = {
-  _id: string;
-  groupName: string;
-  profilePic: { url: string } | null;
-  messages: messageType[];
-};
-
-type userType = {
-  _id?: string;
-  username: string;
-  status: string;
-  contacts: userType[];
-  profilePic: { url: string } | null;
-  messages: messageType[];
-  contactsRequests: userType[];
-  groups: groupType[];
-};
-
-export type ContextType = {
-  token?: string;
-  setToken: React.Dispatch<React.SetStateAction<string | undefined>>;
-  currentUser?: userType;
-  setCurrentUser: React.Dispatch<React.SetStateAction<userType | undefined>>;
-  contacts: userType[];
-  setContacts: React.Dispatch<React.SetStateAction<userType[]>>;
-  contactsRequests: userType[];
-  setContactsRequests: React.Dispatch<React.SetStateAction<userType[]>>;
-};
+import { userType, ContextType } from './utils/TypesDeclaration';
 
 export const Context = createContext<ContextType | null>(null);
 

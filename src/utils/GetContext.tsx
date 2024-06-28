@@ -1,4 +1,4 @@
-import { Context } from './App';
+import { Context } from '../App';
 import { useContext } from 'react';
 
 export function GetContext() {

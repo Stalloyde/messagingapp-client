@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import styles from './Login.module.css';
 import loginImage from '../../assets/speech-bubble.jpg';
-import { GetContext } from '../../GetContext';
+import { GetContext } from '../../utils/GetContext';
 
 type loginErrorType = {
   usernameError?: string;

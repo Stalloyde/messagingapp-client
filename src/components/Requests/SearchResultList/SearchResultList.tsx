@@ -1,43 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './SearchResultList.module.css';
 import addContactIcon from '../../../assets/icons8-add-contact-24.png';
-import { GetContext } from '../../../GetContext';
-
-type HeadersType = {
-  'Content-Type': string;
-  Authorization?: string;
-};
-
-type messageType = {
-  content: string;
-  from: userPropType | string;
-  to: userPropType | string;
-};
-
-type groupType = {
-  _id: string;
-  groupName: string;
-  profilePic: { url: string } | null;
-  messages: messageType[];
-};
-
-type userPropType = {
-  _id?: string;
-  username: string;
-  status: string;
-  contacts: userPropType[];
-  profilePic: { url: string } | null;
-  messages: messageType[];
-  contactsRequests: userPropType[] | string[];
-  groups: groupType[];
-};
+import { GetContext } from '../../../utils/GetContext';
+import { HeadersType, userType } from '../../../utils/TypesDeclaration';
 
 type RequestsPropsType = {
   username?: string;
   setUsername: React.Dispatch<React.SetStateAction<string>>;
-  searchResult: userPropType[];
+  searchResult: userType[];
   searchResultError: string | null;
-  currentUser?: userPropType;
+  currentUser?: userType;
   token?: string;
 };
 
@@ -94,7 +66,7 @@ function SearchResultList({
           <ul>
             {searchResult.map((result, index) => {
               const isRequestPending = currentUser._id
-                ? (result.contactsRequests as string[]).includes(
+                ? (result.contactsRequests as unknown as string[]).includes(
                     currentUser._id,
                   )
                 : false;

@@ -3,12 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './PreviewMessages.module.css';
 import groupIcon from '../../../assets/icons8-group-24.png';
 import defaultAvatar from '../../../assets/icons8-avatar-50.png';
-import { GetContext } from '../../../GetContext';
-
-type HeadersType = {
-  'Content-Type': string;
-  Authorization?: string;
-};
+import { GetContext } from '../../../utils/GetContext';
+import {
+  HeadersType,
+  userType,
+  groupType,
+  messageType,
+} from '../../../utils/TypesDeclaration';
 
 type responseType = {
   length?: number;
@@ -16,39 +17,15 @@ type responseType = {
   error?: string;
   username: string;
   status: string;
-  contacts: userPropType[];
+  contacts: userType[];
   profilePic: { url: string } | null;
   messages: messageType[];
-  contactsRequests: userPropType[];
+  contactsRequests: userType[];
   groups: groupType[];
-};
-
-type userPropType = {
-  _id?: string;
-  username: string;
-  status: string;
-  contacts: userPropType[];
-  profilePic: { url: string } | null;
-  messages: messageType[];
-  contactsRequests: userPropType[];
-  groups: groupType[];
-};
-
-type groupType = {
-  _id?: string;
-  groupName: string;
-  profilePic: { url: string } | null;
-  messages: messageType[];
-};
-
-type messageType = {
-  content: string;
-  from: userPropType | string;
-  to: userPropType | string;
 };
 
 function Messages() {
-  const [toRenderContacts, setToRenderContacts] = useState<userPropType[]>([]);
+  const [toRenderContacts, setToRenderContacts] = useState<userType[]>([]);
   const [toRenderGroups, setToRenderGroups] = useState<groupType[]>([]);
   const navigate = useNavigate();
 
@@ -117,7 +94,7 @@ function Messages() {
         ))}
 
         {toRenderGroups.map((group, index) => (
-          <Link key={index} to={`/messages/${group._id ?? ''}`}>
+          <Link key={index} to={`/messages/${group._id}`}>
             <li id={group._id}>
               {group.profilePic && group.profilePic.url ? (
                 <img src={group.profilePic.url} alt='profile-pic' />

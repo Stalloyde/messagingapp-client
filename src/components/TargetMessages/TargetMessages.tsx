@@ -7,7 +7,13 @@ import addFileIcon from '../../assets/icons8-add-50.png';
 import addEmoticonIcon from '../../assets/icons8-happy-48.png';
 import defaultAvatar from '../../assets/icons8-avatar-50.png';
 import io, { Socket } from 'socket.io-client';
-import { GetContext } from '../../GetContext';
+import { GetContext } from '../../utils/GetContext';
+import {
+  HeadersType,
+  messageType,
+  groupType,
+  userType,
+} from '../../utils/TypesDeclaration';
 
 const socket: Socket = io('https://messagingapp.fly.dev', {
   extraHeaders: {
@@ -15,51 +21,21 @@ const socket: Socket = io('https://messagingapp.fly.dev', {
   },
 });
 
-type HeadersType = {
-  'Content-Type': string;
-  Authorization?: string;
-};
-
-type messageType = {
-  content: string;
-  from: userPropType | string;
-  to: userPropType | string;
-};
-
-type groupType = {
-  _id: string;
-  groupName: string;
-  participants?: userPropType[];
-  profilePic: { url: string } | null;
-  messages: messageType[];
-};
-
 type responseType = {
   error?: string;
   username?: string;
   status?: string;
-  contacts?: userPropType[];
+  contacts?: userType[];
   profilePic: { url: string } | null;
   messages: messageType[];
-  contactsRequests?: userPropType[];
+  contactsRequests?: userType[];
   groups?: groupType[];
   groupName?: string;
-  participants?: userPropType[];
-};
-
-type userPropType = {
-  _id?: string;
-  username: string;
-  status: string;
-  contacts: userPropType[];
-  profilePic: { url: string } | null;
-  messages: messageType[];
-  contactsRequests: userPropType[];
-  groups: groupType[];
+  participants?: userType[];
 };
 
 function TargetMessages() {
-  const [targetUser, setTargetUser] = useState<userPropType>();
+  const [targetUser, setTargetUser] = useState<userType>();
   const [targetGroup, setTargetGroup] = useState<groupType>();
   const [newMessage, setNewMessage] = useState<string>('');
   const [isExitingGroup, setIsExitingGroup] = useState(false);
@@ -70,7 +46,7 @@ function TargetMessages() {
 
   function isUserPropType(
     responseData: responseType,
-  ): responseData is userPropType {
+  ): responseData is userType {
     return responseData.username !== undefined;
   }
 
