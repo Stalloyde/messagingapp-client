@@ -236,9 +236,7 @@ function TargetMessages() {
               <strong>{targetGroup.groupName}</strong>
               <div className={styles.groupContainer}>
                 <div>
-                  {targetGroup.participants && (
-                    <em>{targetGroup.participants.length} members</em>
-                  )}
+                  <em>{targetGroup.participants.length} members</em>
                 </div>
                 <button
                   onClick={() => {
