@@ -14,6 +14,7 @@ export type groupType = {
   groupName: string;
   profilePic: { url: string } | null;
   messages: messageType[];
+  participants: userType[];
 };
 
 export type userType = {
