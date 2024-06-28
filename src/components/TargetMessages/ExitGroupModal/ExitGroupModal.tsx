@@ -77,7 +77,7 @@ function ExitGroupModal({ setIsExitingGroup }: ExitGroupModalPropType) {
             <strong>Are you sure you want to leave the group?</strong>
           </DialogContentText>
           <DialogContentText>
-            <em>There isn't a re-join group feature.</em>
+            <em>There isn&apos;`t a re-join group feature.</em>
           </DialogContentText>
 
           <div className={styles.buttonContainer}>
