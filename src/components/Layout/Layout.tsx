@@ -1,4 +1,4 @@
-import Messages from '../Messages/Messages';
+import PreviewMessages from '../PreviewMessages/PreviewMessages';
 import LeftHeader from './LeftHeader/LeftHeader';
 import { Outlet } from 'react-router-dom';
 import styles from './Layout.module.css';
@@ -55,7 +55,7 @@ function Layout({
             contactsRequests={contactsRequests}
             contacts={contacts}
           />
-          <Messages
+          <PreviewMessages
             token={token}
             contacts={contacts}
             contactsRequests={contactsRequests}

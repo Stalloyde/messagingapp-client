@@ -64,6 +64,7 @@ function LeftHeader({
 }: LeftHeaderPropsType) {
   const [requestsCount, setRequestCount] = useState<number>();
   const navigate = useNavigate();
+
   useEffect(() => {
     async function getCurrentUserRequests() {
       try {

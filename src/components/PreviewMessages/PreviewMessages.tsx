@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import styles from './Messages.module.css';
+import styles from './PreviewMessages.module.css';
 import groupIcon from '../../assets/icons8-group-24.png';
 import defaultAvatar from '../../assets/icons8-avatar-50.png';
 
