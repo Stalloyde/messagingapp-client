@@ -1,4 +1,3 @@
-import { Context } from '../../App';
 import { useState, useEffect, FormEvent, MouseEvent, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ExitGroupModal from './ExitGroupModal/ExitGroupModal';
