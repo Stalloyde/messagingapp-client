@@ -20,7 +20,7 @@ function Signup() {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://messagingapp.fly.dev/signup', {
+      const response = await fetch('http://messagingapp.fly.dev/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

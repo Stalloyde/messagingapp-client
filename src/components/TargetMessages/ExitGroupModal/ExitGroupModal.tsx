@@ -49,7 +49,7 @@ function ExitGroupModal({ setIsExitingGroup }: ExitGroupModalPropType) {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `https://messagingapp.fly.dev/messages/${targetMessagesId}/exit-group`,
+        `http://messagingapp.fly.dev/messages/${targetMessagesId}/exit-group`,
         {
           headers,
           method: 'put',

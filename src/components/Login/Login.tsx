@@ -40,7 +40,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://messagingapp.fly.dev/login', {
+      const response = await fetch('http://localhost:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +74,10 @@ function Login() {
         <div className={styles.formHeader}>
           <h2>Log in to your account</h2>
           <p>
-            Don&apos;t have an account? <Link to='/signup'>Sign Up</Link>
+            Don&apos;t have an account? <Link to='/signup'>Sign Up</Link> or..
+          </p>
+          <p>
+            Log in with <a href='http://localhost:3000/auth/github'>GitHub</a>
           </p>
         </div>
         {/*eslint-disable-next-line @typescript-eslint/no-misused-promises */}
@@ -100,7 +103,6 @@ function Login() {
               />
             </div>
           </div>
-
           <div>
             <div>
               <label htmlFor='password'>Password: </label>

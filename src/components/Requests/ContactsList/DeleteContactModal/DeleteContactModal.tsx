@@ -48,13 +48,10 @@ function DeleteContactModal({
       };
 
       if (token) headers.Authorization = token;
-      const response = await fetch(
-        `https://messagingapp.fly.dev/requests/${toDeleteId}`,
-        {
-          headers,
-          method: 'DELETE',
-        },
-      );
+      const response = await fetch(`http://localhost:3000/${toDeleteId}`, {
+        headers,
+        method: 'DELETE',
+      });
       if (response.status === 401) navigate('/login');
       if (!response.ok)
         throw new Error(

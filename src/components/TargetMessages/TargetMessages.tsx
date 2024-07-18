@@ -15,9 +15,9 @@ import {
   userType,
 } from '../../utils/TypesDeclaration';
 
-const socket: Socket = io('https://messagingapp.fly.dev', {
+const socket: Socket = io('http://localhost:3000', {
   extraHeaders: {
-    'Access-Control-Allow-Origin': 'https://messagingapp-client.vercel.app',
+    'Access-Control-Allow-Origin': 'http://localhost:5173',
   },
 });
 
@@ -62,7 +62,7 @@ function TargetMessages() {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `https://messagingapp.fly.dev/messages/${targetMessagesId}`,
+        `http://localhost:3000/messages/${targetMessagesId}`,
         {
           headers,
         },
@@ -141,7 +141,7 @@ function TargetMessages() {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `https://messagingapp.fly.dev/messages/${targetMessagesId}`,
+        `http://localhost:3000/${targetMessagesId}`,
         {
           headers,
           method: 'post',
