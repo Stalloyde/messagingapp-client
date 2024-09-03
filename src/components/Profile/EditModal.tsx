@@ -91,14 +91,11 @@ function EditModal({
     formData.append('newUsername', usernameInputValue);
     formData.append('newStatus', statusInputValue);
     if (image) formData.append('newProfilePic', image);
-
     try {
-      const headers: HeadersType = {
-        'Content-Type': '',
-      };
-
+      const headers = { Authorization: '' };
       if (token) headers.Authorization = token;
-      const response = await fetch('https://messagingapp.fly.dev/editProfile', {
+
+      const response = await fetch('http://localhost:3000/editProfile', {
         headers,
         method: 'PUT',
         body: formData,

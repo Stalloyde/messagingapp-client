@@ -19,7 +19,8 @@ type responseType = {
   contacts: userType[];
   profilePic: { url: string } | null;
   messages: messageType[];
-  contactsRequests: userType[];
+  contactsRequestsFrom: userType[];
+  contactsRequestsTo: userType[];
   groups: groupType[];
 };
 
@@ -27,7 +28,7 @@ function LeftHeader() {
   const [requestsCount, setRequestCount] = useState<number>();
   const navigate = useNavigate();
 
-  const { token, currentUser, setCurrentUser, contactsRequests, contacts } =
+  const { token, currentUser, setCurrentUser, contactsRequestsFrom, contacts } =
     GetContext();
 
   useEffect(() => {
@@ -38,7 +39,7 @@ function LeftHeader() {
         };
 
         if (token) headers.Authorization = token;
-        const response = await fetch('https://messagingapp.fly.dev', {
+        const response = await fetch('http://localhost:3000', {
           headers,
           mode: 'cors',
         });
@@ -48,20 +49,19 @@ function LeftHeader() {
           throw new Error(
             `This is an HTTP error: The status is ${response.status}`,
           );
-
         const responseData = (await response.json()) as responseType;
         if (responseData.error) navigate('/login');
         setCurrentUser(responseData);
 
-        const { contactsRequests } = responseData;
-        setRequestCount(contactsRequests.length);
+        const { contactsRequestsFrom } = responseData;
+        setRequestCount(contactsRequestsFrom.length);
       } catch (err) {
         console.error(err);
       }
     }
     void getCurrentUserRequests();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contactsRequests, contacts]);
+  }, [contactsRequestsFrom, contacts]);
 
   return (
     <div className={styles.container}>
@@ -69,7 +69,7 @@ function LeftHeader() {
         <>
           <Link to='/profile' className={styles.userContainer}>
             {currentUser.profilePic ? (
-              <img src={currentUser.profilePic.url} alt='profile-pic' />
+              <img src={currentUser.profilePic} alt='profile-pic' />
             ) : (
               <img
                 src={defaultAvatar}

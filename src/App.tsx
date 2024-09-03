@@ -23,7 +23,10 @@ const App = () => {
   const [token, setToken] = useState(jwtToken);
   const [currentUser, setCurrentUser] = useState<userType>();
   const [contacts, setContacts] = useState<userType[]>([]);
-  const [contactsRequests, setContactsRequests] = useState<userType[]>([]);
+  const [contactsRequestsFrom, setContactsRequestsFrom] = useState<userType[]>(
+    [],
+  );
+  const [contactsRequestsTo, setContactsRequestsTo] = useState<userType[]>([]);
 
   const router = createBrowserRouter([
     {
@@ -74,8 +77,10 @@ const App = () => {
         setCurrentUser,
         contacts,
         setContacts,
-        contactsRequests,
-        setContactsRequests,
+        contactsRequestsFrom,
+        contactsRequestsTo,
+        setContactsRequestsFrom,
+        setContactsRequestsTo,
       }}>
       <React.StrictMode>
         <RouterProvider router={router} />

@@ -49,7 +49,7 @@ function ExitGroupModal({ setIsExitingGroup }: ExitGroupModalPropType) {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `https://messagingapp.fly.dev/messages/${targetMessagesId}/exit-group`,
+        `http://localhost:3000/messages/${targetMessagesId}/exit-group`,
         {
           headers,
           method: 'put',
@@ -64,6 +64,7 @@ function ExitGroupModal({ setIsExitingGroup }: ExitGroupModalPropType) {
       const responseData = (await response.json()) as responseType;
       if (responseData.error) navigate('/login');
       setContacts(responseData.contacts);
+      navigate('/');
     } catch (err) {
       console.error(err);
     }

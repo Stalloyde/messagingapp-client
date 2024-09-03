@@ -19,7 +19,8 @@ type responseType = {
   contacts: userType[];
   profilePic: { url: string } | null;
   messages: messageType[];
-  contactsRequests: userType[];
+  contactsRequestsFrom: userType[];
+  contactsRequestsTo: userType[];
   groups: groupType[];
 };
 
@@ -29,12 +30,16 @@ type RequestsListPropsType = {
 };
 
 const RequestsList = ({ searchResult, username }: RequestsListPropsType) => {
-  const { token, contactsRequests, setContactsRequests } = GetContext();
+  const { token, contactsRequestsFrom, setContactsRequestsFrom } = GetContext();
   const noSearchResults = searchResult.length === 0;
-  const hasContactRequests = contactsRequests.length > 0;
+  const hasContactRequests = contactsRequestsFrom.length > 0;
   const navigate = useNavigate();
 
-  async function handleRequest(id: string, action: string) {
+  async function handleRequest(
+    requestingUserId: number,
+    action: string,
+    contactsRequestsId: number,
+  ) {
     try {
       const headers: HeadersType = {
         'Content-Type': 'application/json',
@@ -43,11 +48,11 @@ const RequestsList = ({ searchResult, username }: RequestsListPropsType) => {
       if (token) headers.Authorization = token;
 
       const response = await fetch(
-        `https://messagingapp.fly.dev/requests/${id}`,
+        `http://localhost:3000/requests/${requestingUserId}`,
         {
           headers,
           method: 'PUT',
-          body: JSON.stringify({ action }),
+          body: JSON.stringify({ action, contactsRequestsId }),
         },
       );
 
@@ -58,7 +63,7 @@ const RequestsList = ({ searchResult, username }: RequestsListPropsType) => {
         );
 
       const responseData = (await response.json()) as responseType;
-      setContactsRequests(responseData.contactsRequests);
+      setContactsRequestsFrom(responseData.contactsRequestsFrom);
     } catch (err) {
       console.error(err);
     }
@@ -75,44 +80,57 @@ const RequestsList = ({ searchResult, username }: RequestsListPropsType) => {
       {hasContactRequests && !username && (
         <div className={styles.listContainer}>
           <h2>Incoming Requests</h2>
-          {contactsRequests.map((request, index) => (
-            <div key={index} className={styles.requestContainer}>
-              <div>
-                <p>{request.username}</p>
-                <p className={styles.status}>{request.status}</p>
-              </div>
-              <div className={styles.buttonContainer}>
-                <div>
-                  <button
-                    className={styles.approve}
-                    onClick={() => {
-                      if (request._id)
-                        void handleRequest(request._id, 'approve');
-                    }}>
-                    <img
-                      src={acceptRequestIcon}
-                      alt='accept-request'
-                      className={styles.icon}
-                    />
-                  </button>
+          {contactsRequestsFrom.map(
+            (request, index) =>
+              request.from && (
+                <div key={index} className={styles.requestContainer}>
+                  <div>
+                    <p>{request.from.username}</p>
+                    <p className={styles.status}>{request.status}</p>
+                  </div>
+                  <div className={styles.buttonContainer}>
+                    <div>
+                      <button
+                        className={styles.approve}
+                        onClick={() => {
+                          request.from &&
+                            request.id &&
+                            void handleRequest(
+                              request.from.id,
+                              'approve',
+                              request.id,
+                            );
+                        }}>
+                        <img
+                          src={acceptRequestIcon}
+                          alt='accept-request'
+                          className={styles.icon}
+                        />
+                      </button>
+                    </div>
+                    <div>
+                      <button
+                        className={styles.reject}
+                        onClick={() => {
+                          request.from &&
+                            request.id &&
+                            void handleRequest(
+                              request.from.id,
+                              'reject',
+                              request.id,
+                            );
+                        }}>
+                        <img
+                          src={rejectRequestIcon}
+                          alt='reject-request'
+                          className={styles.icon}
+                        />
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <button
-                    className={styles.reject}
-                    onClick={() => {
-                      if (request._id)
-                        void handleRequest(request._id, 'reject');
-                    }}>
-                    <img
-                      src={rejectRequestIcon}
-                      alt='reject-request'
-                      className={styles.icon}
-                    />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+              ),
+          )}
         </div>
       )}
     </>

@@ -22,7 +22,7 @@ function SearchResultList({
   const navigate = useNavigate();
   const { token, currentUser } = GetContext();
 
-  async function sendRequest(id: string) {
+  async function sendRequest(id: number) {
     try {
       const headers: HeadersType = {
         'Content-Type': 'application/json',
@@ -30,14 +30,11 @@ function SearchResultList({
 
       if (token) headers.Authorization = token;
 
-      const response = await fetch(
-        `https://messagingapp.fly.dev/requests/${id}`,
-        {
-          headers,
-          method: 'POST',
-          body: JSON.stringify({ username }),
-        },
-      );
+      const response = await fetch(`http://localhost:3000/requests/${id}`, {
+        headers,
+        method: 'POST',
+        body: JSON.stringify({ username }),
+      });
 
       if (response.status === 401) navigate('/login');
       if (!response.ok)
@@ -56,7 +53,7 @@ function SearchResultList({
       {searchResultError && username && (
         <div className={styles.listContainer}>
           <h2>Search Results</h2>
-          <div>Username not found</div>
+          <div>{searchResultError}</div>
         </div>
       )}
 
@@ -65,46 +62,26 @@ function SearchResultList({
           <h2>Search Results</h2>
           <ul>
             {searchResult.map((result, index) => {
-              const isRequestPending = currentUser._id
-                ? (result.contactsRequests as unknown as string[]).includes(
-                    currentUser._id,
-                  )
-                : false;
-
               return (
                 <li key={index} className={styles.searchResult}>
                   <div>
                     <p>{result.username}</p>
                     <p className={styles.status}>{result.status}</p>
                   </div>
-                  {isRequestPending && (
-                    <div className={styles.buttonContainer}>
-                      <button disabled>
-                        <div>
-                          <img
-                            className={styles.icon}
-                            src={addContactIcon}></img>
-                          Requested
-                        </div>
-                      </button>
-                    </div>
-                  )}
-                  {!isRequestPending && (
-                    <div className={styles.buttonContainer}>
-                      <button
-                        onClick={() => {
-                          if (result._id) void sendRequest(result._id);
-                        }}>
-                        <div>
-                          <img
-                            className={styles.icon}
-                            src={addContactIcon}
-                            id={result._id}></img>
-                          Request
-                        </div>
-                      </button>
-                    </div>
-                  )}
+                  <div className={styles.buttonContainer}>
+                    <button
+                      onClick={() => {
+                        if (result.id) void sendRequest(result.id);
+                      }}>
+                      <div>
+                        <img
+                          className={styles.icon}
+                          src={addContactIcon}
+                          id={JSON.stringify(result.id)}></img>
+                        Request
+                      </div>
+                    </button>
+                  </div>
                 </li>
               );
             })}

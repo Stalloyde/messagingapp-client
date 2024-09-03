@@ -36,7 +36,7 @@ function Group() {
         };
 
         if (token) headers.Authorization = token;
-        const response = await fetch('https://messagingapp.fly.dev', {
+        const response = await fetch('http://localhost:3000', {
           headers,
         });
 
@@ -47,7 +47,6 @@ function Group() {
           );
 
         const responseData = (await response.json()) as responseType;
-        if (responseData.error) navigate('/login');
         setContacts(responseData.contacts);
       } catch (err) {
         console.error(err);
@@ -67,28 +66,25 @@ function Group() {
 
   async function createNewGroup(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (checkedUsers.length > 1) {
-      try {
-        const headers: HeadersType = {
-          'Content-Type': 'application/json',
-        };
-        if (token) headers.Authorization = token;
-        const response = await fetch('https://messagingapp.fly.dev/group', {
-          headers,
-          method: 'POST',
-          body: JSON.stringify({ checkedUsers, groupName }),
-        });
+    try {
+      const headers: HeadersType = {
+        'Content-Type': 'application/json',
+      };
+      if (token) headers.Authorization = token;
+      const response = await fetch('http://localhost:3000/group', {
+        headers,
+        method: 'POST',
+        body: JSON.stringify({ checkedUsers, groupName }),
+      });
 
-        if (response.statusText === 'Unauthorized') navigate('/login');
-        const responseData = (await response.json()) as responseType;
-        setContacts([...responseData.contacts]);
-        setCheckedUsers([]);
-        setGroupName('');
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      setCreateGroupError('*Not enough participants to create a group');
+      if (response.statusText === 'Unauthorized') navigate('/login');
+      const responseData = (await response.json()) as responseType;
+      responseData.error ? setCreateGroupError(responseData.error) : null;
+      setContacts([...responseData.contacts]);
+      setCheckedUsers([]);
+      setGroupName('');
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -107,11 +103,11 @@ function Group() {
           <div className={styles.contactListContainer}>
             {contacts.map((contact, index) => (
               <div key={index}>
-                <label htmlFor={contact._id}>
+                <label>
                   {contact.username}
                   <input
                     type='checkbox'
-                    id={contact._id}
+                    id={contact.id?.toString()}
                     value={contact.username}
                     checked={checkedUsers.includes(contact.username)}
                     onChange={(e) => {

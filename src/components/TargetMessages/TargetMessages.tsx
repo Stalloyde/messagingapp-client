@@ -15,9 +15,9 @@ import {
   userType,
 } from '../../utils/TypesDeclaration';
 
-const socket: Socket = io('https://messagingapp.fly.dev', {
+const socket: Socket = io('http://localhost:3000', {
   extraHeaders: {
-    'Access-Control-Allow-Origin': 'https://messagingapp-client.vercel.app',
+    'Access-Control-Allow-Origin': 'http://localhost:5173',
   },
 });
 
@@ -62,7 +62,7 @@ function TargetMessages() {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `https://messagingapp.fly.dev/messages/${targetMessagesId}`,
+        `http://localhost:3000/messages/${targetMessagesId}`,
         {
           headers,
         },
@@ -75,7 +75,10 @@ function TargetMessages() {
         );
 
       const responseData = (await response.json()) as responseType;
-      if (responseData.error) navigate('/login');
+      if (responseData.error) {
+        navigate('/');
+        throw new Error(responseData.error);
+      }
       if (isUserPropType(responseData)) {
         setTargetUser(responseData);
         setTargetGroup(undefined);
@@ -141,7 +144,7 @@ function TargetMessages() {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `https://messagingapp.fly.dev/messages/${targetMessagesId}`,
+        `http://localhost:3000/messages/${targetMessagesId}`,
         {
           headers,
           method: 'post',
@@ -188,7 +191,7 @@ function TargetMessages() {
         <>
           <div className={styles.rightHeader}>
             {targetUser.profilePic ? (
-              <img src={targetUser.profilePic.url} />
+              <img src={targetUser.profilePic} />
             ) : (
               <img
                 src={defaultAvatar}
@@ -204,7 +207,7 @@ function TargetMessages() {
             )}
 
             {targetUser.messages.map((message, index) =>
-              message.from === currentUser._id ? (
+              message.userIdFrom === currentUser.id ? (
                 <div key={index} className={styles.outgoingContainer}>
                   <div className={styles.outgoingMessage}>
                     {message.content}
@@ -252,8 +255,7 @@ function TargetMessages() {
               <ExitGroupModal setIsExitingGroup={setIsExitingGroup} />
             )}
             {targetGroup.messages.map((message, index) =>
-              typeof message.from === 'object' &&
-              message.from._id === currentUser._id ? (
+              message.userIdFrom === currentUser.id ? (
                 <div key={index} className={styles.outgoingContainer}>
                   <div className={styles.outgoingMessage}>
                     <h3>{message.from.username}</h3>
@@ -263,9 +265,7 @@ function TargetMessages() {
               ) : (
                 <div key={index} className={styles.incomingContainer}>
                   <>
-                    {typeof message.from === 'object' && (
-                      <h3>{message.from.username}</h3>
-                    )}
+                    <h3>{message.from.username}</h3>
                     {message.content}
                   </>
                 </div>

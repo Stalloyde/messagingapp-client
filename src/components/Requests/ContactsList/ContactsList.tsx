@@ -20,7 +20,8 @@ type responseType = {
   contacts: userType[];
   profilePic: { url: string } | null;
   messages: messageType[];
-  contactsRequests: userType[];
+  contactsRequestsFrom: userType[];
+  contactsRequestsTo: userType[];
   groups: groupType[];
 };
 
@@ -28,7 +29,7 @@ function ContactsList() {
   const [isDeletingContact, setIsDeletingContact] = useState(false);
   const [toDeleteId, setToDeleteId] = useState('');
   const navigate = useNavigate();
-  const { contacts, setContacts, contactsRequests, token } = GetContext();
+  const { contacts, setContacts, contactsRequestsFrom, token } = GetContext();
 
   useEffect(() => {
     async function getContactsToRender() {
@@ -38,7 +39,7 @@ function ContactsList() {
         };
 
         if (token) headers.Authorization = token;
-        const response = await fetch('https://messagingapp.fly.dev', {
+        const response = await fetch('http://localhost:3000', {
           headers,
         });
 
@@ -57,7 +58,7 @@ function ContactsList() {
     }
     void getContactsToRender();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contactsRequests]);
+  }, [contactsRequestsFrom]);
 
   function handleClick(id: string) {
     setIsDeletingContact(true);
@@ -85,7 +86,7 @@ function ContactsList() {
               </div>
               <div className={styles.buttonContainer}>
                 <button
-                  id={contact._id}
+                  id={contact.id?.toString()}
                   onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                     handleClick(e.currentTarget.id);
                   }}>
@@ -93,7 +94,7 @@ function ContactsList() {
                     className={styles.icon}
                     src={deleteContactIcon}
                     alt='Delete Contact'
-                    id={contact._id}
+                    id={contact.id?.toString()}
                   />
                 </button>
               </div>

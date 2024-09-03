@@ -29,7 +29,7 @@ function Messages() {
   const [toRenderGroups, setToRenderGroups] = useState<groupType[]>([]);
   const navigate = useNavigate();
 
-  const { token, contactsRequests, contacts } = GetContext();
+  const { token, contactsRequestsFrom, contacts } = GetContext();
 
   useEffect(() => {
     async function getContactsToRender() {
@@ -39,7 +39,7 @@ function Messages() {
         };
 
         if (token) headers.Authorization = token;
-        const response = await fetch('https://messagingapp.fly.dev', {
+        const response = await fetch('http://localhost:3000', {
           headers,
         });
 
@@ -61,16 +61,16 @@ function Messages() {
     }
     void getContactsToRender();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contacts, contactsRequests]);
+  }, [contacts, contactsRequestsFrom]);
 
   return (
     <div className={styles.container}>
       <ul>
         {toRenderContacts.map((item, index) => (
-          <Link key={index} to={`/messages/${item._id ?? ''}`}>
-            <li id={item._id}>
+          <Link key={index} to={`/messages/${item.id}`}>
+            <li id={item.id?.toString()}>
               {item.profilePic ? (
-                <img src={item.profilePic.url} alt='profile-pic' />
+                <img src={item.profilePic} alt='profile-pic' />
               ) : (
                 <img
                   src={defaultAvatar}
@@ -94,8 +94,8 @@ function Messages() {
         ))}
 
         {toRenderGroups.map((group, index) => (
-          <Link key={index} to={`/messages/${group._id}`}>
-            <li id={group._id}>
+          <Link key={index} to={`/messages/${group.id}`}>
+            <li id={group.id.toString()}>
               {group.profilePic && group.profilePic.url ? (
                 <img src={group.profilePic.url} alt='profile-pic' />
               ) : (

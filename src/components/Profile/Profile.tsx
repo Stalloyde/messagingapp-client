@@ -50,7 +50,7 @@ function Profile() {
               />
             ) : (
               <img
-                src={currentUser.profilePic.url}
+                src={currentUser.profilePic}
                 alt='profile-pic'
                 className={styles.profilePic}
               />

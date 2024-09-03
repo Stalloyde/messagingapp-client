@@ -21,7 +21,8 @@ type responseType = {
   contacts: userType[];
   profilePic: { url: string } | null;
   messages: messageType[];
-  contactsRequests: userType[];
+  contactsRequestsFrom: userType[];
+  contactsRequestsTo: userType[];
   groups: groupType[];
 };
 
@@ -31,7 +32,7 @@ function Requests() {
   const [searchResultError, setSearchResultError] = useState<string | null>('');
   const navigate = useNavigate();
 
-  const { token, setCurrentUser, setContacts, setContactsRequests } =
+  const { token, setCurrentUser, setContacts, setContactsRequestsFrom } =
     GetContext();
 
   function preventSubmit(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -46,7 +47,7 @@ function Requests() {
         };
 
         if (token) headers.Authorization = token;
-        const response = await fetch(`https://messagingapp.fly.dev/requests`, {
+        const response = await fetch(`http://localhost:3000/requests`, {
           headers,
         });
 
@@ -59,7 +60,7 @@ function Requests() {
         const responseData = (await response.json()) as responseType;
 
         if (responseData.error) navigate('/login');
-        setContactsRequests(responseData.contactsRequests);
+        setContactsRequestsFrom(responseData.contactsRequestsFrom);
         setCurrentUser(responseData);
         setContacts(responseData.contacts);
       } catch (err) {
@@ -79,7 +80,7 @@ function Requests() {
 
         if (token) headers.Authorization = token;
 
-        const response = await fetch('https://messagingapp.fly.dev/requests', {
+        const response = await fetch('http://localhost:3000/requests', {
           headers,
           method: 'POST',
           body: JSON.stringify({ username }),

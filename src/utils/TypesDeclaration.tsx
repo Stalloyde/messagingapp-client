@@ -4,13 +4,14 @@ export type HeadersType = {
 };
 
 export type messageType = {
+  from: userType;
   content: string;
-  from: userType | string;
-  to: userType | string;
+  userIdFrom: userType | number;
+  userIdTo: userType | number;
 };
 
 export type groupType = {
-  _id: string;
+  id: number;
   groupName: string;
   profilePic: { url: string } | null;
   messages: messageType[];
@@ -18,13 +19,15 @@ export type groupType = {
 };
 
 export type userType = {
-  _id?: string;
+  from?: { id: number; userIdFrom: number; userIdTo: number; username: string };
+  id?: number;
   username: string;
   status: string;
   contacts: userType[];
-  profilePic: { url: string } | null;
+  profilePic: string | null;
   messages: messageType[];
-  contactsRequests: userType[];
+  contactsRequestsFrom: userType[];
+  contactsRequestsTo: userType[];
   groups: groupType[];
 };
 
@@ -35,6 +38,8 @@ export type ContextType = {
   setCurrentUser: React.Dispatch<React.SetStateAction<userType | undefined>>;
   contacts: userType[];
   setContacts: React.Dispatch<React.SetStateAction<userType[]>>;
-  contactsRequests: userType[];
-  setContactsRequests: React.Dispatch<React.SetStateAction<userType[]>>;
+  contactsRequestsFrom: userType[];
+  contactsRequestsTo: userType[];
+  setContactsRequestsFrom: React.Dispatch<React.SetStateAction<userType[]>>;
+  setContactsRequestsTo: React.Dispatch<React.SetStateAction<userType[]>>;
 };
