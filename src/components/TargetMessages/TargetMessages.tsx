@@ -15,9 +15,9 @@ import {
   userType,
 } from '../../utils/TypesDeclaration';
 
-const socket: Socket = io('https://messagingapp.fly.dev:3000', {
+const socket: Socket = io('https://messagingapp.fly.dev', {
   extraHeaders: {
-    'Access-Control-Allow-Origin': 'messagingapp-client.vercel.app',
+    'Access-Control-Allow-Origin': 'https://messagingapp-client.vercel.app',
   },
 });
 
