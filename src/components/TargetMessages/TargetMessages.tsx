@@ -26,7 +26,7 @@ type responseType = {
   username?: string;
   status?: string;
   contacts?: userType[];
-  profilePic: { url: string } | null;
+  profilePic: string | null;
   messages: messageType[];
   contactsRequests?: userType[];
   groups?: groupType[];
@@ -228,7 +228,7 @@ function TargetMessages() {
           <>
             <div className={styles.rightHeader}>
               {targetGroup.profilePic ? (
-                <img src={targetGroup.profilePic.url} />
+                <img src={targetGroup.profilePic} />
               ) : (
                 <img
                   src={defaultAvatar}

@@ -17,7 +17,7 @@ type responseType = {
   username: string;
   status: string;
   contacts: userType[];
-  profilePic: { url: string } | null;
+  profilePic: string | null;
   messages: messageType[];
   contactsRequestsFrom: userType[];
   contactsRequestsTo: userType[];

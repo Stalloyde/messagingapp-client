@@ -13,7 +13,7 @@ export type messageType = {
 export type groupType = {
   id: number;
   groupName: string;
-  profilePic: { url: string } | null;
+  profilePic: string | null;
   messages: messageType[];
   participants: userType[];
 };

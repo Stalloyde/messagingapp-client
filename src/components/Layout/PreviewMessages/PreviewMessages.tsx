@@ -96,8 +96,8 @@ function Messages() {
         {toRenderGroups.map((group, index) => (
           <Link key={index} to={`/messages/${group.id}`}>
             <li id={group.id.toString()}>
-              {group.profilePic && group.profilePic.url ? (
-                <img src={group.profilePic.url} alt='profile-pic' />
+              {group.profilePic && group.profilePic ? (
+                <img src={group.profilePic} alt='profile-pic' />
               ) : (
                 <img
                   src={defaultAvatar}
