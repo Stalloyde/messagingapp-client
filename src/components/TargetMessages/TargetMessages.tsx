@@ -62,7 +62,7 @@ function TargetMessages() {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `http://localhost:3000/messages/${targetMessagesId}`,
+        `https://messagingapp.fly.dev/messages/${targetMessagesId}`,
         {
           headers,
         },
@@ -144,7 +144,7 @@ function TargetMessages() {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `http://localhost:3000/messages/${targetMessagesId}`,
+        `https://messagingapp.fly.dev/messages/${targetMessagesId}`,
         {
           headers,
           method: 'post',

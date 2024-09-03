@@ -11,12 +11,7 @@ import {
 import styles from './Profile.module.css';
 import { useNavigate } from 'react-router-dom';
 import { GetContext } from '../../utils/GetContext';
-import {
-  HeadersType,
-  userType,
-  groupType,
-  messageType,
-} from '../../utils/TypesDeclaration';
+import { userType, groupType, messageType } from '../../utils/TypesDeclaration';
 
 type responseType = {
   error?: string;
@@ -25,7 +20,8 @@ type responseType = {
   contacts: userType[];
   profilePic: { url: string } | null;
   messages: messageType[];
-  contactsRequests: userType[];
+  contactsRequestsFrom: userType[];
+  contactsRequestsTo: userType[];
   groups: groupType[];
 };
 
@@ -95,7 +91,7 @@ function EditModal({
       const headers = { Authorization: '' };
       if (token) headers.Authorization = token;
 
-      const response = await fetch('http://localhost:3000/editProfile', {
+      const response = await fetch('https://messagingapp.fly.dev/editProfile', {
         headers,
         method: 'PUT',
         body: formData,

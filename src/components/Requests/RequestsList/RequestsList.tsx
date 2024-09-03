@@ -17,7 +17,7 @@ type responseType = {
   username: string;
   status: string;
   contacts: userType[];
-  profilePic: { url: string } | null;
+  profilePic: string | null;
   messages: messageType[];
   contactsRequestsFrom: userType[];
   contactsRequestsTo: userType[];
@@ -48,7 +48,7 @@ const RequestsList = ({ searchResult, username }: RequestsListPropsType) => {
       if (token) headers.Authorization = token;
 
       const response = await fetch(
-        `http://localhost:3000/requests/${requestingUserId}`,
+        `https://messagingapp.fly.dev/requests/${requestingUserId}`,
         {
           headers,
           method: 'PUT',

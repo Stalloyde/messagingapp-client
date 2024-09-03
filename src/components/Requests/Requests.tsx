@@ -19,7 +19,7 @@ type responseType = {
   username: string;
   status: string;
   contacts: userType[];
-  profilePic: { url: string } | null;
+  profilePic: string | null;
   messages: messageType[];
   contactsRequestsFrom: userType[];
   contactsRequestsTo: userType[];
@@ -47,7 +47,7 @@ function Requests() {
         };
 
         if (token) headers.Authorization = token;
-        const response = await fetch(`http://localhost:3000/requests`, {
+        const response = await fetch(`https://messagingapp.fly.dev/requests`, {
           headers,
         });
 
@@ -80,7 +80,7 @@ function Requests() {
 
         if (token) headers.Authorization = token;
 
-        const response = await fetch('http://localhost:3000/requests', {
+        const response = await fetch('https://messagingapp.fly.dev/requests', {
           headers,
           method: 'POST',
           body: JSON.stringify({ username }),

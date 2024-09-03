@@ -30,11 +30,14 @@ function SearchResultList({
 
       if (token) headers.Authorization = token;
 
-      const response = await fetch(`http://localhost:3000/requests/${id}`, {
-        headers,
-        method: 'POST',
-        body: JSON.stringify({ username }),
-      });
+      const response = await fetch(
+        `https://messagingapp.fly.dev/requests/${id}`,
+        {
+          headers,
+          method: 'POST',
+          body: JSON.stringify({ username }),
+        },
+      );
 
       if (response.status === 401) navigate('/login');
       if (!response.ok)
