@@ -68,7 +68,7 @@ function Messages() {
       <ul>
         {toRenderContacts.map((item, index) => (
           <Link key={index} to={`/messages/${item.id}`}>
-            <li id={item.id?.toString()}>
+            <li id={item.id ? item.id.toString() : index.toString()}>
               {item.profilePic ? (
                 <img src={item.profilePic} alt='profile-pic' />
               ) : (
@@ -95,7 +95,7 @@ function Messages() {
 
         {toRenderGroups.map((group, index) => (
           <Link key={index} to={`/messages/${group.id}`}>
-            <li id={group.id.toString()}>
+            <li id={group.id ? group.id.toString() : index.toString()}>
               {group.profilePic && group.profilePic ? (
                 <img src={group.profilePic} alt='profile-pic' />
               ) : (

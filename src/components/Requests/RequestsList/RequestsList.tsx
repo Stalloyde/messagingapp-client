@@ -32,7 +32,9 @@ type RequestsListPropsType = {
 const RequestsList = ({ searchResult, username }: RequestsListPropsType) => {
   const { token, contactsRequestsFrom, setContactsRequestsFrom } = GetContext();
   const noSearchResults = searchResult.length === 0;
-  const hasContactRequests = contactsRequestsFrom.length > 0;
+  const hasContactRequests = contactsRequestsFrom
+    ? contactsRequestsFrom.length
+    : false;
   const navigate = useNavigate();
 
   async function handleRequest(

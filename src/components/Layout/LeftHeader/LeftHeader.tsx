@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './LeftHeader.module.css';
@@ -25,7 +26,7 @@ type responseType = {
 };
 
 function LeftHeader() {
-  const [requestsCount, setRequestCount] = useState<number>();
+  const [requestsCount, setRequestCount] = useState<number>(0);
   const navigate = useNavigate();
 
   const { token, currentUser, setCurrentUser, contactsRequestsFrom, contacts } =
@@ -54,7 +55,8 @@ function LeftHeader() {
         setCurrentUser(responseData);
 
         const { contactsRequestsFrom } = responseData;
-        setRequestCount(contactsRequestsFrom.length);
+        if (contactsRequestsFrom && contactsRequestsFrom.length > 0)
+          setRequestCount(contactsRequestsFrom.length);
       } catch (err) {
         console.error(err);
       }
