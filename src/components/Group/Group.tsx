@@ -74,11 +74,14 @@ function Group() {
         'Content-Type': 'application/json',
       };
       if (token) headers.Authorization = token;
-      const response = await fetch('http://localhost:3000/group', {
-        headers,
-        method: 'POST',
-        body: JSON.stringify({ checkedUsers, groupName }),
-      });
+      const response = await fetch(
+        'https://stalloyde-messagingapp.adaptable.app/group',
+        {
+          headers,
+          method: 'POST',
+          body: JSON.stringify({ checkedUsers, groupName }),
+        },
+      );
 
       if (response.statusText === 'Unauthorized') navigate('/login');
       const responseData = (await response.json()) as responseType;

@@ -62,7 +62,7 @@ function TargetMessages() {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `https://messagingapp.fly.dev/messages/${targetMessagesId}`,
+        `https://stalloyde-messagingapp.adaptable.app/messages/${targetMessagesId}`,
         {
           headers,
         },
@@ -144,7 +144,7 @@ function TargetMessages() {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `https://messagingapp.fly.dev/messages/${targetMessagesId}`,
+        `https://stalloyde-messagingapp.adaptable.app/messages/${targetMessagesId}`,
         {
           headers,
           method: 'post',
