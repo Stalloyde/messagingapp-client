@@ -40,14 +40,17 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://messagingapp.fly.dev/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'https://stalloyde-messagingapp.adaptable.app/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'same-origin',
+          body: JSON.stringify({ username, password }),
         },
-        credentials: 'same-origin',
-        body: JSON.stringify({ username, password }),
-      });
+      );
 
       const responseData = (await response.json()) as responseType;
 

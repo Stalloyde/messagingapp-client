@@ -39,9 +39,12 @@ function ContactsList() {
         };
 
         if (token) headers.Authorization = token;
-        const response = await fetch('https://messagingapp.fly.dev', {
-          headers,
-        });
+        const response = await fetch(
+          'https://stalloyde-messagingapp.adaptable.app',
+          {
+            headers,
+          },
+        );
 
         if (response.status === 401) navigate('/login');
         if (!response.ok)

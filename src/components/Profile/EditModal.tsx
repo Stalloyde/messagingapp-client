@@ -91,11 +91,14 @@ function EditModal({
       const headers = { Authorization: '' };
       if (token) headers.Authorization = token;
 
-      const response = await fetch('https://messagingapp.fly.dev/editProfile', {
-        headers,
-        method: 'PUT',
-        body: formData,
-      });
+      const response = await fetch(
+        'https://stalloyde-messagingapp.adaptable.app/editProfile',
+        {
+          headers,
+          method: 'PUT',
+          body: formData,
+        },
+      );
 
       if (response.status === 401) navigate('/login');
       if (!response.ok)

@@ -49,7 +49,7 @@ function ExitGroupModal({ setIsExitingGroup }: ExitGroupModalPropType) {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `http://localhost:3000/messages/${targetMessagesId}/exit-group`,
+        `https://stalloyde-messagingapp.adaptable.app/messages/${targetMessagesId}/exit-group`,
         {
           headers,
           method: 'put',

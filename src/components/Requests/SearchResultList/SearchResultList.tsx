@@ -31,7 +31,7 @@ function SearchResultList({
       if (token) headers.Authorization = token;
 
       const response = await fetch(
-        `https://messagingapp.fly.dev/requests/${id}`,
+        `https://stalloyde-messagingapp.adaptable.app/requests/${id}`,
         {
           headers,
           method: 'POST',

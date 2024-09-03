@@ -47,9 +47,12 @@ function Requests() {
         };
 
         if (token) headers.Authorization = token;
-        const response = await fetch(`https://messagingapp.fly.dev/requests`, {
-          headers,
-        });
+        const response = await fetch(
+          `https://stalloyde-messagingapp.adaptable.app/requests`,
+          {
+            headers,
+          },
+        );
 
         if (response.status === 401) navigate('/login');
         if (!response.ok)
@@ -80,11 +83,14 @@ function Requests() {
 
         if (token) headers.Authorization = token;
 
-        const response = await fetch('https://messagingapp.fly.dev/requests', {
-          headers,
-          method: 'POST',
-          body: JSON.stringify({ username }),
-        });
+        const response = await fetch(
+          'https://stalloyde-messagingapp.adaptable.app/requests',
+          {
+            headers,
+            method: 'POST',
+            body: JSON.stringify({ username }),
+          },
+        );
 
         if (response.status === 401) navigate('/login');
         if (!response.ok)

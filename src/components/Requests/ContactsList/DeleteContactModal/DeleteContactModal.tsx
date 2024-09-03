@@ -49,7 +49,7 @@ function DeleteContactModal({
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `https://messagingapp.fly.dev/requests/${toDeleteId}`,
+        `https://stalloyde-messagingapp.adaptable.app/requests/${toDeleteId}`,
         {
           headers,
           method: 'DELETE',

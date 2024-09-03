@@ -50,7 +50,7 @@ const RequestsList = ({ searchResult, username }: RequestsListPropsType) => {
       if (token) headers.Authorization = token;
 
       const response = await fetch(
-        `https://messagingapp.fly.dev/requests/${requestingUserId}`,
+        `https://stalloyde-messagingapp.adaptable.app/requests/${requestingUserId}`,
         {
           headers,
           method: 'PUT',

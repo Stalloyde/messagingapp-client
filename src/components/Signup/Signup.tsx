@@ -20,14 +20,17 @@ function Signup() {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://messagingapp.fly.dev/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'https://stalloyde-messagingapp.adaptable.app/signup',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'same-origin',
+          body: JSON.stringify({ username, password, confirmPassword }),
         },
-        credentials: 'same-origin',
-        body: JSON.stringify({ username, password, confirmPassword }),
-      });
+      );
 
       const responseData = (await response.json()) as responseType;
 
