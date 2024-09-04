@@ -43,6 +43,8 @@ function ContactsList() {
           'https://stalloyde-messagingapp.adaptable.app',
           {
             headers,
+            credentials: 'include',
+            mode: 'cors',
           },
         );
 

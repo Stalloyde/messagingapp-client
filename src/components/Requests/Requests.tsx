@@ -51,6 +51,8 @@ function Requests() {
           `https://stalloyde-messagingapp.adaptable.app/requests`,
           {
             headers,
+            credentials: 'include',
+            mode: 'cors',
           },
         );
 
@@ -87,6 +89,8 @@ function Requests() {
           'https://stalloyde-messagingapp.adaptable.app/requests',
           {
             headers,
+            credentials: 'include',
+            mode: 'cors',
             method: 'POST',
             body: JSON.stringify({ username }),
           },

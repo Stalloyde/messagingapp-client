@@ -40,6 +40,8 @@ function Group() {
           'https://stalloyde-messagingapp.adaptable.app',
           {
             headers,
+            credentials: 'include',
+            mode: 'cors',
           },
         );
 
@@ -78,6 +80,8 @@ function Group() {
         'https://stalloyde-messagingapp.adaptable.app/group',
         {
           headers,
+          credentials: 'include',
+          mode: 'cors',
           method: 'POST',
           body: JSON.stringify({ checkedUsers, groupName }),
         },

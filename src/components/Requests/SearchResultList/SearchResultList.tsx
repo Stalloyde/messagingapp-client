@@ -34,6 +34,8 @@ function SearchResultList({
         `https://stalloyde-messagingapp.adaptable.app/requests/${id}`,
         {
           headers,
+          credentials: 'include',
+          mode: 'cors',
           method: 'POST',
           body: JSON.stringify({ username }),
         },

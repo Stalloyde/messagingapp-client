@@ -95,6 +95,8 @@ function EditModal({
         'https://stalloyde-messagingapp.adaptable.app/editProfile',
         {
           headers,
+          credentials: 'include',
+          mode: 'cors',
           method: 'PUT',
           body: formData,
         },

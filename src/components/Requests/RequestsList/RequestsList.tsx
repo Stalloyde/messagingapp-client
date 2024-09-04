@@ -53,6 +53,8 @@ const RequestsList = ({ searchResult, username }: RequestsListPropsType) => {
         `https://stalloyde-messagingapp.adaptable.app/requests/${requestingUserId}`,
         {
           headers,
+          credentials: 'include',
+          mode: 'cors',
           method: 'PUT',
           body: JSON.stringify({ action, contactsRequestsId }),
         },
