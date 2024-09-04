@@ -47,7 +47,6 @@ function Login() {
           headers: {
             'Content-Type': 'application/json',
           },
-          credentials: 'same-origin',
           body: JSON.stringify({ username, password }),
         },
       );

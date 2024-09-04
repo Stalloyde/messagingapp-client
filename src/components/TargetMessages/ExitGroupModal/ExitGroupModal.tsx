@@ -52,8 +52,6 @@ function ExitGroupModal({ setIsExitingGroup }: ExitGroupModalPropType) {
         `https://stalloyde-messagingapp.adaptable.app/messages/${targetMessagesId}/exit-group`,
         {
           headers,
-          credentials: 'include',
-          mode: 'cors',
           method: 'put',
         },
       );

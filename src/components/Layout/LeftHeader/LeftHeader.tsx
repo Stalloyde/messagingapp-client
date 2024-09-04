@@ -44,8 +44,6 @@ function LeftHeader() {
           'https://stalloyde-messagingapp.adaptable.app',
           {
             headers,
-            credentials: 'include',
-            mode: 'cors',
           },
         );
 

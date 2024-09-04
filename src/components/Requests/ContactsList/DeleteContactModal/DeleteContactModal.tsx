@@ -52,8 +52,6 @@ function DeleteContactModal({
         `https://stalloyde-messagingapp.adaptable.app/requests/${toDeleteId}`,
         {
           headers,
-          credentials: 'include',
-          mode: 'cors',
           method: 'DELETE',
         },
       );

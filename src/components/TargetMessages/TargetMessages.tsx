@@ -65,8 +65,6 @@ function TargetMessages() {
         `https://stalloyde-messagingapp.adaptable.app/messages/${targetMessagesId}`,
         {
           headers,
-          credentials: 'include',
-          mode: 'cors',
         },
       );
 
@@ -149,8 +147,6 @@ function TargetMessages() {
         `https://stalloyde-messagingapp.adaptable.app/messages/${targetMessagesId}`,
         {
           headers,
-          credentials: 'include',
-          mode: 'cors',
           method: 'post',
           body: JSON.stringify({ newMessage }),
         },

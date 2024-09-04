@@ -32,9 +32,7 @@ type RequestsListPropsType = {
 const RequestsList = ({ searchResult, username }: RequestsListPropsType) => {
   const { token, contactsRequestsFrom, setContactsRequestsFrom } = GetContext();
   const noSearchResults = searchResult.length === 0;
-  const hasContactRequests = contactsRequestsFrom
-    ? contactsRequestsFrom.length
-    : false;
+  const hasContactRequests = contactsRequestsFrom ? true : false;
   const navigate = useNavigate();
 
   async function handleRequest(
@@ -53,8 +51,6 @@ const RequestsList = ({ searchResult, username }: RequestsListPropsType) => {
         `https://stalloyde-messagingapp.adaptable.app/requests/${requestingUserId}`,
         {
           headers,
-          credentials: 'include',
-          mode: 'cors',
           method: 'PUT',
           body: JSON.stringify({ action, contactsRequestsId }),
         },

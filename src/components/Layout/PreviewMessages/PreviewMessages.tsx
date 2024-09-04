@@ -18,7 +18,7 @@ type responseType = {
   username: string;
   status: string;
   contacts: userType[];
-  profilePic: { url: string } | null;
+  profilePic: string | null;
   messages: messageType[];
   contactsRequests: userType[];
   groups: groupType[];
@@ -43,8 +43,6 @@ function Messages() {
           'https://stalloyde-messagingapp.adaptable.app',
           {
             headers,
-            credentials: 'include',
-            mode: 'cors',
           },
         );
 
