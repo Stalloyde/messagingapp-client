@@ -84,7 +84,7 @@ function ExitGroupModal({ setIsExitingGroup }: ExitGroupModalPropType) {
           <div className={styles.buttonContainer}>
             <button onClick={handleClose}>Cancel</button>
             {/*eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-            <button className={styles.yes} onClick={exitGroup}>
+            <button className={styles.yes} onClick={exitGroup} disabled>
               Yes
             </button>
           </div>

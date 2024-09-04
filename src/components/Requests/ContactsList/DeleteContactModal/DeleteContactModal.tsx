@@ -86,7 +86,7 @@ function DeleteContactModal({
           <div className={styles.buttonContainer}>
             <button onClick={handleClose}>Cancel</button>
             {/*eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-            <button className={styles.yes} onClick={deleteContact}>
+            <button className={styles.yes} onClick={deleteContact} disabled>
               Yes
             </button>
           </div>
