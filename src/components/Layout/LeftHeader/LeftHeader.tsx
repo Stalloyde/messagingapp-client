@@ -57,8 +57,11 @@ function LeftHeader() {
         setCurrentUser(responseData);
 
         const { contactsRequestsFrom } = responseData;
-        if (contactsRequestsFrom && contactsRequestsFrom.length > 0)
+        if (contactsRequestsFrom && contactsRequestsFrom.length > 0) {
           setRequestCount(contactsRequestsFrom.length);
+        } else {
+          setRequestCount(0);
+        }
       } catch (err) {
         console.error(err);
       }
