@@ -29,7 +29,7 @@ function Messages() {
   const [toRenderGroups, setToRenderGroups] = useState<groupType[]>([]);
   const navigate = useNavigate();
 
-  const { token, contactsRequestsFrom, contacts } = GetContext();
+  const { token, contacts } = GetContext();
 
   useEffect(() => {
     async function getContactsToRender() {
@@ -64,7 +64,7 @@ function Messages() {
     }
     void getContactsToRender();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contacts, contactsRequestsFrom]);
+  }, [contacts]);
 
   return (
     <div className={styles.container}>

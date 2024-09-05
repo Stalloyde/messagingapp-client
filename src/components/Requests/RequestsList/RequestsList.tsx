@@ -25,14 +25,11 @@ type responseType = {
 };
 
 type RequestsListPropsType = {
-  searchResult: userType[];
   username?: string;
 };
 
-const RequestsList = ({ searchResult, username }: RequestsListPropsType) => {
+const RequestsList = ({ username }: RequestsListPropsType) => {
   const { token, contactsRequestsFrom, setContactsRequestsFrom } = GetContext();
-  const noSearchResults = searchResult.length === 0;
-  const hasContactRequests = contactsRequestsFrom ? true : false;
   const navigate = useNavigate();
 
   async function handleRequest(
@@ -71,13 +68,7 @@ const RequestsList = ({ searchResult, username }: RequestsListPropsType) => {
 
   return (
     <>
-      {noSearchResults && !username && !hasContactRequests && (
-        <div className={styles.listContainer}>
-          <h2>Incoming Requests</h2>
-          <div>No requests found</div>
-        </div>
-      )}
-      {hasContactRequests && !username && (
+      {contactsRequestsFrom.length > 0 && !username && (
         <div className={styles.listContainer}>
           <h2>Incoming Requests</h2>
           {contactsRequestsFrom.map(

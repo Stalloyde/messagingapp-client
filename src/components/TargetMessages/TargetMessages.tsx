@@ -82,16 +82,16 @@ function TargetMessages() {
       if (isUserPropType(responseData)) {
         setTargetUser(responseData);
         setTargetGroup(undefined);
-        setContacts([]);
+        // setContacts([]);
       } else if (isGroupType(responseData)) {
         setTargetUser(undefined);
         setTargetGroup(responseData);
-        setContacts([]);
+        // setContacts([]);
       }
     } catch (err) {
       console.error(err);
     }
-  }, [token, targetMessagesId, navigate]);
+  }, [token, targetMessagesId]);
 
   //initial render and re-render when click on new target
   useEffect(() => {
@@ -112,7 +112,7 @@ function TargetMessages() {
         id2: targetUser.username,
       });
     }
-  }, [targetGroup, targetUser, currentUser]);
+  }, [targetGroup, targetUser]);
 
   useEffect(() => {
     const handlePrivateMessage = () => {
@@ -177,7 +177,7 @@ function TargetMessages() {
       }
 
       setNewMessage('');
-      setContacts([]);
+      // setContacts([]);
       void getTargetMessages();
     } catch (err) {
       console.error(err);

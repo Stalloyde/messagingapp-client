@@ -29,7 +29,7 @@ function ContactsList() {
   const [isDeletingContact, setIsDeletingContact] = useState(false);
   const [toDeleteId, setToDeleteId] = useState('');
   const navigate = useNavigate();
-  const { contacts, setContacts, contactsRequestsFrom, token } = GetContext();
+  const { contacts, setContacts, token } = GetContext();
 
   useEffect(() => {
     async function getContactsToRender() {
@@ -61,7 +61,7 @@ function ContactsList() {
     }
     void getContactsToRender();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contactsRequestsFrom]);
+  }, []);
 
   function handleClick(id: string) {
     setIsDeletingContact(true);

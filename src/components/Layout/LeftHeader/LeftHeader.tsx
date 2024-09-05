@@ -29,7 +29,7 @@ function LeftHeader() {
   const [requestsCount, setRequestCount] = useState<number>(0);
   const navigate = useNavigate();
 
-  const { token, currentUser, setCurrentUser, contactsRequestsFrom, contacts } =
+  const { token, currentUser, setCurrentUser, contactsRequestsFrom } =
     GetContext();
 
   useEffect(() => {
@@ -68,7 +68,7 @@ function LeftHeader() {
     }
     void getCurrentUserRequests();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contactsRequestsFrom, contacts]);
+  }, [contactsRequestsFrom]);
 
   return (
     <div className={styles.container}>

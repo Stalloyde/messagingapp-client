@@ -32,8 +32,7 @@ function Requests() {
   const [searchResultError, setSearchResultError] = useState<string | null>('');
   const navigate = useNavigate();
 
-  const { token, setCurrentUser, setContacts, setContactsRequestsFrom } =
-    GetContext();
+  const { token, setContactsRequestsFrom } = GetContext();
 
   function preventSubmit(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') e.preventDefault();
@@ -64,8 +63,6 @@ function Requests() {
 
         if (responseData.error) navigate('/login');
         setContactsRequestsFrom(responseData.contactsRequestsFrom);
-        setCurrentUser(responseData);
-        setContacts(responseData.contacts);
       } catch (err) {
         console.error(err);
       }
@@ -139,7 +136,7 @@ function Requests() {
 
         <div className={styles.resultsContainer}>
           <ContactList />
-          <RequestsList searchResult={searchResult} username={username} />
+          <RequestsList username={username} />
           <SearchResultList
             username={username}
             setUsername={setUsername}
