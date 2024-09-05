@@ -42,7 +42,7 @@ function TargetMessages() {
   const navigate = useNavigate();
   const targetMessagesId = useParams().id;
 
-  const { token, currentUser, setContacts } = GetContext();
+  const { token, currentUser } = GetContext();
 
   function isUserPropType(
     responseData: responseType,
@@ -82,11 +82,9 @@ function TargetMessages() {
       if (isUserPropType(responseData)) {
         setTargetUser(responseData);
         setTargetGroup(undefined);
-        // setContacts([]);
       } else if (isGroupType(responseData)) {
         setTargetUser(undefined);
         setTargetGroup(responseData);
-        // setContacts([]);
       }
     } catch (err) {
       console.error(err);
@@ -112,7 +110,7 @@ function TargetMessages() {
         id2: targetUser.username,
       });
     }
-  }, [targetGroup, targetUser]);
+  }, [targetGroup, targetUser, currentUser]);
 
   useEffect(() => {
     const handlePrivateMessage = () => {
