@@ -15,7 +15,7 @@ import {
   userType,
 } from '../../utils/TypesDeclaration';
 
-const socket: Socket = io('https://stalloyde-messagingapp.adaptable.app', {
+const socket: Socket = io('https://messagingapp-twilight-forest-7414.fly.dev', {
   extraHeaders: {
     'Access-Control-Allow-Origin': 'https://messagingapp-client.vercel.app',
   },
@@ -62,7 +62,7 @@ function TargetMessages() {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `https://stalloyde-messagingapp.adaptable.app/messages/${targetMessagesId}`,
+        `https://messagingapp-twilight-forest-7414.fly.dev/messages/${targetMessagesId}`,
         {
           headers,
         },
@@ -142,7 +142,7 @@ function TargetMessages() {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `https://stalloyde-messagingapp.adaptable.app/messages/${targetMessagesId}`,
+        `https://messagingapp-twilight-forest-7414.fly.dev/messages/${targetMessagesId}`,
         {
           headers,
           method: 'post',

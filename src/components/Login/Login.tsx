@@ -41,7 +41,7 @@ function Login() {
 
     try {
       const response = await fetch(
-        'https://stalloyde-messagingapp.adaptable.app/login',
+        'https://messagingapp-twilight-forest-7414.fly.dev/login',
         {
           method: 'POST',
           headers: {

@@ -47,7 +47,7 @@ function Requests() {
 
         if (token) headers.Authorization = token;
         const response = await fetch(
-          `https://stalloyde-messagingapp.adaptable.app/requests`,
+          `https://messagingapp-twilight-forest-7414.fly.dev/requests`,
           {
             headers,
           },
@@ -81,7 +81,7 @@ function Requests() {
         if (token) headers.Authorization = token;
 
         const response = await fetch(
-          'https://stalloyde-messagingapp.adaptable.app/requests',
+          'https://messagingapp-twilight-forest-7414.fly.dev/requests',
           {
             headers,
             method: 'POST',

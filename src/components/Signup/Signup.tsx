@@ -21,7 +21,7 @@ function Signup() {
 
     try {
       const response = await fetch(
-        'https://stalloyde-messagingapp.adaptable.app/signup',
+        'https://messagingapp-twilight-forest-7414.fly.dev/signup',
         {
           method: 'POST',
           headers: {

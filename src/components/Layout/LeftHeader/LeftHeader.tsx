@@ -41,7 +41,7 @@ function LeftHeader() {
 
         if (token) headers.Authorization = token;
         const response = await fetch(
-          'https://stalloyde-messagingapp.adaptable.app',
+          'https://messagingapp-twilight-forest-7414.fly.dev',
           {
             headers,
           },

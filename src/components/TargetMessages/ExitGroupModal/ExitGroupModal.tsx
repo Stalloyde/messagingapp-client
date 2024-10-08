@@ -49,7 +49,7 @@ function ExitGroupModal({ setIsExitingGroup }: ExitGroupModalPropType) {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `https://stalloyde-messagingapp.adaptable.app/messages/${targetMessagesId}/exit-group`,
+        `https://messagingapp-twilight-forest-7414.fly.dev/messages/${targetMessagesId}/exit-group`,
         {
           headers,
           method: 'put',

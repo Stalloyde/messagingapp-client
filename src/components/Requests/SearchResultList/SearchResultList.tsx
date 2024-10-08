@@ -31,7 +31,7 @@ function SearchResultList({
       if (token) headers.Authorization = token;
 
       const response = await fetch(
-        `https://stalloyde-messagingapp.adaptable.app/requests/${id}`,
+        `https://messagingapp-twilight-forest-7414.fly.dev/requests/${id}`,
         {
           headers,
           method: 'POST',
