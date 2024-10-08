@@ -20,7 +20,7 @@ function SearchResultList({
   searchResultError,
 }: RequestsPropsType) {
   const navigate = useNavigate();
-  const { token, currentUser } = GetContext();
+  const { token, currentUser, url } = GetContext();
 
   async function sendRequest(id: number) {
     try {
@@ -30,14 +30,11 @@ function SearchResultList({
 
       if (token) headers.Authorization = token;
 
-      const response = await fetch(
-        `https://messagingapp-twilight-forest-7414.fly.dev/requests/${id}`,
-        {
-          headers,
-          method: 'POST',
-          body: JSON.stringify({ username }),
-        },
-      );
+      const response = await fetch(`${url}/requests/${id}`, {
+        headers,
+        method: 'POST',
+        body: JSON.stringify({ username }),
+      });
 
       if (response.status === 401) navigate('/login');
       if (!response.ok)

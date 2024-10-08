@@ -23,7 +23,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const { setToken } = GetContext();
+  const { setToken, url } = GetContext();
 
   const handleToken = (BearerToken: string) => {
     const oneHour = new Date(new Date().getTime() + 1000 * 60 * 1000);
@@ -40,16 +40,13 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        'https://messagingapp-twilight-forest-7414.fly.dev/login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password }),
+      const response = await fetch(`${url}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify({ username, password }),
+      });
 
       const responseData = (await response.json()) as responseType;
 

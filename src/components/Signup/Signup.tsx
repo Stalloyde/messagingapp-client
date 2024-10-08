@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Signup.module.css';
 import signUpImage from '../../assets/pexels-ds-stories-6991386.jpg';
+import { GetContext } from '../../utils/GetContext';
 
 type responseType = {
   usernameError?: string;
@@ -16,20 +17,19 @@ function Signup() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
 
+  const { url } = GetContext();
+
   async function handleSignup(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        'https://messagingapp-twilight-forest-7414.fly.dev/signup',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password, confirmPassword }),
+      const response = await fetch(`${url}/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify({ username, password, confirmPassword }),
+      });
 
       const responseData = (await response.json()) as responseType;
 

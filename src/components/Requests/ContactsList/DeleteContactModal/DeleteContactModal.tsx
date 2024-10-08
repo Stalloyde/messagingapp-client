@@ -39,7 +39,7 @@ function DeleteContactModal({
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
 
-  const { token, setContacts } = GetContext();
+  const { token, setContacts, url } = GetContext();
 
   async function deleteContact() {
     try {
@@ -48,13 +48,10 @@ function DeleteContactModal({
       };
 
       if (token) headers.Authorization = token;
-      const response = await fetch(
-        `https://messagingapp-twilight-forest-7414.fly.dev/requests/${toDeleteId}`,
-        {
-          headers,
-          method: 'DELETE',
-        },
-      );
+      const response = await fetch(`${url}/requests/${toDeleteId}`, {
+        headers,
+        method: 'DELETE',
+      });
       if (response.status === 401) navigate('/login');
       if (!response.ok)
         throw new Error(

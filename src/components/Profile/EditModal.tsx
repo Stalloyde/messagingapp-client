@@ -48,7 +48,7 @@ function EditModal({
   const [image, setImage] = useState<undefined | File>();
   const navigate = useNavigate();
 
-  const { token, currentUser, setCurrentUser } = GetContext();
+  const { token, currentUser, setCurrentUser, url } = GetContext();
 
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -91,14 +91,11 @@ function EditModal({
       const headers = { Authorization: '' };
       if (token) headers.Authorization = token;
 
-      const response = await fetch(
-        'https://messagingapp-twilight-forest-7414.fly.dev/editProfile',
-        {
-          headers,
-          method: 'PUT',
-          body: formData,
-        },
-      );
+      const response = await fetch(`${url}/editProfile`, {
+        headers,
+        method: 'PUT',
+        body: formData,
+      });
 
       if (response.status === 401) navigate('/login');
       if (!response.ok)

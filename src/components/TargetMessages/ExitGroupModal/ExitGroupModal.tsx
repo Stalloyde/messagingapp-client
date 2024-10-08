@@ -32,7 +32,7 @@ function ExitGroupModal({ setIsExitingGroup }: ExitGroupModalPropType) {
   const targetMessagesId = useParams().id;
   const navigate = useNavigate();
 
-  const { setContacts, token } = GetContext();
+  const { setContacts, token, url } = GetContext();
 
   const handleClose = () => {
     setOpen(false);
@@ -49,7 +49,7 @@ function ExitGroupModal({ setIsExitingGroup }: ExitGroupModalPropType) {
 
       if (token) headers.Authorization = token;
       const response = await fetch(
-        `https://messagingapp-twilight-forest-7414.fly.dev/messages/${targetMessagesId}/exit-group`,
+        `${url}/messages/${targetMessagesId}/exit-group`,
         {
           headers,
           method: 'put',

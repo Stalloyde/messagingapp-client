@@ -32,7 +32,7 @@ function Requests() {
   const [searchResultError, setSearchResultError] = useState<string | null>('');
   const navigate = useNavigate();
 
-  const { token, setContactsRequestsFrom } = GetContext();
+  const { token, setContactsRequestsFrom, url } = GetContext();
 
   function preventSubmit(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') e.preventDefault();
@@ -46,12 +46,9 @@ function Requests() {
         };
 
         if (token) headers.Authorization = token;
-        const response = await fetch(
-          `https://messagingapp-twilight-forest-7414.fly.dev/requests`,
-          {
-            headers,
-          },
-        );
+        const response = await fetch(`${url}/requests`, {
+          headers,
+        });
 
         if (response.status === 401) navigate('/login');
         if (!response.ok)
@@ -80,14 +77,11 @@ function Requests() {
 
         if (token) headers.Authorization = token;
 
-        const response = await fetch(
-          'https://messagingapp-twilight-forest-7414.fly.dev/requests',
-          {
-            headers,
-            method: 'POST',
-            body: JSON.stringify({ username }),
-          },
-        );
+        const response = await fetch(`${url}/requests`, {
+          headers,
+          method: 'POST',
+          body: JSON.stringify({ username }),
+        });
 
         if (response.status === 401) navigate('/login');
         if (!response.ok)

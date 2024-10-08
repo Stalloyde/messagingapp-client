@@ -15,7 +15,7 @@ import {
   userType,
 } from '../../utils/TypesDeclaration';
 
-const socket: Socket = io('https://messagingapp-twilight-forest-7414.fly.dev', {
+const socket: Socket = io('https://messagingapp-api.fly.dev', {
   extraHeaders: {
     'Access-Control-Allow-Origin': 'https://messagingapp-client.vercel.app',
   },
@@ -42,7 +42,7 @@ function TargetMessages() {
   const navigate = useNavigate();
   const targetMessagesId = useParams().id;
 
-  const { token, currentUser } = GetContext();
+  const { token, currentUser, url } = GetContext();
 
   function isUserPropType(
     responseData: responseType,
@@ -61,12 +61,9 @@ function TargetMessages() {
       };
 
       if (token) headers.Authorization = token;
-      const response = await fetch(
-        `https://messagingapp-twilight-forest-7414.fly.dev/messages/${targetMessagesId}`,
-        {
-          headers,
-        },
-      );
+      const response = await fetch(`${url}/messages/${targetMessagesId}`, {
+        headers,
+      });
 
       if (response.status === 401) navigate('/login');
       if (!response.ok)
@@ -141,14 +138,11 @@ function TargetMessages() {
       };
 
       if (token) headers.Authorization = token;
-      const response = await fetch(
-        `https://messagingapp-twilight-forest-7414.fly.dev/messages/${targetMessagesId}`,
-        {
-          headers,
-          method: 'post',
-          body: JSON.stringify({ newMessage }),
-        },
-      );
+      const response = await fetch(`${url}/messages/${targetMessagesId}`, {
+        headers,
+        method: 'post',
+        body: JSON.stringify({ newMessage }),
+      });
       if (response.status === 401) navigate('/login');
       if (!response.ok)
         throw new Error(

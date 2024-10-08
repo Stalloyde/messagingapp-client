@@ -29,7 +29,7 @@ function ContactsList() {
   const [isDeletingContact, setIsDeletingContact] = useState(false);
   const [toDeleteId, setToDeleteId] = useState('');
   const navigate = useNavigate();
-  const { contacts, setContacts, token } = GetContext();
+  const { contacts, setContacts, token, url } = GetContext();
 
   useEffect(() => {
     async function getContactsToRender() {
@@ -39,12 +39,9 @@ function ContactsList() {
         };
 
         if (token) headers.Authorization = token;
-        const response = await fetch(
-          'https://messagingapp-twilight-forest-7414.fly.dev',
-          {
-            headers,
-          },
-        );
+        const response = await fetch(url, {
+          headers,
+        });
 
         if (response.status === 401) navigate('/login');
         if (!response.ok)

@@ -27,6 +27,7 @@ const App = () => {
     [],
   );
   const [contactsRequestsTo, setContactsRequestsTo] = useState<userType[]>([]);
+  const url = 'https://messagingapp-api.fly.dev';
 
   const router = createBrowserRouter([
     {
@@ -81,6 +82,7 @@ const App = () => {
         contactsRequestsTo,
         setContactsRequestsFrom,
         setContactsRequestsTo,
+        url,
       }}>
       <React.StrictMode>
         <RouterProvider router={router} />

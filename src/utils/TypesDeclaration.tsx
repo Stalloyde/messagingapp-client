@@ -42,4 +42,5 @@ export type ContextType = {
   contactsRequestsTo: userType[];
   setContactsRequestsFrom: React.Dispatch<React.SetStateAction<userType[]>>;
   setContactsRequestsTo: React.Dispatch<React.SetStateAction<userType[]>>;
+  url: string;
 };

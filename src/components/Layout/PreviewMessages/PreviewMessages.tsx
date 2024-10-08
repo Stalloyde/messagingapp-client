@@ -29,7 +29,7 @@ function Messages() {
   const [toRenderGroups, setToRenderGroups] = useState<groupType[]>([]);
   const navigate = useNavigate();
 
-  const { token, contacts } = GetContext();
+  const { token, contacts, url } = GetContext();
 
   useEffect(() => {
     async function getContactsToRender() {
@@ -39,12 +39,9 @@ function Messages() {
         };
 
         if (token) headers.Authorization = token;
-        const response = await fetch(
-          'https://messagingapp-twilight-forest-7414.fly.dev',
-          {
-            headers,
-          },
-        );
+        const response = await fetch(url, {
+          headers,
+        });
 
         if (response.status === 401) navigate('/login');
         if (!response.ok)

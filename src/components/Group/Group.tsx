@@ -26,7 +26,7 @@ function Group() {
   const [createGroupError, setCreateGroupError] = useState('');
   const navigate = useNavigate();
 
-  const { token, contacts, setContacts } = GetContext();
+  const { token, contacts, setContacts, url } = GetContext();
 
   useEffect(() => {
     async function getContactsToRender() {
@@ -36,12 +36,9 @@ function Group() {
         };
 
         if (token) headers.Authorization = token;
-        const response = await fetch(
-          'https://messagingapp-twilight-forest-7414.fly.dev',
-          {
-            headers,
-          },
-        );
+        const response = await fetch(url, {
+          headers,
+        });
 
         if (response.status === 401) navigate('/login');
         if (!response.ok)
@@ -74,14 +71,11 @@ function Group() {
         'Content-Type': 'application/json',
       };
       if (token) headers.Authorization = token;
-      const response = await fetch(
-        'https://messagingapp-twilight-forest-7414.fly.dev/group',
-        {
-          headers,
-          method: 'POST',
-          body: JSON.stringify({ checkedUsers, groupName }),
-        },
-      );
+      const response = await fetch(`${url}/group`, {
+        headers,
+        method: 'POST',
+        body: JSON.stringify({ checkedUsers, groupName }),
+      });
 
       if (response.statusText === 'Unauthorized') navigate('/login');
       const responseData = (await response.json()) as responseType;

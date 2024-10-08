@@ -29,7 +29,8 @@ type RequestsListPropsType = {
 };
 
 const RequestsList = ({ username }: RequestsListPropsType) => {
-  const { token, contactsRequestsFrom, setContactsRequestsFrom } = GetContext();
+  const { token, contactsRequestsFrom, setContactsRequestsFrom, url } =
+    GetContext();
   const navigate = useNavigate();
 
   async function handleRequest(
@@ -44,14 +45,11 @@ const RequestsList = ({ username }: RequestsListPropsType) => {
 
       if (token) headers.Authorization = token;
 
-      const response = await fetch(
-        `https://messagingapp-twilight-forest-7414.fly.dev/requests/${requestingUserId}`,
-        {
-          headers,
-          method: 'PUT',
-          body: JSON.stringify({ action, contactsRequestsId }),
-        },
-      );
+      const response = await fetch(`${url}requests/${requestingUserId}`, {
+        headers,
+        method: 'PUT',
+        body: JSON.stringify({ action, contactsRequestsId }),
+      });
 
       if (response.status === 401) navigate('/login');
       if (!response.ok)
