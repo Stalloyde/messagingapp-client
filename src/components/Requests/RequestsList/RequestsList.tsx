@@ -45,7 +45,7 @@ const RequestsList = ({ username }: RequestsListPropsType) => {
 
       if (token) headers.Authorization = token;
 
-      const response = await fetch(`${url}requests/${requestingUserId}`, {
+      const response = await fetch(`${url}/requests/${requestingUserId}`, {
         headers,
         method: 'PUT',
         body: JSON.stringify({ action, contactsRequestsId }),
