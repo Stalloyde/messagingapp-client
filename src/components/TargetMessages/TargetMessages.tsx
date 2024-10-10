@@ -15,11 +15,14 @@ import {
   userType,
 } from '../../utils/TypesDeclaration';
 
-const socket: Socket = io('https://messagingapp-api.fly.dev', {
-  extraHeaders: {
-    'Access-Control-Allow-Origin': 'https://messagingapp-client.vercel.app',
+const socket: Socket = io(
+  'https://electronic-krystal-stalloyde-3313ff1b.koyeb.app',
+  {
+    extraHeaders: {
+      'Access-Control-Allow-Origin': 'https://messagingapp-client.vercel.app',
+    },
   },
-});
+);
 
 type responseType = {
   error?: string;

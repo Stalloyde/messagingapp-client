@@ -27,7 +27,7 @@ const App = () => {
     [],
   );
   const [contactsRequestsTo, setContactsRequestsTo] = useState<userType[]>([]);
-  const url = 'https://messagingapp-api.fly.dev';
+  const url = 'https://electronic-krystal-stalloyde-3313ff1b.koyeb.app';
 
   const router = createBrowserRouter([
     {
