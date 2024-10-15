@@ -29,8 +29,7 @@ type RequestsListPropsType = {
 };
 
 const RequestsList = ({ username }: RequestsListPropsType) => {
-  const { token, contactsRequestsFrom, setContactsRequestsFrom, url } =
-    GetContext();
+  const { token, currentUser, setCurrentUser, url } = GetContext();
   const navigate = useNavigate();
 
   async function handleRequest(
@@ -58,7 +57,7 @@ const RequestsList = ({ username }: RequestsListPropsType) => {
         );
 
       const responseData = (await response.json()) as responseType;
-      setContactsRequestsFrom(responseData.contactsRequestsFrom);
+      setCurrentUser(responseData);
     } catch (err) {
       console.error(err);
     }
@@ -66,62 +65,64 @@ const RequestsList = ({ username }: RequestsListPropsType) => {
 
   return (
     <>
-      {contactsRequestsFrom.length > 0 && !username && (
-        <div className={styles.listContainer}>
-          <h2>Incoming Requests</h2>
-          {contactsRequestsFrom.map(
-            (request, index) =>
-              request.from && (
-                <div key={index} className={styles.requestContainer}>
-                  <div>
-                    <p>{request.from.username}</p>
-                    <p className={styles.status}>{request.status}</p>
-                  </div>
-                  <div className={styles.buttonContainer}>
+      {currentUser &&
+        currentUser.contactsRequestsFrom.length > 0 &&
+        !username && (
+          <div className={styles.listContainer}>
+            <h2>Incoming Requests</h2>
+            {currentUser.contactsRequestsFrom.map(
+              (request, index) =>
+                request.from && (
+                  <div key={index} className={styles.requestContainer}>
                     <div>
-                      <button
-                        className={styles.approve}
-                        onClick={() => {
-                          request.from &&
-                            request.id &&
-                            void handleRequest(
-                              request.from.id,
-                              'approve',
-                              request.id,
-                            );
-                        }}>
-                        <img
-                          src={acceptRequestIcon}
-                          alt='accept-request'
-                          className={styles.icon}
-                        />
-                      </button>
+                      <p>{request.from.username}</p>
+                      <p className={styles.status}>{request.status}</p>
                     </div>
-                    <div>
-                      <button
-                        className={styles.reject}
-                        onClick={() => {
-                          request.from &&
-                            request.id &&
-                            void handleRequest(
-                              request.from.id,
-                              'reject',
-                              request.id,
-                            );
-                        }}>
-                        <img
-                          src={rejectRequestIcon}
-                          alt='reject-request'
-                          className={styles.icon}
-                        />
-                      </button>
+                    <div className={styles.buttonContainer}>
+                      <div>
+                        <button
+                          className={styles.approve}
+                          onClick={() => {
+                            request.from &&
+                              request.id &&
+                              void handleRequest(
+                                request.from.id,
+                                'approve',
+                                request.id,
+                              );
+                          }}>
+                          <img
+                            src={acceptRequestIcon}
+                            alt='accept-request'
+                            className={styles.icon}
+                          />
+                        </button>
+                      </div>
+                      <div>
+                        <button
+                          className={styles.reject}
+                          onClick={() => {
+                            request.from &&
+                              request.id &&
+                              void handleRequest(
+                                request.from.id,
+                                'reject',
+                                request.id,
+                              );
+                          }}>
+                          <img
+                            src={rejectRequestIcon}
+                            alt='reject-request'
+                            className={styles.icon}
+                          />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ),
-          )}
-        </div>
-      )}
+                ),
+            )}
+          </div>
+        )}
     </>
   );
 };

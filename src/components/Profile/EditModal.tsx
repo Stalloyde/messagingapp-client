@@ -207,7 +207,8 @@ function EditModal({
           type='submit'
           sx={{
             color: 'rgb(2, 95, 100)',
-          }}>
+          }}
+          disabled>
           Save
         </Button>
       </DialogActions>

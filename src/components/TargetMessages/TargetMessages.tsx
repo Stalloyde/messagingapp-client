@@ -172,7 +172,6 @@ function TargetMessages() {
       }
 
       setNewMessage('');
-      // setContacts([]);
       void getTargetMessages();
     } catch (err) {
       console.error(err);
@@ -214,6 +213,27 @@ function TargetMessages() {
                 </div>
               ),
             )}
+          </div>
+          <div className={styles.inputContainer}>
+            <img src={addEmoticonIcon} alt='add-emoticon' />
+            <img src={addFileIcon} alt='add-file' />
+            {/*eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+            <form method='POST' onSubmit={sendNewMessage}>
+              <input
+                type='text'
+                value={newMessage}
+                onChange={(e) => {
+                  setNewMessage(e.target.value);
+                }}
+                placeholder='Type a message'></input>
+            </form>
+            <img
+              src={sendIcon}
+              alt='send'
+              /*eslint-disable-next-line @typescript-eslint/no-misused-promises */
+              onClick={sendNewMessage}
+              className={styles.sendMessageIcon}
+            />
           </div>
         </>
       )}
@@ -267,30 +287,29 @@ function TargetMessages() {
               ),
             )}
           </div>
+          <div className={styles.inputContainer}>
+            <img src={addEmoticonIcon} alt='add-emoticon' />
+            <img src={addFileIcon} alt='add-file' />
+            {/*eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+            <form method='POST' onSubmit={sendNewMessage}>
+              <input
+                type='text'
+                value={newMessage}
+                onChange={(e) => {
+                  setNewMessage(e.target.value);
+                }}
+                placeholder='Type a message'></input>
+            </form>
+            <img
+              src={sendIcon}
+              alt='send'
+              /*eslint-disable-next-line @typescript-eslint/no-misused-promises */
+              onClick={sendNewMessage}
+              className={styles.sendMessageIcon}
+            />
+          </div>
         </>
       )}
-
-      <div className={styles.inputContainer}>
-        <img src={addEmoticonIcon} alt='add-emoticon' />
-        <img src={addFileIcon} alt='add-file' />
-        {/*eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-        <form method='POST' onSubmit={sendNewMessage}>
-          <input
-            type='text'
-            value={newMessage}
-            onChange={(e) => {
-              setNewMessage(e.target.value);
-            }}
-            placeholder='Type a message'></input>
-        </form>
-        <img
-          src={sendIcon}
-          alt='send'
-          /*eslint-disable-next-line @typescript-eslint/no-misused-promises */
-          onClick={sendNewMessage}
-          className={styles.sendMessageIcon}
-        />
-      </div>
     </div>
   );
 }

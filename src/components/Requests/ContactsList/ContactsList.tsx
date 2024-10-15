@@ -1,64 +1,13 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import deleteContactIcon from '../../../assets/icons8-delete-50.png';
 import styles from './ContactsList.module.css';
 import DeleteContactModal from './DeleteContactModal/DeleteContactModal';
 import { GetContext } from '../../../utils/GetContext';
-import {
-  HeadersType,
-  messageType,
-  groupType,
-  userType,
-} from '../../../utils/TypesDeclaration';
-
-type responseType = {
-  length?: number;
-  usernameError?: string;
-  error?: string;
-  username: string;
-  status: string;
-  contacts: userType[];
-  profilePic: string | null;
-  messages: messageType[];
-  contactsRequestsFrom: userType[];
-  contactsRequestsTo: userType[];
-  groups: groupType[];
-};
 
 function ContactsList() {
   const [isDeletingContact, setIsDeletingContact] = useState(false);
   const [toDeleteId, setToDeleteId] = useState('');
-  const navigate = useNavigate();
-  const { contacts, setContacts, token, url } = GetContext();
-
-  useEffect(() => {
-    async function getContactsToRender() {
-      try {
-        const headers: HeadersType = {
-          'Content-Type': 'application/json',
-        };
-
-        if (token) headers.Authorization = token;
-        const response = await fetch(url, {
-          headers,
-        });
-
-        if (response.status === 401) navigate('/login');
-        if (!response.ok)
-          throw new Error(
-            `This is an HTTP error: The status is ${response.status}`,
-          );
-
-        const responseData = (await response.json()) as responseType;
-        if (responseData.error) navigate('/login');
-        setContacts(responseData.contacts);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    void getContactsToRender();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { currentUser } = GetContext();
 
   function handleClick(id: string) {
     setIsDeletingContact(true);
@@ -75,10 +24,10 @@ function ContactsList() {
         />
       )}
 
-      {contacts.length > 0 && (
+      {currentUser && currentUser.contacts.length > 0 && (
         <div className={styles.contactListContainer}>
           <h2>Contacts List</h2>
-          {contacts.map((contact, index) => (
+          {currentUser.contacts.map((contact, index) => (
             <div key={index} className={styles.contactList}>
               <div>
                 <p>{contact.username}</p>
@@ -103,7 +52,7 @@ function ContactsList() {
         </div>
       )}
 
-      {contacts.length < 1 && (
+      {currentUser && currentUser.contacts.length < 1 && (
         <div className={styles.contactListContainer}>
           <h2>Contacts List</h2>
           <div>Contacts list is empty</div>

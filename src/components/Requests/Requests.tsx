@@ -32,41 +32,11 @@ function Requests() {
   const [searchResultError, setSearchResultError] = useState<string | null>('');
   const navigate = useNavigate();
 
-  const { token, setContactsRequestsFrom, url } = GetContext();
+  const { token, url } = GetContext();
 
   function preventSubmit(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') e.preventDefault();
   }
-
-  useEffect(() => {
-    async function getRequests() {
-      try {
-        const headers: HeadersType = {
-          'Content-Type': 'application/json',
-        };
-
-        if (token) headers.Authorization = token;
-        const response = await fetch(`${url}/requests`, {
-          headers,
-        });
-
-        if (response.status === 401) navigate('/login');
-        if (!response.ok)
-          throw new Error(
-            `This is an HTTP error: The status is ${response.status}`,
-          );
-
-        const responseData = (await response.json()) as responseType;
-
-        if (responseData.error) navigate('/login');
-        setContactsRequestsFrom(responseData.contactsRequestsFrom);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    void getRequests();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
 
   useEffect(() => {
     async function searchUsername() {

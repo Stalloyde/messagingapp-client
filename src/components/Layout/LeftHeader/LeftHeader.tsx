@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './LeftHeader.module.css';
 import addUserIcon from '../../../assets/icons8-add-user-24.png';
@@ -26,14 +26,11 @@ type responseType = {
 };
 
 function LeftHeader() {
-  const [requestsCount, setRequestCount] = useState<number>(0);
   const navigate = useNavigate();
-
-  const { token, currentUser, setCurrentUser, contactsRequestsFrom, url } =
-    GetContext();
+  const { url, token, currentUser, setCurrentUser } = GetContext();
 
   useEffect(() => {
-    async function getCurrentUserRequests() {
+    async function getCurrentUser() {
       try {
         const headers: HeadersType = {
           'Content-Type': 'application/json',
@@ -52,20 +49,12 @@ function LeftHeader() {
         const responseData = (await response.json()) as responseType;
         if (responseData.error) navigate('/login');
         setCurrentUser(responseData);
-
-        const { contactsRequestsFrom } = responseData;
-        if (contactsRequestsFrom && contactsRequestsFrom.length > 0) {
-          setRequestCount(contactsRequestsFrom.length);
-        } else {
-          setRequestCount(0);
-        }
       } catch (err) {
         console.error(err);
       }
     }
-    void getCurrentUserRequests();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contactsRequestsFrom]);
+    void getCurrentUser();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -89,7 +78,9 @@ function LeftHeader() {
             </Link>
           </div>
           <div className={styles.icon}>
-            {requestsCount && requestsCount > 0 ? <p>{requestsCount}</p> : null}
+            {currentUser && currentUser.contactsRequestsFrom.length > 0 ? (
+              <p>{currentUser.contactsRequestsFrom.length}</p>
+            ) : null}
             <Link to='/requests'>
               <img src={addUserIcon} alt='add-user' />
             </Link>

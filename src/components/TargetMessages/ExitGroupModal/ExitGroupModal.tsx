@@ -17,9 +17,10 @@ type responseType = {
   username: string;
   status: string;
   contacts: userType[];
-  profilePic: { url: string } | null;
+  profilePic: string | null;
   messages: messageType[];
-  contactsRequests: userType[];
+  contactsRequestsFrom: userType[];
+  contactsRequestsTo: userType[];
   groups: groupType[];
 };
 
@@ -32,7 +33,7 @@ function ExitGroupModal({ setIsExitingGroup }: ExitGroupModalPropType) {
   const targetMessagesId = useParams().id;
   const navigate = useNavigate();
 
-  const { setContacts, token, url } = GetContext();
+  const { setCurrentUser, token, url } = GetContext();
 
   const handleClose = () => {
     setOpen(false);
@@ -63,7 +64,8 @@ function ExitGroupModal({ setIsExitingGroup }: ExitGroupModalPropType) {
 
       const responseData = (await response.json()) as responseType;
       if (responseData.error) navigate('/login');
-      setContacts(responseData.contacts);
+      console.log(responseData);
+      setCurrentUser(responseData);
       navigate('/');
     } catch (err) {
       console.error(err);

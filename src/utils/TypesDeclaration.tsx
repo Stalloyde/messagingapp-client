@@ -36,11 +36,5 @@ export type ContextType = {
   setToken: React.Dispatch<React.SetStateAction<string | undefined>>;
   currentUser?: userType;
   setCurrentUser: React.Dispatch<React.SetStateAction<userType | undefined>>;
-  contacts: userType[];
-  setContacts: React.Dispatch<React.SetStateAction<userType[]>>;
-  contactsRequestsFrom: userType[];
-  contactsRequestsTo: userType[];
-  setContactsRequestsFrom: React.Dispatch<React.SetStateAction<userType[]>>;
-  setContactsRequestsTo: React.Dispatch<React.SetStateAction<userType[]>>;
   url: string;
 };

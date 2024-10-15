@@ -21,7 +21,8 @@ type responseType = {
   contacts: userType[];
   profilePic: string | null;
   messages: messageType[];
-  contactsRequests: userType[];
+  contactsRequestsFrom: userType[];
+  contactsRequestsTo: userType[];
   groups: groupType[];
 };
 
@@ -39,7 +40,7 @@ function DeleteContactModal({
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
 
-  const { token, setContacts, url } = GetContext();
+  const { token, setCurrentUser, url } = GetContext();
 
   async function deleteContact() {
     try {
@@ -59,7 +60,7 @@ function DeleteContactModal({
         );
 
       const responseData = (await response.json()) as responseType;
-      setContacts(responseData.contacts);
+      setCurrentUser(responseData);
       setToDeleteId('');
       handleClose();
     } catch (err) {

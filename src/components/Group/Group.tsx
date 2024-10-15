@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Group.module.css';
 import { GetContext } from '../../utils/GetContext';
@@ -16,7 +16,8 @@ type responseType = {
   contacts: userType[];
   profilePic: string | null;
   messages: messageType[];
-  contactsRequests: userType[];
+  contactsRequestsFrom: userType[];
+  contactsRequestsTo: userType[];
   groups: groupType[];
 };
 
@@ -26,35 +27,7 @@ function Group() {
   const [createGroupError, setCreateGroupError] = useState('');
   const navigate = useNavigate();
 
-  const { token, contacts, setContacts, url } = GetContext();
-
-  useEffect(() => {
-    async function getContactsToRender() {
-      try {
-        const headers: HeadersType = {
-          'Content-Type': 'application/json',
-        };
-
-        if (token) headers.Authorization = token;
-        const response = await fetch(url, {
-          headers,
-        });
-
-        if (response.status === 401) navigate('/login');
-        if (!response.ok)
-          throw new Error(
-            `This is an HTTP error: The status is ${response.status}`,
-          );
-
-        const responseData = (await response.json()) as responseType;
-        setContacts(responseData.contacts);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    void getContactsToRender();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { token, currentUser, url, setCurrentUser } = GetContext();
 
   function markCheckbox(value: string) {
     if (!checkedUsers.includes(value)) {
@@ -79,10 +52,13 @@ function Group() {
 
       if (response.statusText === 'Unauthorized') navigate('/login');
       const responseData = (await response.json()) as responseType;
-      responseData.error ? setCreateGroupError(responseData.error) : null;
-      setContacts([...responseData.contacts]);
-      setCheckedUsers([]);
-      setGroupName('');
+      if (responseData.error) {
+        setCreateGroupError(responseData.error);
+      } else {
+        setCheckedUsers([]);
+        setGroupName('');
+        setCurrentUser(responseData);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -101,22 +77,23 @@ function Group() {
             <div className={styles.errorMessage}>{createGroupError}</div>
           )}
           <div className={styles.contactListContainer}>
-            {contacts.map((contact, index) => (
-              <div key={index}>
-                <label>
-                  {contact.username}
-                  <input
-                    type='checkbox'
-                    id={contact.id?.toString()}
-                    value={contact.username}
-                    checked={checkedUsers.includes(contact.username)}
-                    onChange={(e) => {
-                      markCheckbox(e.target.value);
-                    }}
-                  />
-                </label>
-              </div>
-            ))}
+            {currentUser &&
+              currentUser.contacts.map((contact, index) => (
+                <div key={index}>
+                  <label>
+                    {contact.username}
+                    <input
+                      type='checkbox'
+                      id={contact.id?.toString()}
+                      value={contact.username}
+                      checked={checkedUsers.includes(contact.username)}
+                      onChange={(e) => {
+                        markCheckbox(e.target.value);
+                      }}
+                    />
+                  </label>
+                </div>
+              ))}
           </div>
 
           <div className={styles.groupNameContainer}>

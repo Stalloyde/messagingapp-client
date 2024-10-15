@@ -22,11 +22,6 @@ const App = () => {
   const jwtToken: string | undefined = Cookies.get('token');
   const [token, setToken] = useState(jwtToken);
   const [currentUser, setCurrentUser] = useState<userType>();
-  const [contacts, setContacts] = useState<userType[]>([]);
-  const [contactsRequestsFrom, setContactsRequestsFrom] = useState<userType[]>(
-    [],
-  );
-  const [contactsRequestsTo, setContactsRequestsTo] = useState<userType[]>([]);
   const url = 'https://electronic-krystal-stalloyde-3313ff1b.koyeb.app';
 
   const router = createBrowserRouter([
@@ -76,12 +71,6 @@ const App = () => {
         setToken,
         currentUser,
         setCurrentUser,
-        contacts,
-        setContacts,
-        contactsRequestsFrom,
-        contactsRequestsTo,
-        setContactsRequestsFrom,
-        setContactsRequestsTo,
         url,
       }}>
       <React.StrictMode>
