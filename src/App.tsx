@@ -14,7 +14,7 @@ import Profile from './components/Profile/Profile';
 import Index from './components/Index/Index';
 import TargetMessages from './components/TargetMessages/TargetMessages';
 import Cookies from 'js-cookie';
-import { userType, ContextType } from './utils/TypesDeclaration';
+import { userType, ContextType, groupType } from './utils/TypesDeclaration';
 
 export const Context = createContext<ContextType | null>(null);
 
@@ -22,6 +22,9 @@ const App = () => {
   const jwtToken: string | undefined = Cookies.get('token');
   const [token, setToken] = useState(jwtToken);
   const [currentUser, setCurrentUser] = useState<userType>();
+  const [targetUser, setTargetUser] = useState<userType>();
+  const [targetGroup, setTargetGroup] = useState<groupType>();
+
   const url = 'https://electronic-krystal-stalloyde-3313ff1b.koyeb.app';
 
   const router = createBrowserRouter([
@@ -71,6 +74,10 @@ const App = () => {
         setToken,
         currentUser,
         setCurrentUser,
+        targetUser,
+        setTargetUser,
+        targetGroup,
+        setTargetGroup,
         url,
       }}>
       <React.StrictMode>

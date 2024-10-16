@@ -38,14 +38,20 @@ type responseType = {
 };
 
 function TargetMessages() {
-  const [targetUser, setTargetUser] = useState<userType>();
-  const [targetGroup, setTargetGroup] = useState<groupType>();
   const [newMessage, setNewMessage] = useState<string>('');
   const [isExitingGroup, setIsExitingGroup] = useState(false);
   const navigate = useNavigate();
   const targetMessagesId = useParams().id;
 
-  const { token, currentUser, url } = GetContext();
+  const {
+    token,
+    currentUser,
+    url,
+    targetUser,
+    targetGroup,
+    setTargetUser,
+    setTargetGroup,
+  } = GetContext();
 
   function isUserPropType(
     responseData: responseType,
@@ -79,6 +85,7 @@ function TargetMessages() {
         navigate('/');
         throw new Error(responseData.error);
       }
+
       if (isUserPropType(responseData)) {
         setTargetUser(responseData);
         setTargetGroup(undefined);

@@ -36,5 +36,10 @@ export type ContextType = {
   setToken: React.Dispatch<React.SetStateAction<string | undefined>>;
   currentUser?: userType;
   setCurrentUser: React.Dispatch<React.SetStateAction<userType | undefined>>;
+  targetUser?: userType;
+  setTargetUser: React.Dispatch<React.SetStateAction<userType | undefined>>;
+  targetGroup?: groupType;
+  setTargetGroup: React.Dispatch<React.SetStateAction<groupType | undefined>>;
+
   url: string;
 };

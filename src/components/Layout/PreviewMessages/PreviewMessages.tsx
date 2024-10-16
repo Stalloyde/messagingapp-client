@@ -1,11 +1,60 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './PreviewMessages.module.css';
 import groupIcon from '../../../assets/icons8-group-24.png';
 import defaultAvatar from '../../../assets/icons8-avatar-50.png';
 import { GetContext } from '../../../utils/GetContext';
+import {
+  HeadersType,
+  messageType,
+  groupType,
+  userType,
+} from '../../../utils/TypesDeclaration';
+
+type responseType = {
+  error?: string;
+  username: string;
+  status: string;
+  contacts: userType[];
+  profilePic: string | null;
+  messages: messageType[];
+  contactsRequestsFrom: userType[];
+  contactsRequestsTo: userType[];
+  groups: groupType[];
+};
 
 function Messages() {
-  const { currentUser } = GetContext();
+  const navigate = useNavigate();
+
+  const { url, token, currentUser, setCurrentUser, targetUser, targetGroup } =
+    GetContext();
+
+  useEffect(() => {
+    async function getCurrentUser() {
+      try {
+        const headers: HeadersType = {
+          'Content-Type': 'application/json',
+        };
+
+        if (token) headers.Authorization = token;
+        const response = await fetch(url, {
+          headers,
+        });
+
+        if (response.status === 401) navigate('/login');
+        if (!response.ok)
+          throw new Error(
+            `This is an HTTP error: The status is ${response.status}`,
+          );
+        const responseData = (await response.json()) as responseType;
+        if (responseData.error) navigate('/login');
+        setCurrentUser(responseData);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    void getCurrentUser();
+  }, [targetUser, targetGroup]);
 
   return (
     <div className={styles.container}>
